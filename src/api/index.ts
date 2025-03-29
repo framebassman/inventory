@@ -1,9 +1,13 @@
 import { Hono } from "hono";
 import { withSentry } from "@sentry/cloudflare";
+import { log } from "./logger";
 
 const app = new Hono<{ Bindings: Env }>();
 
-app.get("/api/", (c) => c.json({ name: "Cloudflare" }));
+app.get("/api/", (c) => {
+  log.info("Hello world");
+  return c.json({ name: "Cloudflare" })
+});
 
 app.get("*", (c) => {
   return c.env.ASSETS.fetch(c.req.raw);
