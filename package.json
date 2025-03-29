@@ -24,6 +24,7 @@
     "dash": true
   },
   "dependencies": {
+    "@sentry/cloudflare": "^9.10.1",
     "hono": "4.7.1",
     "react": "19.0.0",
     "react-dom": "19.0.0"

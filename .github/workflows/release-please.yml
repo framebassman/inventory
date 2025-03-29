@@ -1,0 +1,61 @@
+on:
+  push:
+    branches:
+      - master
+
+name: release-please
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    outputs:
+      BUILD_BUILDNUMBER: ${{ steps.new-version.outputs.BUILD_BUILDNUMBER }}
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: npm run build --if-present
+
+
+  release:
+    needs: [build]
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      # - name: Create the GitHub release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     prerelease: false
+      #     tag_name: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
+      #     name: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
+      # - name: Create the Sentry release
+      #   uses: getsentry/action-release@v1.7.0
+      #   env:
+      #     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      #     SENTRY_ORG: kolenka-inc
+      #     SENTRY_PROJECT: romashov-tech
+      #   with:
+      #     environment: Production
+      #     ignore_missing: true
+      #     version: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
+
+  deploy:
+    needs: [build, release]
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
