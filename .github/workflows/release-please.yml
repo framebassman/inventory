@@ -63,6 +63,7 @@ jobs:
         with:
           environment: Production
           ignore_missing: true
+          sourcemaps: './dist'
           version: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
 
   deploy:
