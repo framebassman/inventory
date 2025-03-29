@@ -23,7 +23,20 @@ jobs:
           cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm run build
-
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+      - uses: actions-ecosystem/action-bump-semver@v1
+        id: bump-semver
+        with:
+          current_version: ${{ steps.get-latest-tag.outputs.tag }}
+          level: minor
+      - name: Set new version
+        id: new-version
+        run: echo "BUILD_BUILDNUMBER=${{ steps.bump-semver.outputs.new_version }}" >> $GITHUB_OUTPUT
+      - uses: actions-ecosystem/action-push-tag@v1
+        with:
+          tag: ${{ steps.bump-semver.outputs.new_version }}
+          message: "${{ steps.bump-semver.outputs.new_version }}"
 
   release:
     needs: [build]
@@ -34,23 +47,23 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      # - name: Create the GitHub release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     prerelease: false
-      #     tag_name: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
-      #     name: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
-      # - name: Create the Sentry release
-      #   uses: getsentry/action-release@v1.7.0
-      #   env:
-      #     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      #     SENTRY_ORG: kolenka-inc
-      #     SENTRY_PROJECT: romashov-tech
-      #   with:
-      #     environment: Production
-      #     ignore_missing: true
-      #     version: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
+      - name: Create the GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+          tag_name: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
+          name: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
+      - name: Create the Sentry release
+        uses: getsentry/action-release@v3
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: kolenka-inc
+          SENTRY_PROJECT: inventory
+        with:
+          environment: Production
+          ignore_missing: true
+          version: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}
 
   deploy:
     needs: [build, release]
