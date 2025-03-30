@@ -29,11 +29,11 @@ export const log = createLogger({
     new TransportElastic({
         silent: false,
         elasticClient: {
-            node: 'http://kolenka-inc-4135333449.eu-central-1.bonsaisearch.net:443',
-            auth: {
-                username: 'NX4jPVtxmC',
-                password: 'QNw5bzyHoXC9YFkr',
-            }
+          node: 'http://kolenka-inc-4135333449.eu-central-1.bonsaisearch.net:443',
+          auth: {
+            username: 'NX4jPVtxmC',
+            password: 'QNw5bzyHoXC9YFkr',
+          }
         }
     })
   ],
