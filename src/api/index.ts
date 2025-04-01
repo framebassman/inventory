@@ -2,8 +2,7 @@ import { Hono } from "hono";
 import { withSentry } from "@sentry/cloudflare";
 import { log } from "./logger";
 
-// const app = new Hono<{ Bindings: Env }>();
-const app = new Hono();
+const app = new Hono<{ Bindings: Env }>();
 
 app.get("/api/", (c) => {
   log.info("Hello world");
