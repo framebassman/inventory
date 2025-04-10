@@ -50,6 +50,6 @@
     "typescript-eslint": "8.22.0",
     "vite": "6.1.0",
     "winston": "^3.17.0",
-    "wrangler": "^4.6.0"
+    "wrangler": "^4.9.1"
   }
 }
