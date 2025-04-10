@@ -34,15 +34,7 @@ export class CustomHttpElasticTransport extends Http {
 
     req.on('error', callback);
     req.on('response', res => {
-      const body: any[] = [];
-      res.on('data', (chunk: any) => {
-        body.push(chunk);
-      })
-      res.on('end', () => {
-        const result = Buffer.concat(body).toString();
-        console.log(result);
-        callback(null, res);
-      }).resume()
+      res.on('end', () => callback(null, res)).resume()
     });
     const jsonStringify = configure({
       ...(this.maximumDepth && { maximumDepth: this.maximumDepth })

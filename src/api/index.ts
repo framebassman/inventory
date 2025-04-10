@@ -5,7 +5,8 @@ import { log } from "./logger";
 const app = new Hono<{ Bindings: Env }>();
 
 app.get("/api/", (c) => {
-  log.info("Hello world");
+  log.info("Hello world from Cloudflare");
+  console.log("Hello world from Cloudflare");
   return c.json({ name: "Cloudflare" })
 });
 
