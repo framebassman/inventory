@@ -16,6 +16,7 @@ export class CustomHttpElasticTransport extends Http {
   }
 
   _doRequest(options: any, callback: any, auth: any, path: any) {
+    console.log('_doRequest inside custom logger');
     if (auth && auth.bearer) {
       this.headers.Authorization = `Bearer ${auth.bearer}`;
     }

@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from "winston";
+import { createLogger, format } from "winston";
 import {CustomHttpElasticTransport} from "./custom-http-elastic-transport.ts";
 
 let dateString = new Date(new Date()).toISOString().split("T")[0];
@@ -27,7 +27,7 @@ export const log = createLogger({
     // //
     // new transports.File({ filename: "logs/root.jsonl" }),
 
-    new transports.Console({ format: format.colorize({all: true}) }),
+    // new transports.Console({ format: format.colorize({all: true}) }),
 
     new CustomHttpElasticTransport({
       ssl: true,
@@ -37,7 +37,7 @@ export const log = createLogger({
         username: 'NX4jPVtxmC',
         password: 'QNw5bzyHoXC9YFkr',
       },
-      path: 'filebeat-7.10.2-2025.04.10/_doc/',
+      path: `filebeat-7.10.2-${dateString}/_doc/`,
       headers: {
         'Content-type': 'application/json'
       },
