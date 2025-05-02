@@ -31,8 +31,15 @@ export class AxiosHttpElasticTransport extends Http {
   ) {
     console.log('_doRequest inside custom logger');
 
-    if (auth?.bearer) {
-      this.headers['Authorization'] = `Bearer ${auth.bearer}`;
+    if (auth) {
+      if (auth.bearer) {
+        this.headers['Authorization'] = `Bearer ${auth.bearer}`;
+      }
+
+      if (auth.username && auth.password) {
+        const base64Code = Buffer.from(`${auth.username}:${auth.password}`).toString('base64')
+        this.headers['Authorization'] = `Basic ${base64Code}`;
+      }
     }
 
     const requestData = {
