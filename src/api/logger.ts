@@ -1,5 +1,6 @@
 import { createLogger, format } from "winston";
-import {CustomHttpElasticTransport} from "./custom-http-elastic-transport.ts";
+// import {CustomHttpElasticTransport} from "./custom-http-elastic-transport.ts";
+import { AxiosHttpElasticTransport } from "./axios-http-elastic-transport";
 
 let dateString = new Date(new Date()).toISOString().split("T")[0];
 dateString = dateString.replaceAll("-", ".");
@@ -29,7 +30,7 @@ export const log = createLogger({
 
     // new transports.Console({ format: format.colorize({all: true}) }),
 
-    new CustomHttpElasticTransport({
+    new AxiosHttpElasticTransport({
       ssl: true,
       host: 'kolenka-inc-4135333449.eu-central-1.bonsaisearch.net',
       port: 443,

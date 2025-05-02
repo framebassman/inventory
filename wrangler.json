@@ -6,7 +6,7 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "inventory",
 	"main": "./src/api/index.ts",
-	"compatibility_date": "2024-11-01",
+	"compatibility_date": "2025-04-02",
 	"compatibility_flags": [
 		"nodejs_compat",
 		"nodejs_als"
@@ -16,9 +16,9 @@
 	},
 	"upload_source_maps": true,
 	"assets": {
-		"binding": "ASSETS",
-		"not_found_handling": "single-page-application"
-	}
+    "directory": "./public/",
+		"binding": "ASSETS"
+	},
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
