@@ -3,6 +3,7 @@ import { createLogger, format } from "winston";
 import { AxiosHttpElasticTransport } from "./axios-http-elastic-transport";
 // import { AxiosTransport } from './fetch-axios-elastic-transport';
 import { AxiosTransport } from 'winston-fetch-axios';
+import axios from "axios";
 
 let dateString = new Date(new Date()).toISOString().split("T")[0];
 dateString = dateString.replaceAll("-", ".");
@@ -46,6 +47,7 @@ export const log = createLogger({
     //   },
     // }),
     new AxiosTransport({
+      axiosInstance: axios.create({ adapter: 'fetch' }),
       url: 'https://NX4jPVtxmC:QNw5bzyHoXC9YFkr@kolenka-inc-4135333449.eu-central-1.bonsaisearch.net',
       path: `filebeat-7.10.2-${dateString}/_doc/`,
       auth: 'Tlg0alBWdHhtQzpRTnc1Ynp5SG9YQzlZRmty',
