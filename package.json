@@ -9,7 +9,7 @@
     "frontend:preview": "vite preview",
     "backend:types": "wrangler types",
     "backend": "npm run backend:types && npm run build && wrangler dev",
-    "build": "rm -rf dist && tsc --build && vite build",
+    "build": "rm -rf dist && tsc --build && npm run backend:types && vite build",
     "deploy": "npm run build && wrangler deploy",
     "backend:test": "vitest run --coverage"
   },
