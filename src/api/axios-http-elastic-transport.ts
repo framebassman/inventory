@@ -23,7 +23,7 @@ export class AxiosHttpElasticTransport extends Http {
     });
   }
 
-  async _doRequest(
+  _doRequest(
     payload: any,
     callback: (err: Error | null, res?: any) => void,
     auth: any,
@@ -52,30 +52,32 @@ export class AxiosHttpElasticTransport extends Http {
       ...(this.maximumDepth && { maximumDepth: this.maximumDepth })
     });
 
-    try {
-      const response = await this.axiosClient.post(
-        `${this.ssl ? 'https' : 'http'}://${this.options.host}:${
-          this.options.port
-        }/${path.replace(/^\//, '')}`,
-        jsonStringify(requestData, this.options.replacer),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            ...this.headers
-          },
-          auth:
-            auth?.username && auth?.password
-              ? {
-                  username: auth.username,
-                  password: auth.password
-                }
-              : undefined
-        }
-      );
-
-      callback(null, response);
-    } catch (error) {
-      callback(error as Error);
+    const url = `${this.ssl ? 'https' : 'http'}://${this.options.host}:${this.options.port}/${path.replace(/^\//, '')}`;
+    const data = jsonStringify(requestData, this.options.replacer)
+    const settings = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.headers
+      },
+      auth:
+        auth?.username && auth?.password
+          ? {
+              username: auth.username,
+              password: auth.password
+            }
+          : undefined
     }
+    console.log('Im going to push logs to elasticsearch')
+    console.log(url);
+    console.log(data);
+    console.log(settings);
+
+    this.axiosClient.post(url, data, settings)
+          .then((response: any) => {
+            console.log('response was:');
+            console.log(response);
+            callback(null, response)
+          })
+          .catch((error: any) => callback(error));
   }
 }

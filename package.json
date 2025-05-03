@@ -5,13 +5,11 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
-    "frontend:start": "vite",
+    "frontend": "vite",
     "frontend:preview": "vite preview",
-    "frontend:build": "npm run backend:build && vite build",
     "backend:types": "wrangler types",
-    "backend:start": "npm run backend:types && tsc --build && wrangler dev",
-    "backend:build": "tsc --build",
-    "build": "npm run frontend:build && npm run backend:build",
+    "backend": "npm run backend:types && npm run build && wrangler dev",
+    "build": "rm -rf dist && tsc --build && vite build",
     "deploy": "npm run build && wrangler deploy",
     "backend:test": "vitest run --coverage"
   },
