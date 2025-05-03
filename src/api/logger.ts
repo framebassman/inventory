@@ -14,7 +14,7 @@ export const log = createLogger({
     format.splat(),
     format.json()
   ),
-  defaultMeta: { service: 'inventory-api' },
+  defaultMeta: { service: 'inventory-api-debug' },
   transports: [
     // //
     // // - Write all logs with importance level of `error` or higher to `error.log`
