@@ -6,7 +6,6 @@ const app = new Hono<{ Bindings: Env }>();
 
 app.get('/api/', async (c) => {
   log.info('Hello world from Cloudflare and ElasticSearch');
-  console.log('Hello world from Cloudflare');
   return c.json('ok');
 });
 
