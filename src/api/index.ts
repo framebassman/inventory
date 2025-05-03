@@ -1,12 +1,52 @@
 import { Hono } from 'hono';
 import { withSentry } from '@sentry/cloudflare';
+import { drizzle } from 'drizzle-orm/d1';
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { sql } from 'drizzle-orm';
 import { log } from './logger';
+
+const users = sqliteTable('users', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull()
+});
 
 const app = new Hono<{ Bindings: Env }>();
 
-app.get('/api/', async (c) => {
+app.get('/api/', async (c: any) => {
   log.info('Hello world from Cloudflare and ElasticSearch');
+  const db = drizzle(c.env.DB);
   return c.json('ok');
+});
+
+app.get('/setup', async (context: any) => {
+  log.info('Going to setup database');
+  const db = drizzle(context.env.DB);
+  await db.run(sql`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL
+    )
+  `);
+  return new Response('Table created or already exists!');
+});
+
+app.get('/add', async (context: any) => {
+  log.info('Going to add a new user into database');
+  const db = drizzle(context.env.DB);
+  const newUser = await db
+    .insert(users)
+    .values({ name: 'Test User' })
+    .returning()
+    .get();
+
+  return Response.json(newUser);
+});
+
+app.get('/users', async (context: any) => {
+  log.info('Going to get all users from database');
+  const db = drizzle(context.env.DB);
+  const allUsers = await db.select().from(users).all();
+  return Response.json(allUsers);
 });
 
 app.get('*', (c: any) => {
