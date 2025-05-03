@@ -4,6 +4,7 @@ import { drizzle } from 'drizzle-orm/d1';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 import { log } from './logger';
+import { logger as loggerMiddleware } from 'hono/logger';
 
 const users = sqliteTable('users', {
   id: integer('id').primaryKey({ autoIncrement: true }),
@@ -11,6 +12,7 @@ const users = sqliteTable('users', {
 });
 
 const app = new Hono<{ Bindings: Env }>();
+app.use(loggerMiddleware());
 
 app.get('/api/', async (c: any) => {
   log.info('Hello world from Cloudflare and ElasticSearch');
