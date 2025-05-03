@@ -1,6 +1,8 @@
 import { createLogger, format } from "winston";
 // import {CustomHttpElasticTransport} from "./custom-http-elastic-transport.ts";
 import { AxiosHttpElasticTransport } from "./axios-http-elastic-transport";
+// import { AxiosTransport } from './fetch-axios-elastic-transport';
+import { AxiosTransport } from 'winston-fetch-axios';
 
 let dateString = new Date(new Date()).toISOString().split("T")[0];
 dateString = dateString.replaceAll("-", ".");
@@ -30,18 +32,24 @@ export const log = createLogger({
 
     // new transports.Console({ format: format.colorize({all: true}) }),
 
-    new AxiosHttpElasticTransport({
-      ssl: true,
-      host: 'kolenka-inc-4135333449.eu-central-1.bonsaisearch.net',
-      port: 443,
-      auth: {
-        username: 'NX4jPVtxmC',
-        password: 'QNw5bzyHoXC9YFkr',
-      },
+    // new AxiosHttpElasticTransport({
+    //   ssl: true,
+    //   host: 'kolenka-inc-4135333449.eu-central-1.bonsaisearch.net',
+    //   port: 443,
+    //   auth: {
+    //     username: 'NX4jPVtxmC',
+    //     password: 'QNw5bzyHoXC9YFkr',
+    //   },
+    //   path: `filebeat-7.10.2-${dateString}/_doc/`,
+    //   headers: {
+    //     'Content-type': 'application/json'
+    //   },
+    // }),
+    new AxiosTransport({
+      url: 'https://NX4jPVtxmC:QNw5bzyHoXC9YFkr@kolenka-inc-4135333449.eu-central-1.bonsaisearch.net',
       path: `filebeat-7.10.2-${dateString}/_doc/`,
-      headers: {
-        'Content-type': 'application/json'
-      },
-    })
+      auth: 'Tlg0alBWdHhtQzpRTnc1Ynp5SG9YQzlZRmty',
+      authType: 'basic'
+    }),
   ],
 });
