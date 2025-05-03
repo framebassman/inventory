@@ -11,10 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+coverage
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
@@ -26,6 +25,7 @@ dist-ssr
 # wrangler files
 .wrangler
 .dev.vars*
+worker-configuration.d.ts
 
 # Sentry Config File
 .env.sentry-build-plugin
