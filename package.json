@@ -53,7 +53,7 @@
     "vite": "6.1.0",
     "vitest": "^3.1.2",
     "winston": "^3.17.0",
-    "winston-fetch-axios": "^1.7.14",
+    "winston-fetch-axios": "^1.7.16",
     "wrangler": "^4.14.1"
   }
 }
