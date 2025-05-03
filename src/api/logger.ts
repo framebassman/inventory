@@ -1,20 +1,20 @@
-import { createLogger, format } from "winston";
+import { createLogger, format } from 'winston';
 import { AxiosTransport } from 'winston-fetch-axios';
 
-let dateString = new Date(new Date()).toISOString().split("T")[0];
-dateString = dateString.replaceAll("-", ".");
+let dateString = new Date(new Date()).toISOString().split('T')[0];
+dateString = dateString.replaceAll('-', '.');
 
 export const log = createLogger({
-  level: "debug",
+  level: 'debug',
   format: format.combine(
     format.timestamp({
-      format: "YYYY-MM-DD HH:mm:ss.sss"
+      format: 'YYYY-MM-DD HH:mm:ss.sss'
     }),
     format.errors({ stack: true }),
     format.splat(),
     format.json()
   ),
-  defaultMeta: { service: "inventory-api" },
+  defaultMeta: { service: 'inventory-api' },
   transports: [
     // //
     // // - Write all logs with importance level of `error` or higher to `error.log`
@@ -47,6 +47,6 @@ export const log = createLogger({
       path: `filebeat-7.10.2-${dateString}/_doc/`,
       auth: 'Tlg0alBWdHhtQzpRTnc1Ynp5SG9YQzlZRmty',
       authType: 'basic'
-    }),
-  ],
+    })
+  ]
 });
