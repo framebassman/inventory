@@ -8,9 +8,9 @@
     "frontend": "vite",
     "frontend:preview": "vite preview",
     "backend:types": "wrangler types",
-    "backend": "npm run backend:types && npm run build && wrangler dev",
-    "build": "rm -rf dist && tsc --build && vite build",
-    "deploy": "npm run build && wrangler deploy",
+    "backend": "wrangler dev",
+    "build": "rm -rf dist && npm run backend:types && tsc --build && vite build",
+    "deploy": "wrangler deploy",
     "backend:test": "vitest run --coverage"
   },
   "cloudflare": {
