@@ -38,7 +38,9 @@
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 	 */
-	// "vars": { "MY_VARIABLE": "production_value" },
+	"vars": {
+    "MY_VARIABLE": "production_value",
+  },
 	/**
 	 * Note: Use secrets to store sensitive data.
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
@@ -65,7 +67,7 @@
   "hyperdrive": [
     {
       "binding": "HYPERDRIVE",
-      "id": "6ea357b9f0244cac83b0a5d007cb8fdc"
+      "id": "e6987cac9d404c38bb8a940b0dbefca0"
     }
   ]
 }

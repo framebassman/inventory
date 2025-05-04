@@ -26,6 +26,7 @@ coverage
 .wrangler
 .dev.vars*
 worker-configuration.d.ts
+.env
 
 # Sentry Config File
 .env.sentry-build-plugin

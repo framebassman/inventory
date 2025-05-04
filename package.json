@@ -8,8 +8,8 @@
     "frontend": "vite",
     "frontend:preview": "vite preview",
     "backend:types": "wrangler types",
-    "backend": "wrangler dev",
-    "build": "rm -rf dist && npm run backend:types && tsc --build && vite build",
+    "backend": "wrangler dev --live-reload",
+    "build": "npm run backend:types && tsc --build && vite build",
     "deploy": "wrangler deploy",
     "backend:test": "vitest run --coverage"
   },
