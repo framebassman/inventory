@@ -17,6 +17,12 @@ app.get('/api/', async (c: Context) => {
 app.route('/d1', d1);
 app.route('/pg', pg);
 
+app.get('/json', async () => {
+  return fetch(
+    'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
+  );
+});
+
 app.get('*', (c: Context) => {
   return c.env.ASSETS.fetch(c.req.raw);
 });
