@@ -5,6 +5,7 @@ import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 import { log } from './logger';
 import { logger as loggerMiddleware } from 'hono/logger';
+import 'reflect-metadata';
 
 const users = sqliteTable('users', {
   id: integer('id').primaryKey({ autoIncrement: true }),
