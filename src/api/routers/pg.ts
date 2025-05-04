@@ -20,7 +20,7 @@ app.get('/', async (context: Context) => {
 
   try {
     // Sample query
-    const results = await sql`SELECT * FROM pg_tables`;
+    const results = await sql`SELECT * FROM tenants`;
 
     // Clean up the client after the response is returned, before the Worker is killed
     context.executionCtx.waitUntil(sql.end());
