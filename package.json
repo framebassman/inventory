@@ -40,7 +40,6 @@
     "@cloudflare/vite-plugin": "^0.1.19",
     "@cloudflare/workers-types": "^4.20250327.0",
     "@eslint/js": "9.19.0",
-    "@hono/sentry": "^1.2.1",
     "@types/node": "^22.13.17",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",

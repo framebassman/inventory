@@ -1,4 +1,4 @@
-import { type Context, type Env, Hono } from 'hono';
+import { type Context, Hono } from 'hono';
 import postgres from 'postgres';
 import { log } from '../logger';
 
