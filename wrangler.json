@@ -62,4 +62,10 @@
       "database_id": "4241c41d-1b6e-45f5-b78b-0e5aa11d7016",
     }
   ],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "6ea357b9f0244cac83b0a5d007cb8fdc"
+    }
+  ]
 }
