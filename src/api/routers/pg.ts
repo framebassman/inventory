@@ -1,6 +1,9 @@
 import { type Context, Hono } from 'hono';
 import postgres from 'postgres';
 import { log } from '../logger';
+import { applicationCxt } from '../application-context-middleware';
+import { DependencyContainer } from 'tsyringe';
+import { TenantManagementStore } from '../model/tenant-management-store';
 
 const app = new Hono();
 
@@ -33,6 +36,18 @@ app.get('/', async (context: Context) => {
       { error: e instanceof Error ? e.message : e },
       { status: 500 }
     );
+  }
+});
+
+app.get('/di', async (context: Context) => {
+  log.info('Going to connect to postgres');
+  const appContext = context.get(applicationCxt) as DependencyContainer;
+  const store = appContext.resolve(TenantManagementStore);
+  try {
+    const results = store.getAllTenants();
+    return Response.json(results);
+  } finally {
+    context.executionCtx.waitUntil(store.close());
   }
 });
 

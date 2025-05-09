@@ -5,9 +5,10 @@ import { logger as loggerMiddleware } from 'hono/logger';
 import d1 from './routers/d1';
 import pg from './routers/pg';
 import 'reflect-metadata';
+import { applicationContextMiddleware } from './application-context-middleware';
 
 const app = new Hono<{ Bindings: Env }>();
-app.use(loggerMiddleware());
+app.use(loggerMiddleware(), applicationContextMiddleware());
 
 app.get('/api/', async (c: Context) => {
   log.info('Hello world from Cloudflare and ElasticSearch');
