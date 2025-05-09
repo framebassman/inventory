@@ -11,4 +11,8 @@ module.exports = {
   database: database,
   username: user,
   password: password,
+  ssl: {
+    rejectUnauthorized: true,
+    ca: process.env.AIVEN_CA
+  }
 };
