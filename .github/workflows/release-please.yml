@@ -83,6 +83,8 @@ jobs:
         env:
           WRANGLER_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE: ${{ secrets.WRANGLER_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE }}
           AIVEN_CA: ${{ secrets.AIVEN_CA }}
-      - run: npm run deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
