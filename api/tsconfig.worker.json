@@ -4,13 +4,12 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.worker.tsbuildinfo",
     "types": [
       "@cloudflare/workers-types",
-      "vite/client",
       "./worker-configuration.d.ts"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
   "include": [
-    "src/api"
+    "src"
   ]
 }

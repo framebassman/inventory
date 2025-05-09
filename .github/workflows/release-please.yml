@@ -36,7 +36,7 @@ jobs:
       - uses: actions-ecosystem/action-push-tag@v1
         with:
           tag: ${{ steps.bump-semver.outputs.new_version }}
-          message: "${{ steps.bump-semver.outputs.new_version }}"
+          message: '${{ steps.bump-semver.outputs.new_version }}'
 
   release:
     needs: [build]
@@ -87,4 +87,4 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
+          wranglerVersion: ${{ needs.build.outputs.BUILD_BUILDNUMBER }}

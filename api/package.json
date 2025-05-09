@@ -1,19 +1,17 @@
 {
-  "name": "inventory-web",
+  "name": "inventory-api",
   "description": "A template for building a React application with Vite, Hono, and Cloudflare Workers",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "lint": "eslint .",
-    "frontend": "vite",
-    "frontend:preview": "vite preview",
     "backend:types": "wrangler types",
     "backend": "wrangler dev --live-reload",
-    "build": "npm run backend:types && tsc --build && vite build",
+    "build": "npm run backend:types && tsc --build",
     "deploy": "wrangler deploy",
     "backend:test": "vitest run --coverage",
-    "migrate:up": "ley up --dir=src/migrations --driver=postgres",
-    "migrate:down": "ley down --dir=src/migrations --driver=postgres"
+    "migrate:up": "ley up --dir=migrations --driver=postgres",
+    "migrate:down": "ley down --dir=migrations --driver=postgres"
   },
   "cloudflare": {
     "label": "Vite React Template",
@@ -31,7 +29,9 @@
     "@sentry/cloudflare": "^9.10.1",
     "@sentry/react": "^9.10.1",
     "@sentry/vite-plugin": "^3.2.4",
+    "cross-fetch": "^4.1.0",
     "drizzle-orm": "^0.43.1",
+    "googleapis": "^148.0.0",
     "hono": "4.7.1",
     "postgres": "^3.4.5",
     "react": "19.0.0",
@@ -47,7 +47,6 @@
     "@types/react-dom": "19.0.3",
     "@vitejs/plugin-react": "4.3.4",
     "@vitest/coverage-v8": "^3.1.2",
-    "axios": "^1.8.4",
     "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.1",
     "eslint": "9.19.0",
@@ -56,6 +55,7 @@
     "globals": "15.14.0",
     "jsdom": "^26.1.0",
     "ley": "^0.8.1",
+    "nolyfill": "^1.0.44",
     "pg-connection-string": "^2.8.5",
     "postgres-shift": "^0.1.0",
     "prettier": "^3.5.3",
@@ -65,7 +65,12 @@
     "vite": "6.1.0",
     "vitest": "^3.1.2",
     "winston": "^3.17.0",
-    "winston-fetch-axios": "^1.7.16",
     "wrangler": "^4.14.1"
+  },
+  "overrides": {
+    "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1",
+    "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+    "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
+    "side-channel": "npm:@nolyfill/side-channel@^1"
   }
 }

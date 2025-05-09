@@ -16,8 +16,8 @@
   // the values you've explicitly set, above.
   "editor.detectIndentation": false,
   "eslint.workingDirectories": [
-    "/src",
-    "/tests"
+    "./api/src",
+    "./web/src"
   ],
   "npm.exclude": [
     "**/dist"
@@ -33,7 +33,7 @@
   "files.associations": {
 		"wrangler.json": "jsonc"
 	},
-  "typescript.tsdk": "<workspace>\\node_modules\\typescript\\lib",
+  "typescript.tsdk": "<workspace>\\api\\node_modules\\typescript\\lib",
   "todohighlight.isEnable": true,
   "todohighlight.isCaseSensitive": true,
   "todohighlight.keywords": [
@@ -77,6 +77,7 @@
     "**/http/**",
     "**/node_modules/**",
   ],
-  "typescript.tsserver.maxTsServerMemory": 4072
+  "typescript.tsserver.maxTsServerMemory": 4072,
+  "postman.settings.dotenv-detection-notification-visibility": false
 }
 
