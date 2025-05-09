@@ -3,8 +3,8 @@ name: ci
 on:
   push:
     branches:
-      - '*'
-      - '!master'
+      - "*"
+      - "!master"
   pull_request:
 
 jobs:
@@ -19,8 +19,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm run lint
       - run: npm run build
+      - run: npm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
