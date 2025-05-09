@@ -1,10 +1,10 @@
+import 'reflect-metadata';
 import { type Context, type Env, Hono } from 'hono';
 import { withSentry } from '@sentry/cloudflare';
 import { log } from './logger';
 import { logger as loggerMiddleware } from 'hono/logger';
 import d1 from './routers/d1';
 import pg from './routers/pg';
-import 'reflect-metadata';
 import { applicationContextMiddleware } from './application-context-middleware';
 
 const app = new Hono<{ Bindings: Env }>();
