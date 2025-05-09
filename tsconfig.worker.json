@@ -6,11 +6,7 @@
       "@cloudflare/workers-types",
       "vite/client",
       "./worker-configuration.d.ts"
-    ],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    ]
   },
-  "include": [
-    "src/api"
-  ]
+  "include": ["src/api"]
 }
