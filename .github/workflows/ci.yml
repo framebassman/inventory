@@ -3,9 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - "*"
-      - "!master"
-  pull_request:
+      - feature/drizzle
 
 jobs:
   build:
