@@ -6,6 +6,7 @@ import { TenantManagementStore } from './model/tenant-management-store';
 export const applicationCxt = 'applicationContext';
 
 export const applicationContextMiddleware = (): MiddlewareHandler =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createMiddleware(async (ctx: Context, next: any) => {
     if (!ctx.get(applicationCxt)) {
       container.register<TenantManagementStore>(TenantManagementStore, {
