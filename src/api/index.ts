@@ -26,11 +26,12 @@ app.get('/fetch', async () => {
   );
 });
 
-app.get('/axios', async () => {
+app.get('/axios', async (c: Context) => {
   const axiosInstance = axios.create({ adapter: 'fetch' });
-  return await axiosInstance.get(
+  const resp = await axiosInstance.get(
     'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
   );
+  return Response.json(resp.data);
 });
 
 app.get('/cross', async () => {
