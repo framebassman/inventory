@@ -2,7 +2,7 @@ import { createLogger, format } from 'winston';
 import { AxiosTransport } from 'winston-fetch-axios';
 
 let dateString = new Date(new Date()).toISOString().split('T')[0];
-dateString = dateString.replaceAll('-', '.');
+dateString = dateString.replace(/-/g, '.');
 
 export const log = createLogger({
   level: 'debug',

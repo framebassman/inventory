@@ -6,6 +6,7 @@ import { logger as loggerMiddleware } from 'hono/logger';
 import d1 from './routers/d1';
 import pg from './routers/pg';
 import { applicationContextMiddleware } from './application-context-middleware';
+import axios from 'axios';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(loggerMiddleware(), applicationContextMiddleware());
@@ -18,8 +19,15 @@ app.get('/api/', async (c: Context) => {
 app.route('/d1', d1);
 app.route('/pg', pg);
 
-app.get('/json', async () => {
+app.get('/fetch', async () => {
   return fetch(
+    'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
+  );
+});
+
+app.get('/axios', async () => {
+  const axiosInstance = axios.create({ adapter: 'fetch' });
+  return await axiosInstance.get(
     'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
   );
 });
