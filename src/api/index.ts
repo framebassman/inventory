@@ -7,6 +7,7 @@ import d1 from './routers/d1';
 import pg from './routers/pg';
 import { applicationContextMiddleware } from './application-context-middleware';
 import axios from 'axios';
+import { default as crossFetch } from 'cross-fetch';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(loggerMiddleware(), applicationContextMiddleware());
@@ -28,6 +29,12 @@ app.get('/fetch', async () => {
 app.get('/axios', async () => {
   const axiosInstance = axios.create({ adapter: 'fetch' });
   return await axiosInstance.get(
+    'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
+  );
+});
+
+app.get('/cross', async () => {
+  return crossFetch(
     'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
   );
 });
