@@ -42,7 +42,9 @@ app.get('/', async (context: Context) => {
 app.get('/di', async (context: Context) => {
   log.info('Going to connect to postgres');
   const appContext = context.get(applicationCxt) as DependencyContainer;
+  log.info('Get appContext');
   const store = appContext.resolve(TenantManagementStore);
+  log.info('Get store');
   try {
     const results = store.getAllTenants();
     return Response.json(results);
