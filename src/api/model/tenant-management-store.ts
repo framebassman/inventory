@@ -1,6 +1,7 @@
 import postgres from 'postgres';
 import { Tenant } from './tenant';
 import { injectable } from 'tsyringe';
+import { log } from '../logger';
 
 @injectable()
 export class TenantManagementStore {
@@ -27,11 +28,11 @@ export class TenantManagementStore {
     const queryResult = await this.client`SELECT * FROM tenants;`;
 
     for (const row of queryResult.entries()) {
-      console.log('row: ', row);
+      log.info('row: ', row);
       const tenant = row[1] as Tenant;
       result.push(tenant);
     }
-    console.log('result', result);
+    log.info('result', result);
     return result;
   }
 }
