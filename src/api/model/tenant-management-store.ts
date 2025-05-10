@@ -23,13 +23,13 @@ export class TenantManagementStore {
   }
 
   public async getAllTenants(): Promise<Tenant[]> {
+    const result = [] as Tenant[];
     const queryResult = await this.client`SELECT * FROM tenants`;
 
     for (const row of queryResult.entries()) {
-      console.log(row);
+      const tenant = row[1] as Tenant;
+      result.push(tenant);
     }
-
-    const result = [] as Tenant[];
     return result;
   }
 }

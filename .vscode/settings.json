@@ -77,6 +77,7 @@
     "**/http/**",
     "**/node_modules/**",
   ],
-  "typescript.tsserver.maxTsServerMemory": 4072
+  "typescript.tsserver.maxTsServerMemory": 4072,
+  "postman.settings.dotenv-detection-notification-visibility": false
 }
 
