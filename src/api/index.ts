@@ -1,13 +1,16 @@
+import 'reflect-metadata';
 import { type Context, type Env, Hono } from 'hono';
 import { withSentry } from '@sentry/cloudflare';
 import { log } from './logger';
 import { logger as loggerMiddleware } from 'hono/logger';
 import d1 from './routers/d1';
 import pg from './routers/pg';
-import 'reflect-metadata';
+import { applicationContextMiddleware } from './application-context-middleware';
+import axios from 'axios';
+import { default as crossFetch } from 'cross-fetch';
 
 const app = new Hono<{ Bindings: Env }>();
-app.use(loggerMiddleware());
+app.use(loggerMiddleware(), applicationContextMiddleware());
 
 app.get('/api/', async (c: Context) => {
   log.info('Hello world from Cloudflare and ElasticSearch');
@@ -17,8 +20,22 @@ app.get('/api/', async (c: Context) => {
 app.route('/d1', d1);
 app.route('/pg', pg);
 
-app.get('/json', async () => {
+app.get('/fetch', async () => {
   return fetch(
+    'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
+  );
+});
+
+app.get('/axios', async () => {
+  const axiosInstance = axios.create({ adapter: 'fetch' });
+  const resp = await axiosInstance.get(
+    'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
+  );
+  return Response.json(resp.data);
+});
+
+app.get('/cross', async () => {
+  return crossFetch(
     'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
   );
 });

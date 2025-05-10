@@ -31,6 +31,7 @@
     "@sentry/cloudflare": "^9.10.1",
     "@sentry/react": "^9.10.1",
     "@sentry/vite-plugin": "^3.2.4",
+    "cross-fetch": "^4.1.0",
     "drizzle-orm": "^0.43.1",
     "hono": "4.7.1",
     "postgres": "^3.4.5",
@@ -56,6 +57,7 @@
     "globals": "15.14.0",
     "jsdom": "^26.1.0",
     "ley": "^0.8.1",
+    "nolyfill": "^1.0.44",
     "pg-connection-string": "^2.8.5",
     "postgres-shift": "^0.1.0",
     "prettier": "^3.5.3",
@@ -67,5 +69,10 @@
     "winston": "^3.17.0",
     "winston-fetch-axios": "^1.7.16",
     "wrangler": "^4.14.1"
+  },
+  "overrides": {
+    "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1",
+    "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+    "safer-buffer": "npm:@nolyfill/safer-buffer@^1"
   }
 }

@@ -17,6 +17,9 @@
     "enabled": true
   },
   "upload_source_maps": true,
+  "alias": {
+    "node-fetch": "./fetch-nolyfill"
+  },
   "assets": {
     "directory": "./public/",
     "binding": "ASSETS"
