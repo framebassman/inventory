@@ -56,6 +56,7 @@
     "globals": "15.14.0",
     "jsdom": "^26.1.0",
     "ley": "^0.8.1",
+    "nolyfill": "^1.0.44",
     "pg-connection-string": "^2.8.5",
     "postgres-shift": "^0.1.0",
     "prettier": "^3.5.3",
