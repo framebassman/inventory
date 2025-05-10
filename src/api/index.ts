@@ -26,7 +26,7 @@ app.get('/fetch', async () => {
   );
 });
 
-app.get('/axios', async (c: Context) => {
+app.get('/axios', async () => {
   const axiosInstance = axios.create({ adapter: 'fetch' });
   const resp = await axiosInstance.get(
     'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
