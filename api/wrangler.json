@@ -42,6 +42,9 @@
   "vars": {
     "MY_VARIABLE": "production_value",
     "INVENTORY_MANAGEMENT_DATABASE": "14lLXX19aRQ9aCKbCIaLRPEqzx7HMyPGhUn29ULnAWPs",
+    "ELASTICSEARCH_LOGIN": "test",
+    "ELASTICSEARCH_PASSWORD": "test",
+    "GOOGLE_SERVICEACCOUNT": "test"
   },
   /**
 	 * Note: Use secrets to store sensitive data.
