@@ -70,11 +70,11 @@ jobs:
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "api"
-          secrets: |
-            ELASTICSEARCH_LOGIN
-            ELASTICSEARCH_PASSWORD
-            GOOGLE_SERVICEACCOUNT
-        env:
-          ELASTICSEARCH_LOGIN: ${{ secrets.ELASTICSEARCH_LOGIN }}
-          ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
-          GOOGLE_SERVICEACCOUNT: ${{ secrets.GOOGLE_SERVICEACCOUNT }}
+        #   secrets: |
+        #     ELASTICSEARCH_LOGIN
+        #     ELASTICSEARCH_PASSWORD
+        #     GOOGLE_SERVICEACCOUNT
+        # env:
+        #   ELASTICSEARCH_LOGIN: ${{ secrets.ELASTICSEARCH_LOGIN }}
+        #   ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
+        #   GOOGLE_SERVICEACCOUNT: ${{ secrets.GOOGLE_SERVICEACCOUNT }}
