@@ -20,10 +20,6 @@
   "alias": {
     "node-fetch": "./fetch-nolyfill"
   },
-  "assets": {
-    "directory": "./public/",
-    "binding": "ASSETS"
-  },
   /**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
@@ -43,9 +39,20 @@
     "MY_VARIABLE": "production_value",
     "INVENTORY_MANAGEMENT_DATABASE": "14lLXX19aRQ9aCKbCIaLRPEqzx7HMyPGhUn29ULnAWPs",
     "ELASTICSEARCH_LOGIN": "test",
-    "ELASTICSEARCH_PASSWORD": "test",
-    "GOOGLE_SERVICEACCOUNT": "test"
+    "ELASTICSEARCH_PASSWORD": "test"
   },
+  "secrets_store_secrets": [
+    {
+      "binding": "ELASTICSEARCH_LOGIN",
+      "store_id": "a05a6df8d9f84d06b0876b71b77a3aa0",
+      "secret_name": "ELASTICSEARCH_LOGIN"
+    },
+    {
+      "binding": "ELASTICSEARCH_PASSWORD",
+      "store_id": "a05a6df8d9f84d06b0876b71b77a3aa0",
+      "secret_name": "ELASTICSEARCH_PASSWORD"
+    }
+  ],
   /**
 	 * Note: Use secrets to store sensitive data.
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
@@ -54,7 +61,7 @@
 	 * Static Assets
 	 * https://developers.cloudflare.com/workers/static-assets/binding/
 	 */
-  // "assets": { "directory": "./public/", "binding": "ASSETS" },
+  "assets": { "directory": "./public/", "binding": "ASSETS" },
   /**
 	 * Service Bindings (communicate between multiple Workers)
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings

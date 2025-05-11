@@ -31,7 +31,7 @@ app.get('/log', async (context: Context) => {
       headers: {
         'Content-Type': 'application/json',
         // 'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${btoa(context.env.ELASTICSEARCH_LOGIN + ':' + context.env.ELASTICSEARCH_PASSWORD)}`
+        Authorization: `Basic ${btoa(context.env.ELASTICSEARCH_LOGIN.get() + ':' + context.env.ELASTICSEARCH_PASSWORD.get())}`
       },
       body: JSON.stringify(data)
     }
