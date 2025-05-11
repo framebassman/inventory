@@ -34,7 +34,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "web"
-          environment: preview
           command: |
             pages deploy dist --project-name=inventory-web
 
