@@ -70,7 +70,6 @@ jobs:
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "api"
-          environment: preview
           secrets: |
             ELASTICSEARCH_LOGIN
             ELASTICSEARCH_PASSWORD

@@ -122,7 +122,6 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "web"
           wranglerVersion: ${{ needs.release.outputs.NEW_VERSION }}
-          environment: Production
           command: |
             pages deploy dist --project-name=inventory-web
 
@@ -161,7 +160,6 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "api"
           wranglerVersion: ${{ needs.release.outputs.NEW_VERSION }}
-          environment: Production
           secrets: |
             ELASTICSEARCH_LOGIN
             ELASTICSEARCH_PASSWORD
