@@ -4,8 +4,8 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "inventory",
-  "main": "./src/api/index.ts",
+  "name": "inventory-api",
+  "main": "./src/index.ts",
   "compatibility_date": "2025-04-02",
   "compatibility_flags": [
     "nodejs_compat",
@@ -17,6 +17,9 @@
     "enabled": true
   },
   "upload_source_maps": true,
+  "alias": {
+    "node-fetch": "./fetch-nolyfill"
+  },
   "assets": {
     "directory": "./public/",
     "binding": "ASSETS"
@@ -38,6 +41,10 @@
 	 */
   "vars": {
     "MY_VARIABLE": "production_value",
+    "INVENTORY_MANAGEMENT_DATABASE": "14lLXX19aRQ9aCKbCIaLRPEqzx7HMyPGhUn29ULnAWPs",
+    "ELASTICSEARCH_LOGIN": "test",
+    "ELASTICSEARCH_PASSWORD": "test",
+    "GOOGLE_SERVICEACCOUNT": "test"
   },
   /**
 	 * Note: Use secrets to store sensitive data.

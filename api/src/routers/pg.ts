@@ -1,11 +1,13 @@
 import { type Context, Hono } from 'hono';
 import postgres from 'postgres';
-import { log } from '../logger';
+import { applicationCxt } from '../application-context-middleware';
+import { DependencyContainer } from 'tsyringe';
+import { TenantManagementStore } from '../model/tenant-management-store';
 
 const app = new Hono();
 
 app.get('/', async (context: Context) => {
-  log.info('Going to connect to postgres');
+  console.log('Going to connect to postgres');
   // Create a connection using the Postgres.js driver (or any supported driver, ORM or query builder)
   // with the Hyperdrive credentials. These credentials are only accessible from your Worker.
   const sql = postgres(context.env.HYPERDRIVE.connectionString, {
@@ -33,6 +35,22 @@ app.get('/', async (context: Context) => {
       { error: e instanceof Error ? e.message : e },
       { status: 500 }
     );
+  }
+});
+
+app.get('/di', async (context: Context) => {
+  console.log('Going to connect to postgres');
+  const appContext = context.get(applicationCxt) as DependencyContainer;
+  console.log('Get appContext');
+  const store = appContext.resolve(TenantManagementStore);
+  console.log('Get store');
+  try {
+    const results = store.getAllTenants();
+    return Response.json(results);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    context.executionCtx.waitUntil(store.close());
   }
 });
 

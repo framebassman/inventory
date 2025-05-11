@@ -2,7 +2,6 @@ import { type Context, type Env, Hono } from 'hono';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
-import { log } from '../logger';
 
 const app = new Hono();
 
@@ -12,7 +11,7 @@ const users = sqliteTable('users', {
 });
 
 app.get('/setup', async (context: Context) => {
-  log.info('Going to setup database');
+  console.log('Going to setup database');
   const db = drizzle(context.env.DB);
   await db.run(sql`
     CREATE TABLE IF NOT EXISTS users (
@@ -24,7 +23,7 @@ app.get('/setup', async (context: Context) => {
 });
 
 app.get('/add', async (context: Context) => {
-  log.info('Going to add a new user into database');
+  console.log('Going to add a new user into database');
   const db = drizzle(context.env.DB);
   const newUser = await db
     .insert(users)
@@ -36,7 +35,7 @@ app.get('/add', async (context: Context) => {
 });
 
 app.get('/users', async (context: Context) => {
-  log.info('Going to get all users from database');
+  console.log('Going to get all users from database');
   const db = drizzle(context.env.DB);
   const allUsers = await db.select().from(users).all();
   return Response.json(allUsers);
