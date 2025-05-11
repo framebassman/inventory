@@ -75,8 +75,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
-          tag_name: ${{ needs.build.outputs.NEW_VERSION }}
-          name: ${{ needs.build.outputs.NEW_VERSION }}
+          tag_name: ${{ steps.bump-semver.outputs.new_version }}
+          name: ${{ steps.bump-semver.outputs.new_version }}
       - name: Create the Sentry release
         uses: getsentry/action-release@v3
         env:
@@ -86,7 +86,7 @@ jobs:
         with:
           environment: Production
           ignore_missing: true
-          version: ${{ needs.build.outputs.NEW_VERSION }}
+          version: ${{ steps.bump-semver.outputs.new_version }}
 
   deploy-web:
     needs: [release]
@@ -117,7 +117,7 @@ jobs:
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-  build-deploy-api:
+  deploy-api:
     needs: [release]
     runs-on: ubuntu-24.04
     permissions:
