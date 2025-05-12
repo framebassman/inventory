@@ -29,7 +29,7 @@
     "**/Thumbs.db": true
   },
   "files.associations": {
-    "wrangler.json": "jsonc"
+    "wrangler.jsonc": "jsonc"
   },
   "typescript.tsdk": "<workspace>\\api\\node_modules\\typescript\\lib",
   "todohighlight.isEnable": true,
