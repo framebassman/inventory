@@ -110,18 +110,11 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: kolenka-inc
           SENTRY_PROJECT: inventory
-      - run: npm run deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - uses: cloudflare/wrangler-action@v3.14.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "web"
-          wranglerVersion: ${{ needs.release.outputs.NEW_VERSION }}
           command: |
             pages deploy dist --project-name=inventory-web
 
