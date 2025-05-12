@@ -4,25 +4,29 @@ import { createMiddleware } from 'hono/factory';
 export const applicationCxt = 'applicationContext';
 
 // Function to post logs to an external service
-async function postLog(message: string, login: string, password: string) {
-    const data = {
-      message: message,
-      level: 'info',
-      '@timestamp': new Date().toISOString()
-    };
-    return await fetch(
-      'https://kolenka-inc-4135333449.eu-central-1.bonsaisearch.net:443/filebeat-7.10.2-2025.05.11/_doc/',
-      {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Basic ${btoa(login + ':' + password)}`
-        },
-        body: JSON.stringify(data)
-      }
-    );
-  }
+export async function postLog(
+  message: string,
+  login: string,
+  password: string
+) {
+  const data = {
+    message: message,
+    level: 'info',
+    '@timestamp': new Date().toISOString()
+  };
+  return await fetch(
+    'https://kolenka-inc-4135333449.eu-central-1.bonsaisearch.net:443/filebeat-7.10.2-2025.05.11/_doc/',
+    {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${btoa(login + ':' + password)}`
+      },
+      body: JSON.stringify(data)
+    }
+  );
+}
 
 export const elasticsearchLogsMiddleware = (): MiddlewareHandler =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

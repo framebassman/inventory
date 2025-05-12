@@ -45,7 +45,8 @@
   "files.exclude": {
     "**/dist": true,
     "**/.next": true,
-    "**/node_modules": false
+    "**/node_modules": false,
+    "api/src/index.ts": false,
   },
   "search.exclude": {
     "**/dist": true,
