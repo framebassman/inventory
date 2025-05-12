@@ -6,10 +6,10 @@
   "scripts": {
     "lint": "eslint .",
     "backend:types": "wrangler types",
-    "backend": "wrangler dev --live-reload",
+    "dev": "wrangler dev --live-reload",
     "build": "npm run backend:types && tsc --build",
     "deploy": "wrangler deploy",
-    "backend:test": "vitest run --coverage",
+    "test": "vitest run --coverage",
     "migrate:up": "ley up --dir=migrations --driver=postgres",
     "migrate:down": "ley down --dir=migrations --driver=postgres"
   },
