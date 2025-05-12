@@ -1,9 +1,8 @@
+import 'reflect-metadata';
 import { withSentry } from '@sentry/cloudflare';
 import { default as crossFetch } from 'cross-fetch';
 import { type Context, type Env, Hono } from 'hono';
 import { logger as loggerMiddleware } from 'hono/logger';
-import 'reflect-metadata';
-
 import { applicationContextMiddleware } from './application-context-middleware';
 import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
 import d1 from './routers/d1';

@@ -16,7 +16,7 @@
   "editor.codeActions.triggerOnFocusChange": true, // Trigger on focus change
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit"
+    // "source.organizeImports": "explicit"
   },
   // 🔍 ESLINT LINTING
   "eslint.enable": true, // Enable ESLint
