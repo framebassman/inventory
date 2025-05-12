@@ -45,14 +45,15 @@
   "files.exclude": {
     "**/dist": true,
     "**/.next": true,
-    "**/node_modules": true
+    "**/node_modules": false
   },
   "search.exclude": {
     "**/dist": true,
     "**/.next": true,
-    "**/node_modules": true
+    "**/node_modules": false
   }, // Hide from file tree & search
   // 🐙 GIT
   "git.ignoreLimitWarning": true, // Ignore file count warning
-  "git.inputValidationSubjectLength": 100 // Allow longer commit titles
+  "git.inputValidationSubjectLength": 100,
+  "postman.settings.dotenv-detection-notification-visibility": false // Allow longer commit titles
 }

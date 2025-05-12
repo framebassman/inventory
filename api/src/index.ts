@@ -1,11 +1,11 @@
-import 'reflect-metadata';
-import { type Context, type Env, Hono } from 'hono';
 import { withSentry } from '@sentry/cloudflare';
+import { default as crossFetch } from 'cross-fetch';
+import { type Context, type Env, Hono } from 'hono';
 import { logger as loggerMiddleware } from 'hono/logger';
+import 'reflect-metadata';
+import { applicationContextMiddleware } from './application-context-middleware';
 import d1 from './routers/d1';
 import pg from './routers/pg';
-import { applicationContextMiddleware } from './application-context-middleware';
-import { default as crossFetch } from 'cross-fetch';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(loggerMiddleware(), applicationContextMiddleware());
@@ -17,6 +17,10 @@ app.get('/api/', async (c: Context) => {
 
 app.route('/d1', d1);
 app.route('/pg', pg);
+
+app.get('/secret', async (context: Context) => {
+  return Response.json(context.env.ELASTICSEARCH_LOGIN.get());
+});
 
 app.get('/log', async (context: Context) => {
   const data = {
