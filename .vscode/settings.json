@@ -2,7 +2,7 @@
   // 💾 AUTO-SAVE
   "files.autoSave": "onFocusChange", // Auto-save when the editor loses focus
   // 🧠 TYPESCRIPT SETUP
-  "typescript.tsdk": "node_modules/typescript/lib", // Use workspace TypeScript version
+  "typescript.tsdk": "api/node_modules/typescript/lib", // Use workspace TypeScript version
   "typescript.enablePromptUseWorkspaceTsdk": true, // Don't prompt to switch TSDK
   "typescript.preferences.importModuleSpecifier": "non-relative", // Use paths over relative imports
   // 🎨 CODE FORMATTING (Prettier)
@@ -20,7 +20,6 @@
   },
   // 🔍 ESLINT LINTING
   "eslint.enable": true, // Enable ESLint
-  "eslint.packageManager": "bun", // Use Bun as package manager
   "eslint.run": "onType", // Run on each keystroke
   "eslint.probe": [
     "javascript",
