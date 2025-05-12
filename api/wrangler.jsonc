@@ -11,7 +11,7 @@
     "nodejs_compat",
     "nodejs_als",
     "nodejs_compat_populate_process_env",
-    "global_fetch_strictly_public",
+    "global_fetch_strictly_public"
   ],
   "observability": {
     "enabled": true
@@ -38,19 +38,10 @@
   "vars": {
     "MY_VARIABLE": "production_value",
     "INVENTORY_MANAGEMENT_DATABASE": "14lLXX19aRQ9aCKbCIaLRPEqzx7HMyPGhUn29ULnAWPs",
+    "ELASTICSEARCH_LOGIN": "test",
+    "ELASTICSEARCH_PASSWORD": "test",
+    "GOOGLE_SERVICEACCOUNT": "test"
   },
-  "secrets_store_secrets": [
-    {
-      "binding": "ELASTICSEARCH_LOGIN",
-      "store_id": "a05a6df8d9f84d06b0876b71b77a3aa0",
-      "secret_name": "ELASTICSEARCH_LOGIN"
-    },
-    {
-      "binding": "ELASTICSEARCH_PASSWORD",
-      "store_id": "a05a6df8d9f84d06b0876b71b77a3aa0",
-      "secret_name": "ELASTICSEARCH_PASSWORD"
-    }
-  ],
   /**
    * Note: Use secrets to store sensitive data.
    * https://developers.cloudflare.com/workers/configuration/secrets/

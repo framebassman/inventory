@@ -19,7 +19,7 @@ app.route('/d1', d1);
 app.route('/pg', pg);
 
 app.get('/secret', async (context: Context) => {
-  return Response.json(context.env.ELASTICSEARCH_LOGIN.get());
+  return Response.json(context.env.ELASTICSEARCH_LOGIN);
 });
 
 app.get('/log', async (context: Context) => {
@@ -35,7 +35,7 @@ app.get('/log', async (context: Context) => {
       headers: {
         'Content-Type': 'application/json',
         // 'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${btoa(context.env.ELASTICSEARCH_LOGIN.get() + ':' + context.env.ELASTICSEARCH_PASSWORD.get())}`
+        Authorization: `Basic ${btoa(context.env.ELASTICSEARCH_LOGIN + ':' + context.env.ELASTICSEARCH_PASSWORD)}`
       },
       body: JSON.stringify(data)
     }
