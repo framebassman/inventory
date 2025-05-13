@@ -6,6 +6,7 @@ import type { GoogleServiceAccountCredentials } from './google-objects';
 export class InventoryManagementStore {
   private sheetsClient: sheets_v4.Sheets;
   private databaseId: string;
+  privage credentials: GoogleServiceAccountCredentials;
 
   constructor(
     credentials: GoogleServiceAccountCredentials,
@@ -17,9 +18,12 @@ export class InventoryManagementStore {
     });
     this.sheetsClient = google.sheets({ version: 'v4', auth });
     this.databaseId = databaseId;
+    this.credentials = credentials;
   }
 
   public async saveDataAsync() {
+    console.log('credentials:');
+    console.log(this.credentials);
     const exampleData = [
       {
         firstName: 'John',
