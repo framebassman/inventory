@@ -1,14 +1,11 @@
+import { env } from 'cloudflare:workers';
 import type { Context, MiddlewareHandler } from 'hono';
 import { createMiddleware } from 'hono/factory';
 
 export const applicationCxt = 'applicationContext';
 
 // Function to post logs to an external service
-export async function postLog(
-  message: string,
-  login: string,
-  password: string
-) {
+export async function postLog(message: string) {
   const data = {
     message: message,
     level: 'info',
@@ -20,8 +17,7 @@ export async function postLog(
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${btoa(login + ':' + password)}`
+        Authorization: `Basic ${btoa((env as any).ELASTICSEARCH_LOGIN + ':' + (env as any).ELASTICSEARCH_PASSWORD)}`
       },
       body: JSON.stringify(data)
     }
@@ -39,23 +35,13 @@ export const elasticsearchLogsMiddleware = (): MiddlewareHandler =>
       if (context.res && !context.res.ok && !context.res.redirected) {
         const body = await context.res.clone().text();
         throw new Error(
-          'Bad response at origin. Status: ' +
-            context.res.status +
-            ' Body: ' +
-            // Ensure the string is small enough to be a header
-            body.trim().substring(0, 10)
+          `Bad response at origin. Status: ${context.res.status} Body: ${body}`
         );
       }
     } catch (error) {
       const err = error as Error;
       // Without waitUntil, the fetch to the logging service may not complete
-      context.executionCtx.waitUntil(
-        postLog(
-          err.toString(),
-          context.env.ELASTICSEARCH_LOGIN,
-          context.env.ELASTICSEARCH_PASSWORD
-        )
-      );
+      context.executionCtx.waitUntil(postLog(err.toString()));
 
       // Get the error stack or error itself
       const stack = JSON.stringify(err.stack) || err.toString();
