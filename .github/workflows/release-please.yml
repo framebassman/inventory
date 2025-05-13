@@ -110,7 +110,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: kolenka-inc
           SENTRY_PROJECT: inventory
-      - uses: cloudflare/wrangler-action@v3.14.0
+      - uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
@@ -146,17 +146,19 @@ jobs:
         env:
           WRANGLER_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE: ${{ secrets.WRANGLER_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE }}
           AIVEN_CA: ${{ secrets.AIVEN_CA }}
-      - uses: cloudflare/wrangler-action@v3.14.0
+      - uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "api"
-        #   secrets: |
-        #     ELASTICSEARCH_LOGIN
-        #     ELASTICSEARCH_PASSWORD
-        #     GOOGLE_SERVICEACCOUNT
-        # env:
-        #   ELASTICSEARCH_LOGIN: ${{ secrets.ELASTICSEARCH_LOGIN }}
-        #   ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
-        #   GOOGLE_SERVICEACCOUNT: ${{ secrets.GOOGLE_SERVICEACCOUNT }}
+          secrets: |
+            ELASTICSEARCH_LOGIN
+            ELASTICSEARCH_PASSWORD
+            GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID
+            GOOGLE_SERVICEACCOUNT_PRIVATE_KEY
+        env:
+          ELASTICSEARCH_LOGIN: ${{ secrets.ELASTICSEARCH_LOGIN }}
+          ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
+          GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID: ${{ secrets.GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID }}
+          GOOGLE_SERVICEACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICEACCOUNT_PRIVATE_KEY }}
