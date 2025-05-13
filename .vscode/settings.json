@@ -56,5 +56,6 @@
   // 🐙 GIT
   "git.ignoreLimitWarning": true, // Ignore file count warning
   "git.inputValidationSubjectLength": 100,
-  "postman.settings.dotenv-detection-notification-visibility": false // Allow longer commit titles
+  "postman.settings.dotenv-detection-notification-visibility": false, // Allow longer commit titles
+  "typescript.tsserver.maxTsServerMemory": 4072,
 }
