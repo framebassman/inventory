@@ -1,80 +1,61 @@
 {
-  "editor.formatOnSave": true,
+  // 💾 AUTO-SAVE
+  "files.autoSave": "onFocusChange", // Auto-save when the editor loses focus
+  // 🧠 TYPESCRIPT SETUP
+  "typescript.tsdk": "api/node_modules/typescript/lib", // Use workspace TypeScript version
+  "typescript.enablePromptUseWorkspaceTsdk": true, // Don't prompt to switch TSDK
+  "typescript.preferences.importModuleSpecifier": "non-relative", // Use paths over relative imports
+  // 🎨 CODE FORMATTING (Prettier)
+  "editor.formatOnSave": true, // Format on save
+  "editor.formatOnSaveMode": "modifications", // Only format modified lines
+  "editor.formatOnPaste": true, // Format on paste
+  "editor.formatOnType": true, // Format while typing (semi-limited support)
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Use Prettier
+  "prettier.requireConfig": true, // Only format when Prettier config is present
+  // 🛠️ CODE ACTIONS (Fix + Organize)
+  "editor.codeActions.triggerOnFocusChange": true, // Trigger on focus change
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    // "source.organizeImports": "explicit"
   },
-  // The number of spaces a tab is equal to. This setting is overridden
-  // based on the file contents when `editor.detectIndentation` is true.
-  "editor.tabSize": 2,
-  // Insert spaces when pressing Tab. This setting is overriden
-  // based on the file contents when `editor.detectIndentation` is true.
-  "editor.insertSpaces": true,
-  // When opening a file, `editor.tabSize` and `editor.insertSpaces`
-  // will be detected based on the file contents. Set to false to keep
-  // the values you've explicitly set, above.
-  "editor.detectIndentation": false,
+  // 🔍 ESLINT LINTING
+  "eslint.enable": true, // Enable ESLint
+  "eslint.run": "onType", // Run on each keystroke
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ], // File types to lint
   "eslint.workingDirectories": [
-    "./api/src",
-    "./web/src"
-  ],
-  "npm.exclude": [
-    "**/dist"
-  ],
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true
-  },
-  "files.associations": {
-    "wrangler.jsonc": "jsonc"
-  },
-  "typescript.tsdk": "<workspace>\\api\\node_modules\\typescript\\lib",
-  "todohighlight.isEnable": true,
-  "todohighlight.isCaseSensitive": true,
-  "todohighlight.keywords": [
-    "OPTIMIZE:",
-    "HACK:",
-    "DEBUG:",
     {
-      "text": "BUG:",
-      "color": "#ecf0f1",
-      "backgroundColor": "firebrick",
-      "isWholeLine": false,
-      "regex": {
-        "pattern": "(?<=^|\"|\\s)BUG[:]?(?!\\w)"
-      }
-    },
-    {
-      "text": "NOTE:",
-      "color": "#ecf0f1",
-      "backgroundColor": "#0BB710",
-      "isWholeLine": false,
-      "regex": {
-        "pattern": "(?<=^|\"|\\s)NOTE[:]?(?!\\w)"
-      }
+      "mode": "auto"
     }
-  ],
-  "todohighlight.defaultStyle": {
-    "color": "#2196D2",
-    "backgroundColor": "none",
-    "cursor": "pointer"
+  ], // Detect monorepo workspace roots
+  // 🌈 TAILWIND INTELLISENSE
+  "tailwindCSS.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
   },
-  "todohighlight.exclude": [
-    "**/.devcontainer/**",
-    "**/.git/**",
-    "**/.github/**",
-    "**/.vscode/**",
-    "**/.husky/**",
-    "**/coverage/**",
-    "**/dist/**",
-    "**/build/**",
-    "**/docs/**",
-    "**/http/**",
-    "**/node_modules/**",
-  ],
+  "tailwindCSS.experimental.classRegex": [
+    "clsx\\(([^)]*)\\)",
+    "cn\\(([^)]*)\\)"
+  ], // Support Tailwind in utility functions
+  // 🧹 FILE EXCLUSIONS
+  "files.exclude": {
+    "**/dist": true,
+    "**/.next": true,
+    "**/node_modules": false,
+    "api/src/index.ts": false,
+  },
+  "search.exclude": {
+    "**/dist": true,
+    "**/.next": true,
+    "**/node_modules": false
+  }, // Hide from file tree & search
+  // 🐙 GIT
+  "git.ignoreLimitWarning": true, // Ignore file count warning
+  "git.inputValidationSubjectLength": 100,
+  "postman.settings.dotenv-detection-notification-visibility": false, // Allow longer commit titles
   "typescript.tsserver.maxTsServerMemory": 4072,
-  "postman.settings.dotenv-detection-notification-visibility": false
 }
