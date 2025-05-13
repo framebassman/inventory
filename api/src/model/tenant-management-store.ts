@@ -24,6 +24,7 @@ export class TenantManagementStore {
 
   public async getAllTenants(): Promise<Tenant[]> {
     const result = [] as Tenant[];
+    console.log('Lets try to SELECT by postgres client');
     const queryResult = await this.client`SELECT * FROM tenants;`;
 
     for (const row of queryResult.entries()) {

@@ -45,7 +45,7 @@ app.get('/di', async (context: Context) => {
   const store = appContext.resolve(TenantManagementStore);
   console.log('Get store');
   try {
-    const results = store.getAllTenants();
+    const results = await store.getAllTenants();
     return Response.json(results);
   } catch (err) {
     console.error(err);
