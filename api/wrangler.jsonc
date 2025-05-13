@@ -40,7 +40,8 @@
     "INVENTORY_MANAGEMENT_DATABASE": "14lLXX19aRQ9aCKbCIaLRPEqzx7HMyPGhUn29ULnAWPs",
     "ELASTICSEARCH_LOGIN": "test",
     "ELASTICSEARCH_PASSWORD": "test",
-    "GOOGLE_SERVICEACCOUNT": "test"
+    "GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID": "test",
+    "GOOGLE_SERVICEACCOUNT_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----\n"
   },
   /**
    * Note: Use secrets to store sensitive data.

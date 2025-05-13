@@ -1,12 +1,16 @@
 import { injectable } from 'tsyringe';
 import { google, sheets_v4 } from 'googleapis';
+import type { GoogleServiceAccountCredentials } from './google-objects';
 
 @injectable()
 export class InventoryManagementStore {
   private sheetsClient: sheets_v4.Sheets;
   private databaseId: string;
 
-  constructor(credentials: any, databaseId: string) {
+  constructor(
+    credentials: GoogleServiceAccountCredentials,
+    databaseId: string
+  ) {
     const auth = new google.auth.GoogleAuth({
       credentials,
       scopes: ['https://www.googleapis.com/auth/spreadsheets']
@@ -15,7 +19,7 @@ export class InventoryManagementStore {
     this.databaseId = databaseId;
   }
 
-  async saveData() {
+  public async saveDataAsync() {
     const exampleData = [
       {
         firstName: 'John',

@@ -8,7 +8,7 @@ let dateString = new Date(new Date()).toISOString().split('T')[0];
 dateString = dateString.replaceAll('-', '.');
 
 // Function to post logs to an external service
-export async function postLog(log: string) {
+export async function postLogAsync(log: string) {
   const data = {
     message: log,
     level: 'info',
@@ -43,13 +43,13 @@ export const elasticsearchLogsMiddleware = (): MiddlewareHandler =>
       }
     } catch (error) {
       const err = error as Error;
-      // Without waitUntil, the fetch to the logging service may not complete
-      context.executionCtx.waitUntil(postLog(err.toString()));
 
       // Get the error stack or error itself
       let stack: string = JSON.stringify(err.stack) || err.toString();
       stack = stack.replace(/^"(.*)"$/, '$1');
       stack = stack.split('\\n').join('\n');
+      // Without waitUntil, the fetch to the logging service may not complete
+      context.executionCtx.waitUntil(postLogAsync(stack));
 
       // Create a new response with the error information
       const response = context.res

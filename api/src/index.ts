@@ -7,6 +7,7 @@ import { applicationContextMiddleware } from './application-context-middleware';
 import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
 import d1 from './routers/d1';
 import pg from './routers/pg';
+import spreadsheets from './routers/spreadsheets';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(
@@ -22,6 +23,7 @@ app.get('/api/', async (c: Context) => {
 
 app.route('/d1', d1);
 app.route('/pg', pg);
+app.route('/sheet', spreadsheets);
 
 app.get('/secret', async (context: Context) => {
   return Response.json(context.env.ELASTICSEARCH_LOGIN);
