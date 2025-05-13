@@ -5,14 +5,14 @@ import { InventoryManagementStore } from '../model/inventory-management-store';
 
 const app = new Hono();
 
-app.get('/spreadsheet', async (context: Context) => {
+app.get('/', async (context: Context) => {
   console.log('Going to connect to spreadsheet');
   const appContext = context.get(applicationCxt) as DependencyContainer;
   console.log('Get appContext');
   const store = appContext.resolve(InventoryManagementStore);
   console.log('Get store');
-  const results = store.saveData();
-  return Response.json(results);
+  await store.saveDataAsync();
+  return Response.json('ok');
 });
 
 export default app;
