@@ -18,7 +18,7 @@ export class TenantManagementStore {
     });
   }
 
-  public async close(): Promise<void> {
+  public async closeAsync(): Promise<void> {
     return this.client.end();
   }
 
