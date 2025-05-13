@@ -44,7 +44,9 @@ export const elasticsearchLogsMiddleware = (): MiddlewareHandler =>
       context.executionCtx.waitUntil(postLog(err.toString()));
 
       // Get the error stack or error itself
-      const stack = JSON.stringify(err.stack) || err.toString();
+      let stack: string = JSON.stringify(err.stack) || err.toString();
+      stack = stack.replace(/^"(.*)"$/, '$1');
+      stack = stack.split('\\n').join('\n');
 
       // Create a new response with the error information
       const response = context.res
@@ -55,7 +57,6 @@ export const elasticsearchLogsMiddleware = (): MiddlewareHandler =>
         : new Response(stack, { status: 500 });
 
       // Add debug headers
-      response.headers.set('X-Debug-stack', stack);
       response.headers.set('X-Debug-err', err.toString());
 
       // Set the modified response
