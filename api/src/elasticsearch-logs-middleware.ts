@@ -4,15 +4,18 @@ import { createMiddleware } from 'hono/factory';
 
 export const applicationCxt = 'applicationContext';
 
+let dateString = new Date(new Date()).toISOString().split('T')[0];
+dateString = dateString.replaceAll('-', '.');
+
 // Function to post logs to an external service
-export async function postLog(message: string) {
+export async function postLog(log: string) {
   const data = {
-    message: message,
+    message: log,
     level: 'info',
     '@timestamp': new Date().toISOString()
   };
   return await fetch(
-    'https://kolenka-inc-4135333449.eu-central-1.bonsaisearch.net:443/filebeat-7.10.2-2025.05.11/_doc/',
+    `https://kolenka-inc-4135333449.eu-central-1.bonsaisearch.net:443/filebeat-7.10.2-${dateString}/_doc/`,
     {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
