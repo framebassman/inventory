@@ -6,7 +6,7 @@ import type { GoogleServiceAccountCredentials } from './google-objects';
 export class InventoryManagementStore {
   private sheetsClient: sheets_v4.Sheets;
   private databaseId: string;
-  privage credentials: GoogleServiceAccountCredentials;
+  private credentials: GoogleServiceAccountCredentials;
 
   constructor(
     credentials: GoogleServiceAccountCredentials,
