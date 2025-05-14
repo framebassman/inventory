@@ -4,7 +4,6 @@ import { container } from 'tsyringe';
 import { TenantManagementStore } from './model/tenant-management-store';
 import { InventoryManagementStore } from './model/inventory-management-store';
 import type { GoogleServiceAccountCredentials } from './model/google-objects';
-import { env } from 'hono/adapter'
 
 export const applicationCxt = 'applicationContext';
 
@@ -35,16 +34,15 @@ export const applicationContextMiddleware = (): MiddlewareHandler =>
       container.register<TenantManagementStore>(TenantManagementStore, {
         useValue: new TenantManagementStore(ctx.env.HYPERDRIVE.connectionString)
       });
-      const { GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID } = env<{ GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID: string }>(ctx);
-      const { GOOGLE_SERVICEACCOUNT_PRIVATE_KEY } = env<{ GOOGLE_SERVICEACCOUNT_PRIVATE_KEY: string }>(ctx);
+      const creds = combineGoogleCredentials(
+        ctx.env.GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID,
+        ctx.env.GOOGLE_SERVICEACCOUNT_PRIVATE_KEY
+      )
       console.log('Log from Middleware creation');
-      console.log(GOOGLE_SERVICEACCOUNT_PRIVATE_KEY);
+      console.log(creds);
       container.register<InventoryManagementStore>(InventoryManagementStore, {
         useValue: new InventoryManagementStore(
-          combineGoogleCredentials(
-            GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID,
-            GOOGLE_SERVICEACCOUNT_PRIVATE_KEY
-          ),
+          creds,
           ctx.env.INVENTORY_MANAGEMENT_DATABASE
         )
       });
