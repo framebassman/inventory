@@ -37,6 +37,6 @@
     "wrangler": "^4.15.0"
   },
   "lint-staged": {
-    "*.ts": "eslint --cache \"src/**/*.ts\" \"tests/**/*.ts\""
+    "*.ts": "eslint --cache \"src/**/*.ts\""
   }
 }
