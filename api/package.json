@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
+    "lint:staged": "lint-staged",
     "backend:types": "wrangler types",
     "dev": "wrangler dev --live-reload",
     "build": "npm run backend:types && tsc --build",
@@ -47,6 +48,7 @@
     "globals": "15.14.0",
     "jsdom": "^26.1.0",
     "ley": "^0.8.1",
+    "lint-staged": "^16.0.0",
     "nolyfill": "^1.0.44",
     "pg-connection-string": "^2.8.5",
     "postgres-shift": "^0.1.0",
@@ -68,5 +70,8 @@
   "engines": {
     "npm": ">=10.0.0",
     "node": ">=18.0.0"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --cache \"src/**/*.ts\" \"tests/**/*.ts\""
   }
 }
