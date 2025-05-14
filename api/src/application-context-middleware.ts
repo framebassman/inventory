@@ -15,7 +15,7 @@ const combineGoogleCredentials = (
     type: 'service_account',
     project_id: 'inventory-459416',
     private_key_id: private_key_id,
-    private_key: private_key,
+    private_key: `'${private_key}'`,
     client_email: 'inventory@inventory-459416.iam.gserviceaccount.com',
     client_id: '116981449173930617132',
     auth_uri: 'https://accounts.google.com/o/oauth2/auth',
