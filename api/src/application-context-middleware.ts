@@ -37,6 +37,8 @@ export const applicationContextMiddleware = (): MiddlewareHandler =>
       });
       const { GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID } = env<{ GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID: string }>(ctx);
       const { GOOGLE_SERVICEACCOUNT_PRIVATE_KEY } = env<{ GOOGLE_SERVICEACCOUNT_PRIVATE_KEY: string }>(ctx);
+      console.log('Log from Middleware creation');
+      console.log(GOOGLE_SERVICEACCOUNT_PRIVATE_KEY);
       container.register<InventoryManagementStore>(InventoryManagementStore, {
         useValue: new InventoryManagementStore(
           combineGoogleCredentials(
