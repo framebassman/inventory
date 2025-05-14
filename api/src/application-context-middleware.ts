@@ -39,7 +39,7 @@ export const applicationContextMiddleware = (): MiddlewareHandler =>
         ctx.env.GOOGLE_SERVICEACCOUNT_PRIVATE_KEY
       )
       console.log('Log from Middleware creation');
-      console.log(creds);
+      console.log(JSON.stringify(creds));
       container.register<InventoryManagementStore>(InventoryManagementStore, {
         useValue: new InventoryManagementStore(
           creds,

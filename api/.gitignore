@@ -33,3 +33,4 @@ worker-configuration.d.ts
 
 Makefile
 google-serviceaccount.json
+.eslintcache

@@ -18,7 +18,7 @@ export class InventoryManagementStore {
     this.sheetsClient = google.sheets({ version: 'v4', auth });
     this.databaseId = databaseId;
     console.log('Message from Inventory management store');
-    console.log(credentials);
+    console.log(JSON.stringify(credentials));
   }
 
   public async saveDataAsync() {
