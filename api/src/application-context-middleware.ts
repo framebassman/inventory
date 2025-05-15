@@ -8,16 +8,14 @@ import type { GoogleServiceAccountCredentials } from './model/google-objects';
 export const applicationCxt = 'applicationContext';
 
 const combineGoogleCredentialsAsync = async (
-  tenantManagementStore: TenantManagementStore
+  private_key_id: string,
+  private_key: string,
 ): Promise<GoogleServiceAccountCredentials> => {
-  const secrets =
-    await tenantManagementStore.getSecretsForTenantAsync('test@test.test');
-
   return {
     type: 'service_account',
     project_id: 'inventory-459416',
-    private_key_id: secrets.get('private_key_id'),
-    private_key: secrets.get('private_key'),
+    private_key_id: private_key_id,
+    private_key: private_key,
     client_email: 'inventory@inventory-459416.iam.gserviceaccount.com',
     client_id: '116981449173930617132',
     auth_uri: 'https://accounts.google.com/o/oauth2/auth',
@@ -37,15 +35,19 @@ export const applicationContextMiddleware = (): MiddlewareHandler =>
         useValue: new TenantManagementStore(ctx.env.HYPERDRIVE.connectionString)
       });
 
+      const tenantManagementStore = container.resolve(TenantManagementStore);
+      const secrets =
+        await tenantManagementStore.getSecretsForTenantAsync('test@test.test');
       const creds = await combineGoogleCredentialsAsync(
-        container.resolve(TenantManagementStore)
+        String(secrets.get('private_key_id')),
+        String(secrets.get('private_key'))
       );
       console.log('Log from Middleware creation');
       console.log(JSON.stringify(creds));
       container.register<InventoryManagementStore>(InventoryManagementStore, {
         useValue: new InventoryManagementStore(
           creds,
-          ctx.env.INVENTORY_MANAGEMENT_DATABASE
+          String(secrets.get('inventory_management_database'))
         )
       });
       ctx.set(applicationCxt, container);

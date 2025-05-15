@@ -37,7 +37,6 @@
    */
   "vars": {
     "MY_VARIABLE": "production_value",
-    "INVENTORY_MANAGEMENT_DATABASE": "14lLXX19aRQ9aCKbCIaLRPEqzx7HMyPGhUn29ULnAWPs",
   },
   /**
    * Note: Use secrets to store sensitive data.
