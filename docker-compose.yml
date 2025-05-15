@@ -4,3 +4,12 @@ services:
     container_name: postgres
     ports:
       - 5432:5432
+    volumes:
+      - pgsdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=inventory-user
+      - POSTGRES_PASSWORD=KqCQzyH2akGB9gQ4
+      - POSTGRES_DB=inventory-production
+
+volumes:
+  pgsdata:
