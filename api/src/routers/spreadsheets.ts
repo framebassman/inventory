@@ -15,7 +15,7 @@ app.get('/', async (context: Context) => {
   return Response.json('ok');
 });
 
-app.post('/lib', async (context: Context) => {
+app.get('/lib', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const store = appContext.resolve(InventoryManagementStore);
   await store.workWithSheetsAsync();
