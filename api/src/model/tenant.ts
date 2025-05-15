@@ -2,6 +2,12 @@ export interface Tenant {
   id: string;
   name: string;
   email: number;
-  completed: boolean;
   created_at: Date;
+}
+
+export interface TenantSecrets {
+  id: string;
+  tenant_id: string;
+  key: string;
+  value: string;
 }
