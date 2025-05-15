@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { withSentry } from '@sentry/cloudflare';
+import { sentry } from '@hono/sentry';
 import { default as crossFetch } from 'cross-fetch';
 import { type Context, type Env, Hono } from 'hono';
 import { logger as loggerMiddleware } from 'hono/logger';
@@ -11,6 +12,7 @@ import spreadsheets from './routers/spreadsheets';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(
+  sentry(),
   loggerMiddleware(),
   applicationContextMiddleware(),
   elasticsearchLogsMiddleware()

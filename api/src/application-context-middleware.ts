@@ -7,10 +7,10 @@ import type { GoogleServiceAccountCredentials } from './model/google-objects';
 
 export const applicationCxt = 'applicationContext';
 
-const combineGoogleCredentials = (
+const combineGoogleCredentialsAsync = async (
   private_key_id: string,
-  private_key: string
-): GoogleServiceAccountCredentials => {
+  private_key: string,
+): Promise<GoogleServiceAccountCredentials> => {
   return {
     type: 'service_account',
     project_id: 'inventory-459416',
@@ -34,13 +34,20 @@ export const applicationContextMiddleware = (): MiddlewareHandler =>
       container.register<TenantManagementStore>(TenantManagementStore, {
         useValue: new TenantManagementStore(ctx.env.HYPERDRIVE.connectionString)
       });
+
+      const tenantManagementStore = container.resolve(TenantManagementStore);
+      const secrets =
+        await tenantManagementStore.getSecretsForTenantAsync('test@test.test');
+      const creds = await combineGoogleCredentialsAsync(
+        String(secrets.get('private_key_id')),
+        String(secrets.get('private_key'))
+      );
+      console.log('Log from Middleware creation');
+      console.log(JSON.stringify(creds));
       container.register<InventoryManagementStore>(InventoryManagementStore, {
         useValue: new InventoryManagementStore(
-          combineGoogleCredentials(
-            ctx.env.GOOGLE_SERVICEACCOUNT_PRIVATE_KEY_ID,
-            ctx.env.GOOGLE_SERVICEACCOUNT_PRIVATE_KEY
-          ),
-          ctx.env.INVENTORY_MANAGEMENT_DATABASE
+          creds,
+          String(secrets.get('inventory_management_database'))
         )
       });
       ctx.set(applicationCxt, container);

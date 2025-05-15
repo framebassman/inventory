@@ -37,4 +37,27 @@ export class TenantManagementStore {
     console.log(result);
     return result;
   }
+
+  public async getSecretsForTenantAsync(
+    email: string
+  ): Promise<Map<string, string>> {
+    console.log('Find a tenant id');
+    const queryResultTenantId = await this
+      .client`SELECT id FROM tenants WHERE email = ${email};`;
+    let tenantId = 0;
+    for (const row of queryResultTenantId.entries()) {
+      tenantId = Number((row[1] as any).id);
+    }
+
+    console.log('Find a secrets for tenant');
+    const result = new Map<string, string>();
+    const queryResultSecrets = await this
+      .client`SELECT key, value FROM tenant_secrets WHERE tenant_id = ${tenantId}`;
+    for (const row of queryResultSecrets.entries()) {
+      console.log(row);
+      const subMap = row[1] as [string, string];
+      result.set((subMap as any).key, (subMap as any).value);
+    }
+    return result;
+  }
 }

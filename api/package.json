@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
+    "lint:staged": "lint-staged",
     "backend:types": "wrangler types",
     "dev": "wrangler dev --live-reload",
     "build": "npm run backend:types && tsc --build",
@@ -26,6 +27,7 @@
     "dash": true
   },
   "dependencies": {
+    "@hono/sentry": "^1.2.1",
     "@sentry/cloudflare": "^9.17.0",
     "@sentry/vite-plugin": "^3.2.4",
     "cross-fetch": "^4.1.0",
@@ -47,6 +49,7 @@
     "globals": "15.14.0",
     "jsdom": "^26.1.0",
     "ley": "^0.8.1",
+    "lint-staged": "^16.0.0",
     "nolyfill": "^1.0.44",
     "pg-connection-string": "^2.8.5",
     "postgres-shift": "^0.1.0",
@@ -57,7 +60,7 @@
     "vite": "6.1.0",
     "vitest": "^3.1.2",
     "winston": "^3.17.0",
-    "wrangler": "^4.15.0"
+    "wrangler": "^4.15.1"
   },
   "overrides": {
     "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1",
@@ -68,5 +71,8 @@
   "engines": {
     "npm": ">=10.0.0",
     "node": ">=18.0.0"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --cache \"src/**/*.ts\""
   }
 }
