@@ -8,7 +8,7 @@ exports.up = async (sql) => {
       id INT GENERATED ALWAYS AS IDENTITY,
       name TEXT NOT NULL,
       email TEXT NOT NULL,
-      created_at timestamp with time zone default now()
+      created_at timestamp with time zone default now(),
       PRIMARY KEY(id)
     );
   `;
