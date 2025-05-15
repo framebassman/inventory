@@ -22,7 +22,7 @@ exports.up = async (sql) => {
       PRIMARY KEY(id),
       CONSTRAINT fk_tenant
           FOREIGN KEY(tenant_id)
-            REFERENCES tenant(id)
+            REFERENCES tenants(id)
     );
   `;
 };
