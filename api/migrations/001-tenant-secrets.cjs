@@ -9,7 +9,7 @@ exports.up = async (sql) => {
       name TEXT NOT NULL,
       email TEXT NOT NULL,
       created_at timestamp with time zone default now()
-      PRIMARY KEY(customer_id)
+      PRIMARY KEY(id)
     );
   `;
 
