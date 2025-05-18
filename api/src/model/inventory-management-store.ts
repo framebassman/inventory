@@ -103,12 +103,32 @@ export class InventoryManagementStore {
     return true;
   }
 
-  public async verifyTenantSheetIsPresentedAsync(
-    tenantEmail: string
+  public async verifyTenantSheetIsPresentedAsync(): Promise<boolean> {
+    try {
+      await this.sheet.loadInfo();
+      const page = await this.sheet.sheetsByIndex[this.sheet.sheetCount - 1];
+      return page.title === 'Warehouse';
+    } catch {
+      return false;
+    }
+  }
+
+  public async getLastSheetNameAsync(): Promise<string> {
+    await this.sheet.loadInfo();
+    const page = await this.sheet.sheetsByIndex[this.sheet.sheetCount - 1];
+    return page.title;
+  }
+
+  public async addToLastSheetAsync(
+    name: string,
+    code: string
   ): Promise<boolean> {
     await this.sheet.loadInfo();
-    console.log(tenantEmail);
     const page = await this.sheet.sheetsByIndex[this.sheet.sheetCount - 1];
-    return false;
+    await page.addRow({
+      name,
+      code
+    });
+    return true;
   }
 }
