@@ -1,8 +1,8 @@
 import postgres from 'postgres';
 import { Tenant } from './tenant';
-import { injectable } from 'tsyringe';
+import { singleton } from 'tsyringe';
 
-@injectable()
+@singleton()
 export class TenantManagementStore {
   private client: postgres.Sql;
 
@@ -54,7 +54,6 @@ export class TenantManagementStore {
     const queryResultSecrets = await this
       .client`SELECT key, value FROM tenant_secrets WHERE tenant_id = ${tenantId}`;
     for (const row of queryResultSecrets.entries()) {
-      console.log(row);
       const subMap = row[1] as [string, string];
       result.set((subMap as any).key, (subMap as any).value);
     }

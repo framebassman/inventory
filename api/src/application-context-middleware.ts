@@ -4,12 +4,13 @@ import { container } from 'tsyringe';
 import { TenantManagementStore } from './model/tenant-management-store';
 import { InventoryManagementStore } from './model/inventory-management-store';
 import type { GoogleServiceAccountCredentials } from './model/google-objects';
+import { WarehouseService } from './services/warehouse-service';
 
 export const applicationCxt = 'applicationContext';
 
 const combineGoogleCredentialsAsync = async (
   private_key_id: string,
-  private_key: string,
+  private_key: string
 ): Promise<GoogleServiceAccountCredentials> => {
   return {
     type: 'service_account',
@@ -38,17 +39,19 @@ export const applicationContextMiddleware = (): MiddlewareHandler =>
       const tenantManagementStore = container.resolve(TenantManagementStore);
       const secrets =
         await tenantManagementStore.getSecretsForTenantAsync('test@test.test');
+      console.log(`Successfully got the secrets for 'test@test.test' tenant`);
       const creds = await combineGoogleCredentialsAsync(
         String(secrets.get('private_key_id')),
         String(secrets.get('private_key'))
       );
-      console.log('Log from Middleware creation');
-      console.log(JSON.stringify(creds));
       container.register<InventoryManagementStore>(InventoryManagementStore, {
         useValue: new InventoryManagementStore(
           creds,
           String(secrets.get('inventory_management_database'))
         )
+      });
+      container.register<WarehouseService>(WarehouseService, {
+        useClass: WarehouseService
       });
       ctx.set(applicationCxt, container);
     }
