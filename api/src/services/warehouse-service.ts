@@ -9,8 +9,6 @@ export class WarehouseService {
   }
 
   public async addItemToWarehouseAsync(item: WarehouseItem): Promise<boolean> {
-    console.log(item);
-    // const warehouseSheetName = await this.store.getLastSheetNameAsync();
     await this.store.addToLastSheetAsync(item.name, item.code);
     return true;
   }
