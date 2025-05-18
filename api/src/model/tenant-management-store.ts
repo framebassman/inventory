@@ -1,13 +1,11 @@
 import postgres from 'postgres';
 import { Tenant } from './tenant';
-import { singleton } from 'tsyringe';
 
-@singleton()
 export class TenantManagementStore {
   private client: postgres.Sql;
 
-  constructor(connectionString: string) {
-    this.client = postgres(connectionString, {
+  constructor(pgConnectionString: string) {
+    this.client = postgres(pgConnectionString, {
       // Workers limit the number of concurrent external connections, so be sure to limit
       // the size of the local connection pool that postgres.js may establish.
       max: 5,

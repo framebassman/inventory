@@ -1,6 +1,6 @@
+import { container } from 'tsyringe';
 import type { Context, MiddlewareHandler } from 'hono';
 import { createMiddleware } from 'hono/factory';
-import { container } from 'tsyringe';
 import { TenantManagementStore } from './model/tenant-management-store';
 import { InventoryManagementStore } from './model/inventory-management-store';
 import type { GoogleServiceAccountCredentials } from './model/google-objects';
@@ -51,7 +51,9 @@ export const applicationContextMiddleware = (): MiddlewareHandler =>
         )
       });
       container.register<WarehouseService>(WarehouseService, {
-        useClass: WarehouseService
+        useValue: new WarehouseService(
+          container.resolve(InventoryManagementStore)
+        )
       });
       ctx.set(applicationCxt, container);
     }
