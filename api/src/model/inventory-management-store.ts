@@ -129,4 +129,19 @@ export class InventoryManagementStore {
     const firstPage = await this.document.sheetsByIndex[0];
     return new Date(firstPage.title);
   }
+
+  public async createOrUpdateNewSheetAsync(name: string): Promise<boolean> {
+    await this.document.loadInfo();
+    if (
+      this.document.sheetCount - 1 != 0 &&
+      new Date(this.document.sheetsById[0].title) < new Date(name)
+    ) {
+      return true;
+    }
+    await this.document.addSheet({
+      title: name,
+      headerValues: ['code', 'item']
+    });
+    return true;
+  }
 }

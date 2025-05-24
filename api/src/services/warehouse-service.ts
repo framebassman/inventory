@@ -8,6 +8,22 @@ export class WarehouseService {
     this.store = store;
   }
 
+  public async createNewMovementAsync(nowIsoString: string): Promise<boolean> {
+    // const rubicon = new Date(`2025-05-24T15:00:00.000Z`);
+    // const rubicon = new Date(
+    //   `${new Date().toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' })}T15:00:00.000Z`
+    // );
+    // const now = new Date(nowIsoString);
+    // 25.05.2025
+    const name = new Date().toLocaleDateString('ru-RU', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    await this.store.createOrUpdateNewSheetAsync(name);
+    return true;
+  }
+
   public async addItemToWarehouseAsync(item: WarehouseItem): Promise<boolean> {
     await this.store.addToLastSheetAsync(item.name, item.code);
     return true;
