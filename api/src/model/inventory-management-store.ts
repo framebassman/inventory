@@ -6,7 +6,7 @@ import type { GoogleServiceAccountCredentials } from './google-objects';
 export class InventoryManagementStore {
   private sheetsClient: sheets_v4.Sheets;
   private databaseId: string;
-  private sheet: GoogleSpreadsheet;
+  private document: GoogleSpreadsheet;
 
   constructor(
     googleServiceAccountCredentials: GoogleServiceAccountCredentials,
@@ -26,7 +26,7 @@ export class InventoryManagementStore {
       key: googleServiceAccountCredentials.private_key,
       scopes: ['https://www.googleapis.com/auth/spreadsheets']
     });
-    this.sheet = new GoogleSpreadsheet(googleSheetId, serviceAccountAuth);
+    this.document = new GoogleSpreadsheet(googleSheetId, serviceAccountAuth);
   }
 
   public async saveDataAsync() {
@@ -62,22 +62,22 @@ export class InventoryManagementStore {
   }
 
   public async workWithSheetsAsync(): Promise<boolean> {
-    await this.sheet.loadInfo(); // loads document properties and worksheets
-    console.log(this.sheet.title);
-    await this.sheet.updateProperties({ title: 'renamed doc' });
+    await this.document.loadInfo(); // loads document properties and worksheets
+    console.log(this.document.title);
+    await this.document.updateProperties({ title: 'renamed doc' });
 
-    const sheet = this.sheet.sheetsByIndex[0]; // or use `doc.sheetsById[id]` or `doc.sheetsByTitle[title]`
+    const sheet = this.document.sheetsByIndex[0]; // or use `doc.sheetsById[id]` or `doc.sheetsByTitle[title]`
     console.log(sheet.title);
     console.log(sheet.rowCount);
 
     // adding / removing sheets
-    const newSheet = await this.sheet.addSheet({ title: 'another sheet' });
+    const newSheet = await this.document.addSheet({ title: 'another sheet' });
     return true;
   }
 
   public async workWithRowsAsync(): Promise<boolean> {
     // if creating a new sheet, you can set the header row
-    const sheet = await this.sheet.addSheet({
+    const sheet = await this.document.addSheet({
       headerValues: ['name', 'email']
     });
 
@@ -103,19 +103,10 @@ export class InventoryManagementStore {
     return true;
   }
 
-  public async verifyTenantSheetIsPresentedAsync(): Promise<boolean> {
-    try {
-      await this.sheet.loadInfo();
-      const page = await this.sheet.sheetsByIndex[this.sheet.sheetCount - 1];
-      return page.title === 'Warehouse';
-    } catch {
-      return false;
-    }
-  }
-
   public async getLastSheetNameAsync(): Promise<string> {
-    await this.sheet.loadInfo();
-    const page = await this.sheet.sheetsByIndex[this.sheet.sheetCount - 1];
+    await this.document.loadInfo();
+    const page =
+      await this.document.sheetsByIndex[this.document.sheetCount - 1];
     return page.title;
   }
 
@@ -123,12 +114,19 @@ export class InventoryManagementStore {
     name: string,
     code: string
   ): Promise<boolean> {
-    await this.sheet.loadInfo();
-    const page = await this.sheet.sheetsByIndex[this.sheet.sheetCount - 1];
+    await this.document.loadInfo();
+    const page =
+      await this.document.sheetsByIndex[this.document.sheetCount - 1];
     await page.addRow({
       name,
       code
     });
     return true;
+  }
+
+  public async getDateOfFirstListAsync(): Promise<Date> {
+    await this.document.loadInfo();
+    const firstPage = await this.document.sheetsByIndex[0];
+    return new Date(firstPage.title);
   }
 }

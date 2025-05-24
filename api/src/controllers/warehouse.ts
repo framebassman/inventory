@@ -7,7 +7,15 @@ import { DependencyContainer } from 'tsyringe';
 
 const app = new Hono();
 
-app.post('/', async (context: Context) => {
+app.post('/movement', async (context: Context) => {
+  return Response.json('ok');
+});
+
+app.delete('/movement', async (context: Context) => {
+  return Response.json('ok');
+});
+
+app.post('/assign', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(WarehouseService);
   const body = (await context.req.json()) as CreateItemRequest;

@@ -9,6 +9,7 @@ import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
 import pg from './routers/pg';
 import warehouse from './controllers/warehouse';
 import spreadsheets from './routers/spreadsheets';
+import { swaggerUI } from '@hono/swagger-ui';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(
@@ -32,6 +33,8 @@ app.get('/log', async () => {
   throw Error('Expected error');
 });
 
+app.get('/', swaggerUI({ url: '/swagger.yml' }));
+
 app.get('/fetch', async () => {
   return fetch(
     'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
@@ -44,9 +47,9 @@ app.get('/cross', async () => {
   );
 });
 
-// app.get('*', (c: Context) => {
-//   return c.env.ASSETS.fetch(c.req.raw);
-// });
+app.get('*', (c: Context) => {
+  return c.env.ASSETS.fetch(c.req.raw);
+});
 
 export default withSentry(
   //@ts-expect-error it should be here
