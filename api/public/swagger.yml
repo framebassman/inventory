@@ -5,9 +5,14 @@ openapi: 3.1.0
 components:
   schemas: {}
   parameters: {}
+tags:
+  - name: warehouse
+    description: Everything about the Warehouse
 paths:
   /warehouse/movement:
     post:
+      tags:
+        - warehouse
       requestBody:
         content:
           application/json:
@@ -22,6 +27,8 @@ paths:
         '200':
           description: Success message
     delete:
+      tags:
+        - warehouse
       requestBody:
         content:
           application/json:
@@ -37,6 +44,8 @@ paths:
           description: Success message
   /warehouse/assign:
     post:
+      tags:
+        - warehouse
       requestBody:
         content:
           application/json:
