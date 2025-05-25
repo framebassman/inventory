@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Movement } from './Movement';
+import { Movement } from './movement';
 import { Assign } from './Assign';
 import './App.css';
 import { Menu } from './Menu';
