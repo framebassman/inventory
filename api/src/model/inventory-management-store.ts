@@ -136,8 +136,12 @@ export class InventoryManagementStore {
       this.document.sheetCount - 1 != 0 &&
       new Date(this.document.sheetsById[0].title) < new Date(name)
     ) {
+      console.log('There is a movement for the today - skip the creation');
       return true;
     }
+    console.log(
+      `Lets try to create a new movement for today with name: ${name}`
+    );
     await this.document.addSheet({
       title: name,
       headerValues: ['code', 'item'],

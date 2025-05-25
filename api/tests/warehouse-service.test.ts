@@ -5,7 +5,17 @@ import { GoogleServiceAccountCredentials } from '../src/model/google-objects';
 
 class MockStore extends InventoryManagementStore {
   constructor() {
-    super({} as GoogleServiceAccountCredentials, '');
+    super(
+      {
+        client_email: 'test@test.test',
+        private_key: 'key'
+      } as GoogleServiceAccountCredentials,
+      ''
+    );
+  }
+
+  public async createOrUpdateNewSheetAsync(name: string): Promise<boolean> {
+    return true;
   }
 }
 
@@ -29,9 +39,7 @@ describe('Warehouse service', () => {
 
     it('can create a new movement', async () => {
       const service = new WarehouseService(new MockStore());
-      const res = await service.createNewMovementAsync(
-        new Date().toISOString()
-      );
+      const res = await service.createNewMovementAsync();
       expect(res).toEqual(true);
     });
   });

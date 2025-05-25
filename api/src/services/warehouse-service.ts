@@ -8,7 +8,7 @@ export class WarehouseService {
     this.store = store;
   }
 
-  public async createNewMovementAsync(nowIsoString: string): Promise<boolean> {
+  public async createNewMovementAsync(): Promise<boolean> {
     // const rubicon = new Date(`2025-05-24T15:00:00.000Z`);
     // const rubicon = new Date(
     //   `${new Date().toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' })}T15:00:00.000Z`
