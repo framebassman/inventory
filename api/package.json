@@ -62,7 +62,7 @@
     "vite": "6.1.0",
     "vitest": "^3.1.2",
     "winston": "^3.17.0",
-    "wrangler": "^4.15.1"
+    "wrangler": "^4.16.1"
   },
   "overrides": {
     "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1",

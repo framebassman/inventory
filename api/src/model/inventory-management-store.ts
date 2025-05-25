@@ -140,7 +140,8 @@ export class InventoryManagementStore {
     }
     await this.document.addSheet({
       title: name,
-      headerValues: ['code', 'item']
+      headerValues: ['code', 'item'],
+      index: 0
     });
     return true;
   }
