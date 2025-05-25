@@ -13,16 +13,6 @@ paths:
     post:
       tags:
         - warehouse
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-              required:
-                - title
       responses:
         '200':
           description: Success message
