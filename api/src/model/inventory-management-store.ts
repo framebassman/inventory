@@ -133,41 +133,6 @@ export class InventoryManagementStore {
     return new Date(firstPage.title);
   }
 
-  public async createOrUpdateNewSheetAsync(name: string): Promise<boolean> {
-    await this.document.loadInfo();
-    const nameParts = name.split('.');
-    // Please pay attention to the month (parts[1]); JavaScript counts months from 0:
-    // January - 0, February - 1, etc.
-    const nameDate = new Date(
-      Number(nameParts[2]),
-      Number(nameParts[1]) - 1,
-      Number(nameParts[0])
-    );
-    if (this.document.sheetCount - 1 != 0) {
-      console.log('There is a movement for the today - skip the creation');
-      return true;
-    }
-
-    const titleParts = this.document.sheetsByIndex[0].title.split('.');
-    const titleDate = new Date(
-      Number(titleParts[2]),
-      Number(titleParts[1]) - 1,
-      Number(titleParts[0])
-    );
-    if (titleDate < nameDate) {
-      console.log('There is a movement for the today - skip the creation');
-    }
-    console.log(
-      `Lets try to create a new movement for today with name: ${name}`
-    );
-    await this.document.addSheet({
-      title: name,
-      headerValues: ['code', 'item'],
-      index: 0
-    });
-    return true;
-  }
-
   public async startSessionAsync(): Promise<boolean> {
     await this.document.loadInfo();
     return true;

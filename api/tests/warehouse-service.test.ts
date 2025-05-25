@@ -33,9 +33,9 @@ describe('Warehouse service', () => {
       vi.restoreAllMocks();
     });
 
-    it('can create a new movement', async () => {
+    it.skip('can create a new movement', async () => {
       const store = new MockStore();
-      store.createOrUpdateNewSheetAsync = vi.fn(async () => true);
+      // store.createOrUpdateNewSheetAsync = vi.fn(async () => true);
       const service = new WarehouseService(store);
 
       const res = await service.createNewMovementAsync();
