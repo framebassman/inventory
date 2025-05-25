@@ -15,7 +15,7 @@ export class WarehouseService {
     // );
     // const now = new Date(nowIsoString);
     // 25.05.2025
-    const name = new Date().toLocaleDateString('ru-RU', {
+    const name = new Date().toLocaleDateString('en-US', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit'
