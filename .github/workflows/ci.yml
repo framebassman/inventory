@@ -59,11 +59,12 @@ jobs:
       - run: npm run lint
       - run: npm run test
       - name: Test Report
-        uses: mikepenz/action-junit-report@v4
+        uses: mikepenz/action-junit-report@v5
         if: success() || failure() # run this step even if previous step failed
         with:
           report_paths: ./api/junit.xml # Path to test results
           token: ${{ secrets.GITHUB_TOKEN }}
+          check_name: API unit tests
       - name: Coverage Report
         uses: romeovs/lcov-reporter-action@v0.4.0
         if: success() || failure() # run this step even if previous step failed
