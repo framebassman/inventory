@@ -64,7 +64,8 @@ jobs:
         with:
           report_paths: ./api/junit.xml # Path to test results
           token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: API unit tests
+          check_name: api-unit-tests
+          summary: API unit tests
       - name: Coverage Report
         uses: romeovs/lcov-reporter-action@v0.4.0
         if: success() || failure() # run this step even if previous step failed
