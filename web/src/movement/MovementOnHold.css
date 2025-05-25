@@ -1,0 +1,10 @@
+.button_wrapper {
+  text-align: center;
+}
+
+.start_button {
+  position: absolute;
+  top: 30%;
+  height: 320px;
+  width: 320px;
+}
