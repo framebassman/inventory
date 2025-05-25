@@ -1,17 +1,18 @@
 import { Component } from 'react';
 import { MovementOnHold } from './MovementOnHold';
 import Camera from './Camera';
+import './index.css';
 
-type State = { 
+type State = {
   scanning: boolean;
-}
+};
 
 export class Movement extends Component<any, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-        scanning: false,
-    }
+      scanning: false
+    };
     this._toggle = this._toggle.bind(this);
   }
 
@@ -21,11 +22,8 @@ export class Movement extends Component<any, State> {
 
   render() {
     const { scanning } = this.state;
-
-    if (scanning === false) {
-      return <MovementOnHold onClick={this._toggle}/>
-    } else {
-      return <Camera />
-    }
+    return (
+      <>{scanning ? <Camera /> : <MovementOnHold onClick={this._toggle} />}</>
+    );
   }
 }

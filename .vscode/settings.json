@@ -17,6 +17,7 @@
     "./api/src",
     "./web/src"
   ],
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "npm.exclude": [
     "**/dist"
   ],
