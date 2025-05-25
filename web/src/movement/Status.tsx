@@ -2,12 +2,10 @@ import { connect } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import CancelIcon from '@mui/icons-material/Cancel';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import './Status.css';
 import { type ScannedTicket } from './scanner-state';
 import { Fab } from '@mui/material';
-import { green, red } from '@mui/material/colors';
 
 export const Description = ({ message }: { message: string }) => {
   return (
@@ -22,21 +20,6 @@ export const TicketInfo = ({ label }: { label: string, status?: string }) => {
     </div>
   )
 };
-
-const theme = createTheme({
-  palette: {
-    primary: green,
-    secondary: red,
-  }
-});
-
-// const Container = ({ children }) => (
-//   <ThemeProvider theme={theme}>
-//     <div className="status-container">
-//       {children}
-//     </div>
-//   </ThemeProvider>
-// )
 
 type Props = {
   isTicketFound?: boolean,

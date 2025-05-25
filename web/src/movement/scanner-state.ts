@@ -1,5 +1,3 @@
-import { DetectedBarcode } from './detected-barcode';
-
 export interface ScannedTicket {
   concertLabel: string;
   used: boolean;
