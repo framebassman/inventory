@@ -34,8 +34,9 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "web"
+          environment: preview
           command: |
-            pages deploy dist --project-name=inventory-web
+            pages deploy dist --env preview --project-name=inventory-web
 
   build-deploy-api:
     runs-on: ubuntu-24.04
@@ -84,6 +85,7 @@ jobs:
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: "api"
+          environment: staging
           secrets: |
             ELASTICSEARCH_LOGIN
             ELASTICSEARCH_PASSWORD
