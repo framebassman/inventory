@@ -34,7 +34,7 @@ describe('Warehouse service', () => {
       vi.restoreAllMocks();
     });
 
-    it('can create a new movement for a first time', async () => {
+    it('can create a new movement for the first time', async () => {
       const store = new MockStore();
       store.startSessionAsync = vi.fn(async () => true);
       store.getSheetsCountAsync = vi.fn(async () => 1);
@@ -44,9 +44,9 @@ describe('Warehouse service', () => {
       store.createNewMovementSheetAsync = vi.fn(async () => true);
       const service = new WarehouseService(store);
 
-      const res = await service.createNewMovementAsync();
+      await service.createNewMovementAsync();
 
-      expect(res).toEqual(true);
+      expect(store.createNewMovementSheetAsync).toHaveBeenCalledOnce();
     });
   });
 });
