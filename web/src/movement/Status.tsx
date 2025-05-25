@@ -49,7 +49,7 @@ export const Status = ({
   }
 
   if (isTicketFound && scannedTicket) {
-    const { used, concertLabel } = scannedTicket;
+    const { used, name: concertLabel } = scannedTicket;
     if (!used) {
       return (
         <div>

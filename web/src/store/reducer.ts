@@ -2,7 +2,7 @@ import { verifyType, resetType } from './actions';
 import { type MovementItemState } from '../movement/scanner-state';
 
 const initialState: MovementItemState = {
-  isTicketFound: false,
+  isItemFound: false,
   isItemScanned: false
 };
 
@@ -22,14 +22,14 @@ export const reducer = (
         return {
           ...state,
           isItemScanned: true,
-          isTicketFound: true,
-          scannedItem: { concertLabel, used }
+          isItemFound: true,
+          scannedItem: { name: concertLabel, used }
         };
       } else {
         return {
           ...state,
           isItemScanned: true,
-          isTicketFound: false,
+          isItemFound: false,
           scannedItem: undefined
         };
       }
@@ -38,7 +38,7 @@ export const reducer = (
       return {
         ...state,
         isItemScanned: false,
-        isTicketFound: false,
+        isItemFound: false,
         scannedItem: undefined
       };
     }
