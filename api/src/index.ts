@@ -8,6 +8,7 @@ import { applicationContextMiddleware } from './application-context-middleware';
 import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
 import pg from './routers/pg';
 import warehouse from './controllers/warehouse';
+import movement from './controllers/movement';
 import spreadsheets from './routers/spreadsheets';
 import { swaggerUI } from '@hono/swagger-ui';
 
@@ -24,9 +25,9 @@ app.get('/api/', async (c: Context) => {
   return c.json('ok');
 });
 
-app.route('/pg', pg);
 app.route('/sheet', spreadsheets);
 app.route('/warehouse', warehouse);
+app.route('/movement', movement);
 
 // Middleware to handle error logging
 app.get('/log', async () => {
