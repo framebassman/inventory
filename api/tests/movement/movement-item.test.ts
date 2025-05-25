@@ -8,8 +8,6 @@ describe('Movement item', () => {
   beforeEach(() => {
     // tell vitest we use mocked time
     vi.useFakeTimers();
-    const now = new Date(2000, 0, 2);
-    vi.setSystemTime(now);
   });
 
   afterEach(() => {
@@ -18,17 +16,43 @@ describe('Movement item', () => {
     vi.restoreAllMocks();
   });
 
-  it('can create a new movement for the first time', async () => {
+  it('can add item to departures if current time is earlier than 15:00', async () => {
+    const now = new Date(2000, 0, 2, 13, 0, 0);
+    vi.setSystemTime(now);
     const store = new MockStore();
     store.startSessionAsync = vi.fn(async () => true);
     store.getSheetsCountAsync = vi.fn(async () => 1);
-    store.createNewMovementSheetAsync = vi.fn(async () => true);
+    store.addItemToDeparturesAsync = vi.fn(async () => true);
     const service = new MovementService(store);
 
-    await service.processMovementItemAsync({} as MovementItem);
+    await service.processMovementItemAsync({
+      item: 'test',
+      code: '123'
+    } as MovementItem);
 
-    expect(store.createNewMovementSheetAsync).toHaveBeenCalledExactlyOnceWith(
-      '02.01.2000'
+    expect(store.addItemToDeparturesAsync).toHaveBeenCalledExactlyOnceWith(
+      '123',
+      ''
+    );
+  });
+
+  it('can add item to arrivals if current time is earlier than 15:00', async () => {
+    const now = new Date(2000, 0, 2, 16, 0, 0);
+    vi.setSystemTime(now);
+    const store = new MockStore();
+    store.startSessionAsync = vi.fn(async () => true);
+    store.getSheetsCountAsync = vi.fn(async () => 1);
+    store.addItemToArrivalsAsync = vi.fn(async () => true);
+    const service = new MovementService(store);
+
+    await service.processMovementItemAsync({
+      item: 'test',
+      code: '123'
+    } as MovementItem);
+
+    expect(store.addItemToArrivalsAsync).toHaveBeenCalledExactlyOnceWith(
+      '123',
+      ''
     );
   });
 });

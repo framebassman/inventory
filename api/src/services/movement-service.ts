@@ -67,7 +67,7 @@ export class MovementService {
     );
     const now = new Date();
     if (now < rubicon) {
-      await this.store.addItemToDepartureAsync(item.code, '');
+      await this.store.addItemToDeparturesAsync(item.code, '');
     } else {
       await this.store.addItemToArrivalsAsync(item.code, '');
     }

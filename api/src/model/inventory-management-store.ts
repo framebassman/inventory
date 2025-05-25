@@ -155,7 +155,7 @@ export class InventoryManagementStore {
     return true;
   }
 
-  public async addItemToDepartureAsync(
+  public async addItemToDeparturesAsync(
     code: string,
     dateTime: string
   ): Promise<boolean> {
