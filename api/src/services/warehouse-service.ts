@@ -21,6 +21,7 @@ export class WarehouseService {
       month: '2-digit',
       day: '2-digit'
     });
+    console.log(`name: ${name}`);
     await this.store.createOrUpdateNewSheetAsync(name);
     return true;
   }
