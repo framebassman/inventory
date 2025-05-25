@@ -21,8 +21,34 @@ export class WarehouseService {
       month: '2-digit',
       day: '2-digit'
     });
-    console.log(`name: ${name}`);
-    await this.store.createOrUpdateNewSheetAsync(name);
+    await this.store.startSessionAsync();
+    const nameParts = name.split('.');
+    // Please pay attention to the month (parts[1]); JavaScript counts months from 0:
+    // January - 0, February - 1, etc.
+    const nameDate = new Date(
+      Number(nameParts[2]),
+      Number(nameParts[1]) - 1,
+      Number(nameParts[0])
+    );
+    if ((await this.store.getSheetsCountAsync()) - 1 != 0) {
+      console.log('There is a movement for the today - skip the creation');
+      return true;
+    }
+
+    const titleParts = this.store.getSheetsByIndex(0).title.split('.');
+    const titleDate = new Date(
+      Number(titleParts[2]),
+      Number(titleParts[1]) - 1,
+      Number(titleParts[0])
+    );
+    if (titleDate < nameDate) {
+      console.log('There is a movement for the today - skip the creation');
+    }
+    await this.store.createNewMovementSheetAsync(name);
+    console.log(
+      `Lets try to create a new movement for today with name: ${name}`
+    );
+
     return true;
   }
 

@@ -1,5 +1,8 @@
 import { google, sheets_v4 } from 'googleapis';
-import { GoogleSpreadsheet } from 'google-spreadsheet';
+import {
+  GoogleSpreadsheet,
+  GoogleSpreadsheetWorksheet
+} from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
 import type { GoogleServiceAccountCredentials } from './google-objects';
 
@@ -159,6 +162,28 @@ export class InventoryManagementStore {
     );
     await this.document.addSheet({
       title: name,
+      headerValues: ['code', 'item'],
+      index: 0
+    });
+    return true;
+  }
+
+  public async startSessionAsync(): Promise<boolean> {
+    await this.document.loadInfo();
+    return true;
+  }
+
+  public async getSheetsCountAsync(): Promise<number> {
+    return this.document.sheetCount;
+  }
+
+  public getSheetsByIndex(index: number): GoogleSpreadsheetWorksheet {
+    return this.document.sheetsByIndex[index];
+  }
+
+  public async createNewMovementSheetAsync(title: string): Promise<boolean> {
+    await this.document.addSheet({
+      title,
       headerValues: ['code', 'item'],
       index: 0
     });
