@@ -8,30 +8,9 @@ components:
 tags:
   - name: warehouse
     description: Everything about the Warehouse
+  - name: movement
+    description: Start and finish the movement
 paths:
-  /warehouse/movement:
-    post:
-      tags:
-        - warehouse
-      responses:
-        '200':
-          description: Success message
-    delete:
-      tags:
-        - warehouse
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-              required:
-                - title
-      responses:
-        '200':
-          description: Success message
   /warehouse/assign:
     post:
       tags:
@@ -42,10 +21,54 @@ paths:
             schema:
               type: object
               properties:
-                title:
+                name:
+                  type: string
+                code:
                   type: string
               required:
-                - title
+                - name
+                - code
+      responses:
+        '200':
+          description: Success message
+
+  /movement/start:
+    post:
+      tags:
+        - movement
+      responses:
+        '200':
+          description: Success message
+  /movement/item:
+    post:
+      tags:
+        - movement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+              required:
+                - code
+      responses:
+        '200':
+          description: Success message
+    delete:
+      tags:
+        - movement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+              required:
+                - code
       responses:
         '200':
           description: Success message
