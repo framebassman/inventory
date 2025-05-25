@@ -49,7 +49,7 @@ export const Status = ({
   }
 
   if (isTicketFound && scannedTicket) {
-    const { used, name: concertLabel } = scannedTicket;
+    const { used, name } = scannedTicket;
     if (!used) {
       return (
         <div>
@@ -57,7 +57,7 @@ export const Status = ({
             <CheckIcon />
           </Fab>
           <Description message="Вещь записана" />
-          <ItemInfo label={concertLabel} />
+          <ItemInfo label={name} />
         </div>
       );
     }
@@ -69,7 +69,7 @@ export const Status = ({
             <CancelIcon />
           </Fab>
           <Description message="Вещь уже была просканирована на этот выезд" />
-          <ItemInfo label={concertLabel} />
+          <ItemInfo label={name} />
         </div>
       );
     }
