@@ -1,15 +1,15 @@
 import { verifyType, resetType } from './actions';
-import { type TurnstileState } from '../movement/scanner-state';
+import { type MovementItemState } from '../movement/scanner-state';
 
-const initialState: TurnstileState = {
+const initialState: MovementItemState = {
   isTicketFound: false,
-  isTicketScanned: false
+  isItemScanned: false
 };
 
 export const reducer = (
-  state: TurnstileState = initialState,
+  state: MovementItemState = initialState,
   action: any
-): TurnstileState => {
+): MovementItemState => {
   const { type, payload } = action;
 
   switch (type) {
@@ -21,25 +21,25 @@ export const reducer = (
         const { concertLabel, used } = payload;
         return {
           ...state,
-          isTicketScanned: true,
+          isItemScanned: true,
           isTicketFound: true,
-          scannedTicket: { concertLabel, used }
+          scannedItem: { concertLabel, used }
         };
       } else {
         return {
           ...state,
-          isTicketScanned: true,
+          isItemScanned: true,
           isTicketFound: false,
-          scannedTicket: undefined
+          scannedItem: undefined
         };
       }
     }
     case resetType: {
       return {
         ...state,
-        isTicketScanned: false,
+        isItemScanned: false,
         isTicketFound: false,
-        scannedTicket: undefined
+        scannedItem: undefined
       };
     }
   }
