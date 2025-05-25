@@ -5,6 +5,7 @@ import { TenantManagementStore } from './model/tenant-management-store';
 import { InventoryManagementStore } from './model/inventory-management-store';
 import type { GoogleServiceAccountCredentials } from './model/google-objects';
 import { WarehouseService } from './services/warehouse-service';
+import { MovementService } from './services/movement-service';
 
 export const applicationCxt = 'applicationContext';
 
@@ -52,6 +53,11 @@ export const applicationContextMiddleware = (): MiddlewareHandler =>
       });
       container.register<WarehouseService>(WarehouseService, {
         useValue: new WarehouseService(
+          container.resolve(InventoryManagementStore)
+        )
+      });
+      container.register<MovementService>(MovementService, {
+        useValue: new MovementService(
           container.resolve(InventoryManagementStore)
         )
       });
