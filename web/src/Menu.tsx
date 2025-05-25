@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import Box from '@mui/material/Box';
-import { BottomNavigation, BottomNavigationAction, Container, Grid } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import './Menu.css';
 
@@ -9,7 +8,7 @@ export const Menu = () => {
   return (
     <>
       <BottomNavigation
-        className='bottom_navigation'
+        className="bottom_navigation"
         showLabels
         value={btnValue}
         onChange={(_, newValue) => {
@@ -23,5 +22,5 @@ export const Menu = () => {
         />
       </BottomNavigation>
     </>
-  )
-}
+  );
+};
