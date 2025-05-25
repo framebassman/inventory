@@ -13,10 +13,6 @@ class MockStore extends InventoryManagementStore {
       ''
     );
   }
-
-  public async createOrUpdateNewSheetAsync(name: string): Promise<boolean> {
-    return true;
-  }
 }
 
 describe('Warehouse service', () => {
@@ -38,8 +34,12 @@ describe('Warehouse service', () => {
     });
 
     it('can create a new movement', async () => {
-      const service = new WarehouseService(new MockStore());
+      const store = new MockStore();
+      store.createOrUpdateNewSheetAsync = vi.fn(async () => true);
+      const service = new WarehouseService(store);
+
       const res = await service.createNewMovementAsync();
+
       expect(res).toEqual(true);
     });
   });

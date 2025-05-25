@@ -10,7 +10,7 @@ const app = new Hono();
 app.post('/movement', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(WarehouseService);
-  await service.createNewMovementAsync(new Date().toISOString());
+  await service.createNewMovementAsync();
   return Response.json('ok');
 });
 
