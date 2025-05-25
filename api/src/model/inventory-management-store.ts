@@ -132,9 +132,17 @@ export class InventoryManagementStore {
 
   public async createOrUpdateNewSheetAsync(name: string): Promise<boolean> {
     await this.document.loadInfo();
+    const parts = name.split('.');
+    // Please pay attention to the month (parts[1]); JavaScript counts months from 0:
+    // January - 0, February - 1, etc.
+    const nameDate = new Date(
+      Number(parts[2]),
+      Number(parts[1]) - 1,
+      Number(parts[0])
+    );
     if (
       this.document.sheetCount - 1 != 0 &&
-      new Date(this.document.sheetsById[0].title) < new Date(name)
+      new Date(this.document.sheetsById[0].title) < nameDate
     ) {
       console.log('There is a movement for the today - skip the creation');
       return true;
