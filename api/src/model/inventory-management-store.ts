@@ -145,7 +145,7 @@ export class InventoryManagementStore {
       return true;
     }
 
-    const titleParts = this.document.sheetsById[0].title.split('.');
+    const titleParts = this.document.sheetsByIndex[0].title.split('.');
     const titleDate = new Date(
       Number(titleParts[2]),
       Number(titleParts[1]) - 1,

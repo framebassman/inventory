@@ -1,7 +1,7 @@
 {
   "configurations": [
     {
-      "name": "Wrangler",
+      "name": "Attach to backend",
       "type": "node",
       "request": "attach",
       "port": 9229,
