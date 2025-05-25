@@ -1,0 +1,51 @@
+info:
+  title: Inventory API
+  version: v1
+openapi: 3.1.0
+components:
+  schemas: {}
+  parameters: {}
+tags:
+  - name: warehouse
+    description: Everything about the Warehouse
+paths:
+  /warehouse/movement:
+    post:
+      tags:
+        - warehouse
+      responses:
+        '200':
+          description: Success message
+    delete:
+      tags:
+        - warehouse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+                - title
+      responses:
+        '200':
+          description: Success message
+  /warehouse/assign:
+    post:
+      tags:
+        - warehouse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+                - title
+      responses:
+        '200':
+          description: Success message

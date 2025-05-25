@@ -6,9 +6,10 @@ import { type Context, type Env, Hono } from 'hono';
 import { logger as loggerMiddleware } from 'hono/logger';
 import { applicationContextMiddleware } from './application-context-middleware';
 import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
-import d1 from './routers/d1';
 import pg from './routers/pg';
+import warehouse from './controllers/warehouse';
 import spreadsheets from './routers/spreadsheets';
+import { swaggerUI } from '@hono/swagger-ui';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(
@@ -23,18 +24,16 @@ app.get('/api/', async (c: Context) => {
   return c.json('ok');
 });
 
-app.route('/d1', d1);
 app.route('/pg', pg);
 app.route('/sheet', spreadsheets);
-
-app.get('/secret', async (context: Context) => {
-  return Response.json(context.env.ELASTICSEARCH_LOGIN);
-});
+app.route('/warehouse', warehouse);
 
 // Middleware to handle error logging
 app.get('/log', async () => {
   throw Error('Expected error');
 });
+
+app.get('/', swaggerUI({ url: '/swagger.yml' }));
 
 app.get('/fetch', async () => {
   return fetch(
@@ -48,9 +47,9 @@ app.get('/cross', async () => {
   );
 });
 
-// app.get('*', (c: Context) => {
-//   return c.env.ASSETS.fetch(c.req.raw);
-// });
+app.get('*', (c: Context) => {
+  return c.env.ASSETS.fetch(c.req.raw);
+});
 
 export default withSentry(
   //@ts-expect-error it should be here

@@ -1,13 +1,11 @@
 import postgres from 'postgres';
 import { Tenant } from './tenant';
-import { injectable } from 'tsyringe';
 
-@injectable()
 export class TenantManagementStore {
   private client: postgres.Sql;
 
-  constructor(connectionString: string) {
-    this.client = postgres(connectionString, {
+  constructor(pgConnectionString: string) {
+    this.client = postgres(pgConnectionString, {
       // Workers limit the number of concurrent external connections, so be sure to limit
       // the size of the local connection pool that postgres.js may establish.
       max: 5,
@@ -54,7 +52,6 @@ export class TenantManagementStore {
     const queryResultSecrets = await this
       .client`SELECT key, value FROM tenant_secrets WHERE tenant_id = ${tenantId}`;
     for (const row of queryResultSecrets.entries()) {
-      console.log(row);
       const subMap = row[1] as [string, string];
       result.set((subMap as any).key, (subMap as any).value);
     }

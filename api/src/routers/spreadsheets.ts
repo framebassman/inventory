@@ -1,7 +1,7 @@
 import { type Context, Hono } from 'hono';
 import { applicationCxt } from '../application-context-middleware';
-import { DependencyContainer } from 'tsyringe';
 import { InventoryManagementStore } from '../model/inventory-management-store';
+import { DependencyContainer } from 'tsyringe';
 
 const app = new Hono();
 
