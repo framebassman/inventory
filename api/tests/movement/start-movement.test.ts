@@ -1,22 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { InventoryManagementStore } from '../src/model/inventory-management-store';
-import { GoogleServiceAccountCredentials } from '../src/model/google-objects';
 import { GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
-import { MovementService } from '../src/services/movement-service';
+import { MovementService } from '../../src/services/movement-service';
+import { MockStore } from './mock-store';
 
-class MockStore extends InventoryManagementStore {
-  constructor() {
-    super(
-      {
-        client_email: 'test@test.test',
-        private_key: 'key'
-      } as GoogleServiceAccountCredentials,
-      ''
-    );
-  }
-}
-
-describe('Movement service', () => {
+describe('Start movement', () => {
   beforeEach(() => {
     // tell vitest we use mocked time
     vi.useFakeTimers();
