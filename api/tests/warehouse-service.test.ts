@@ -26,6 +26,8 @@ describe('Warehouse service', () => {
     beforeEach(() => {
       // tell vitest we use mocked time
       vi.useFakeTimers();
+      const now = new Date(2000, 0, 2);
+      vi.setSystemTime(now);
     });
 
     afterEach(() => {
@@ -38,15 +40,31 @@ describe('Warehouse service', () => {
       const store = new MockStore();
       store.startSessionAsync = vi.fn(async () => true);
       store.getSheetsCountAsync = vi.fn(async () => 1);
+      store.createNewMovementSheetAsync = vi.fn(async () => true);
+      const service = new WarehouseService(store);
+
+      await service.createNewMovementAsync();
+
+      expect(store.createNewMovementSheetAsync).toHaveBeenCalledExactlyOnceWith(
+        '02.01.2000'
+      );
+    });
+
+    it('can create a new movement for the next time', async () => {
+      const store = new MockStore();
+      store.startSessionAsync = vi.fn(async () => true);
+      store.getSheetsCountAsync = vi.fn(async () => 2);
       store.getSheetsByIndex = vi.fn((_: number) => {
-        return { title: 'Warehouse' } as GoogleSpreadsheetWorksheet;
+        return { title: '01.01.2000' } as GoogleSpreadsheetWorksheet;
       });
       store.createNewMovementSheetAsync = vi.fn(async () => true);
       const service = new WarehouseService(store);
 
       await service.createNewMovementAsync();
 
-      expect(store.createNewMovementSheetAsync).toHaveBeenCalledOnce();
+      expect(store.createNewMovementSheetAsync).toHaveBeenCalledExactlyOnceWith(
+        '02.01.2000'
+      );
     });
   });
 });
