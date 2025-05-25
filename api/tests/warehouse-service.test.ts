@@ -66,5 +66,20 @@ describe('Warehouse service', () => {
         '02.01.2000'
       );
     });
+
+    it('wont create a new movement if it has already been created', async () => {
+      const store = new MockStore();
+      store.startSessionAsync = vi.fn(async () => true);
+      store.getSheetsCountAsync = vi.fn(async () => 2);
+      store.getSheetsByIndex = vi.fn((_: number) => {
+        return { title: '02.01.2000' } as GoogleSpreadsheetWorksheet;
+      });
+      store.createNewMovementSheetAsync = vi.fn(async () => true);
+      const service = new WarehouseService(store);
+
+      await service.createNewMovementAsync();
+
+      expect(store.createNewMovementSheetAsync).toHaveBeenCalledTimes(0);
+    });
   });
 });
