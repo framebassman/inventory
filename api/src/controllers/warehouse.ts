@@ -15,6 +15,8 @@ app.post('/movement', async (context: Context) => {
 });
 
 app.delete('/movement', async (context: Context) => {
+  const appContext = context.get(applicationCxt) as DependencyContainer;
+  const service = appContext.resolve(WarehouseService);
   return Response.json('ok');
 });
 
