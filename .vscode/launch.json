@@ -24,7 +24,7 @@
      ],
     },
     {
-      "name": "Debug current api test file",
+      "name": "Current api test file",
       "type": "node",
       "request": "launch",
       "autoAttachChildProcesses": true,

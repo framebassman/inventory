@@ -30,24 +30,31 @@ export class WarehouseService {
       Number(nameParts[1]) - 1,
       Number(nameParts[0])
     );
-    if ((await this.store.getSheetsCountAsync()) - 1 != 0) {
-      console.log('There is a movement for the today - skip the creation');
-      return true;
-    }
+    try {
+      const sheetsLength = await this.store.getSheetsCountAsync();
+      if (sheetsLength === 1) {
+        throw Error('It is a first time. The movement should be created');
+      }
+      const titleParts = this.store.getSheetsByIndex(0).title.split('.');
+      const titleDate = new Date(
+        Number(titleParts[2]),
+        Number(titleParts[1]) - 1,
+        Number(titleParts[0])
+      );
 
-    const titleParts = this.store.getSheetsByIndex(0).title.split('.');
-    const titleDate = new Date(
-      Number(titleParts[2]),
-      Number(titleParts[1]) - 1,
-      Number(titleParts[0])
-    );
-    if (titleDate < nameDate) {
+      if (nameDate > titleDate) {
+        throw Error(
+          'There are no movements for the today. The movement should be created'
+        );
+      }
+
       console.log('There is a movement for the today - skip the creation');
+    } catch (error) {
+      await this.store.createNewMovementSheetAsync(name);
+      console.log(
+        `Lets try to create a new movement for today with name: ${name}`
+      );
     }
-    await this.store.createNewMovementSheetAsync(name);
-    console.log(
-      `Lets try to create a new movement for today with name: ${name}`
-    );
 
     return true;
   }

@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { WarehouseService } from '../src/services/warehouse-service';
 import { InventoryManagementStore } from '../src/model/inventory-management-store';
 import { GoogleServiceAccountCredentials } from '../src/model/google-objects';
+import { GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
 
 class MockStore extends InventoryManagementStore {
   constructor() {
@@ -33,9 +34,14 @@ describe('Warehouse service', () => {
       vi.restoreAllMocks();
     });
 
-    it.skip('can create a new movement', async () => {
+    it('can create a new movement for a first time', async () => {
       const store = new MockStore();
-      // store.createOrUpdateNewSheetAsync = vi.fn(async () => true);
+      store.startSessionAsync = vi.fn(async () => true);
+      store.getSheetsCountAsync = vi.fn(async () => 1);
+      store.getSheetsByIndex = vi.fn((_: number) => {
+        return { title: 'Warehouse' } as GoogleSpreadsheetWorksheet;
+      });
+      store.createNewMovementSheetAsync = vi.fn(async () => true);
       const service = new WarehouseService(store);
 
       const res = await service.createNewMovementAsync();
