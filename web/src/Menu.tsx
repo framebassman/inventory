@@ -4,12 +4,12 @@ import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import AddIcon from '@mui/icons-material/Add';
 import './Menu.css';
+import { routes } from './App';
 
 export const Menu = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const paths = ['/', '/assign'];
-  const [btnValue, setButtonValue] = useState(paths.findIndex(current => current === pathname));
+  const [btnValue, setButtonValue] = useState(routes.findIndex(current => current === pathname));
   return (
     <>
       <BottomNavigation

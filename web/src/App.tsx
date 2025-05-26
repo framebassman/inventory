@@ -16,14 +16,16 @@ const theme = createTheme({
   }
 });
 
+export const routes = ['/', '/assign'];
+
 export const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Menu/>
         <Routes>
-          <Route path='' element={<Movement/>}></Route>
-          <Route path='/assign' element={<Assign/>}></Route>
+          <Route path={routes[0].replace('/', '')} element={<Movement/>}></Route>
+          <Route path={routes[1]} element={<Assign/>}></Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
