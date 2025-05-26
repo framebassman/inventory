@@ -57,6 +57,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run test
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Test Report
         uses: mikepenz/action-junit-report@v5
         if: success() || failure() # run this step even if previous step failed
