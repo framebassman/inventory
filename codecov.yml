@@ -1,0 +1,49 @@
+codecov:
+  require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "15...30"
+  status:
+    project:
+      default: false
+      api:
+        target: 10%
+        threshold: 5%
+        paths:
+          - "api"
+    patch:
+      default:
+        # basic
+        target: auto
+        threshold: 10%
+        base: auto
+        # advanced
+        branches:
+          - master
+        if_ci_failed: failure #success, failure, error, ignore
+        only_pulls: true
+        flags:
+          - "unit"
+        paths:
+          - "api"
+
+ignore:
+  - ".git-hooks"  # ignore folders and all its contents
+  - ".github"  # ignore folders and all its contents
+  - ".vscode"  # ignore folders and all its contents
+
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: no
