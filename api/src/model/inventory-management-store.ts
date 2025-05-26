@@ -90,8 +90,8 @@ export class InventoryManagementStore {
       await currentSheet.addRow({
         code: code,
         item: item.get('name'),
-        departured: item.get('departured'),
-        arrived: `="${dateTime}"`
+        departured: `="${dateTime}"`,
+        arrived: ''
       });
       return true;
     } else {
@@ -105,22 +105,16 @@ export class InventoryManagementStore {
     dateTime: string
   ): Promise<boolean> {
     console.log(`code: ${code}, time: ${dateTime}`);
-    const inventorySheet =
-      this.document.sheetsByIndex[this.document.sheetCount - 1];
+    const currentSheet = this.document.sheetsByIndex[0];
     console.log('I got inventorySheet. Gonna to retrieve all items');
-    const allItems = await inventorySheet.getRows();
+    const allItems = await currentSheet.getRows();
     console.log('Lets try to find the item by the code');
     const item = allItems.find((row) => row.get('code') === code);
     if (item != null) {
       console.log(`Item was found: ${item.get('item')}`);
-      const currentSheet = await this.document.sheetsByIndex[0];
       console.log('Im going to add the row');
-      await currentSheet.addRow({
-        code: code,
-        item: item.get('name'),
-        deparcured: `="${dateTime}"`,
-        arrived: ''
-      });
+      item.set('arrived', `="${dateTime}"`);
+      await item.save();
       return true;
     } else {
       console.log('Item was not found');
