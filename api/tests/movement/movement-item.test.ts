@@ -32,7 +32,7 @@ describe('Movement item', () => {
 
     expect(store.addItemToDeparturesAsync).toHaveBeenCalledExactlyOnceWith(
       '123',
-      ''
+      '21:00'
     );
   });
 
@@ -52,7 +52,7 @@ describe('Movement item', () => {
 
     expect(store.addItemToArrivalsAsync).toHaveBeenCalledExactlyOnceWith(
       '123',
-      ''
+      '21:00'
     );
   });
 });
