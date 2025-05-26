@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Movement } from './movement';
-import { Assign } from './Assign';
+import { Assign } from './assign';
 import { Menu } from './Menu';
 import './App.css';
 
@@ -16,14 +16,16 @@ const theme = createTheme({
   }
 });
 
+export const routes = ['/', '/assign'];
+
 export const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Menu/>
         <Routes>
-          <Route path='' element={<Movement/>}></Route>
-          <Route path='/assign' element={<Assign/>}></Route>
+          <Route path={routes[0].replace('/', '')} element={<Movement/>}></Route>
+          <Route path={routes[1]} element={<Assign/>}></Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

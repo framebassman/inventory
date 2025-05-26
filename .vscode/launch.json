@@ -13,8 +13,8 @@
       "name": "Attach to frontend",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}/src/client",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/web/src",
       "sourceMaps": true,
       "resolveSourceMapLocations": [
         "!**/node_modules/**"

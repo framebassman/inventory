@@ -154,4 +154,20 @@ export class InventoryManagementStore {
     });
     return true;
   }
+
+  public async addItemToDeparturesAsync(
+    code: string,
+    dateTime: string
+  ): Promise<boolean> {
+    console.log(`code: ${code}, time: ${dateTime}`);
+    return true;
+  }
+
+  public async addItemToArrivalsAsync(
+    code: string,
+    dateTime: string
+  ): Promise<boolean> {
+    console.log(`code: ${code}, time: ${dateTime}`);
+    return true;
+  }
 }

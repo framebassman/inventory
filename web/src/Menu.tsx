@@ -1,27 +1,34 @@
 import { useState } from 'react';
-import Box from '@mui/material/Box';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
+import AddIcon from '@mui/icons-material/Add';
 import './Menu.css';
+import { routes } from './App';
 
 export const Menu = () => {
-  const [btnValue, setButtonValue] = useState(0);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [btnValue, setButtonValue] = useState(routes.findIndex(current => current === pathname));
   return (
-    <Box className="menu">
-      <BottomNavigation
-        className='bottom_navigation'
-        showLabels
-        value={btnValue}
-        onChange={(_, newValue) => {
-          setButtonValue(newValue);
-        }}
-      >
-        <BottomNavigationAction
-          label="Выезд"
-          value={btnValue}
-          icon={<RestoreIcon />}
-        />
-      </BottomNavigation>
-    </Box>
-  )
-}
+    <BottomNavigation
+      className="bottom_navigation"
+      showLabels
+      value={btnValue}
+      onChange={(_, newValue) => {
+        setButtonValue(newValue);
+      }}
+    >
+      <BottomNavigationAction
+        label="Выезд"
+        icon={<RestoreIcon />}
+        onClick={() => navigate('/')}
+      />
+      <BottomNavigationAction
+        label="Учёт"
+        icon={<AddIcon />}
+        onClick={() => navigate('/assign')}
+      />
+    </BottomNavigation>
+  );
+};

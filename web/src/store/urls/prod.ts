@@ -1,1 +1,1 @@
-export const verifyUrl = '/store_api/api/verify';
+export const verifyUrl = 'https://api.inventory.romashov.tech';

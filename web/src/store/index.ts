@@ -6,10 +6,10 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { thunk } from 'redux-thunk';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { reducer as turnstileReducer } from './reducer';
+import { movementReducer } from './movement-reducer.ts';
 
 const reducers = {
-  turnstile: turnstileReducer
+  movement: movementReducer
 };
 const rootReducer = combineReducers({
   ...reducers
