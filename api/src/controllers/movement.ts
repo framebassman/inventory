@@ -2,7 +2,7 @@ import { type Context, Hono } from 'hono';
 import { applicationCxt } from '../application-context-middleware';
 import { DependencyContainer } from 'tsyringe';
 import { MovementService } from '../services/movement-service';
-import { MovementItem } from '../model/movement-item';
+import { MovementItem } from '../views';
 
 const app = new Hono();
 

@@ -1,6 +1,6 @@
 import { type Context, Hono } from 'hono';
 import { applicationCxt } from '../application-context-middleware';
-import { CreateItemRequest } from '../views/warehouse';
+import { CreateItemRequest } from '../views';
 import { WarehouseItem } from '../model/warehouse-item';
 import { WarehouseService } from '../services/warehouse-service';
 import { DependencyContainer } from 'tsyringe';

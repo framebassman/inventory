@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { MovementService } from '../../src/services/movement-service';
 import { MockStore } from './mock-store';
-import { MovementItem } from '../../src/model/movement-item';
+import { MovementItem } from '../../src/views';
 
 describe('Movement item', () => {
   beforeEach(() => {
