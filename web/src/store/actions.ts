@@ -24,7 +24,27 @@ export type MovementActions = {
   verify: (barcode: string, method: string) => any;
 };
 
-export const actionCreators: MovementActions = {
+export const movementActionCreators: MovementActions = {
+  verify: (barcode: string, method: string) => async (dispatch: any) => {
+    dispatch({ type: waitingType });
+
+    const { data } = await transfersFromBackAsync(barcode, method);
+
+    dispatch({
+      type: verifyType,
+      payload: data
+    });
+    setTimeout(() => {
+      dispatch({ type: resetType });
+    }, cooldown);
+  }
+};
+
+export type AssignActions = {
+  verify: (barcode: string, method: string) => any;
+};
+
+export const assignActionCreators: AssignActions = {
   verify: (barcode: string, method: string) => async (dispatch: any) => {
     dispatch({ type: waitingType });
 

@@ -26,7 +26,7 @@ export class Movement extends Component<any, State> {
     return (
       <Box className="parent" alignItems="center" justifyContent="center">
         {scanning
-          ? <div className="child"><Camera /></div>
+          ? <div className="child" ><Camera /></div>
           : <div className="child" ><MovementOnHold onClick={this._toggle} /></div>
         }
       </Box>

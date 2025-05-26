@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import throttle from 'lodash.throttle';
 import { connect } from 'react-redux';
-import { movementActionCreators as movementActionCreators, type MovementActions } from '../store/actions';
+import { assignActionCreators, type MovementActions } from '../store/actions';
 import { VerificationMethods } from '../store';
 import { Scanner } from './Scanner';
 import { beep } from '../beep.ts';
@@ -34,4 +34,4 @@ class Camera extends Component<MovementActions> {
   }
 }
 
-export default connect(() => ({}), movementActionCreators)(Camera);
+export default connect(() => ({}), assignActionCreators)(Camera);

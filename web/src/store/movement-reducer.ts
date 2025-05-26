@@ -1,5 +1,5 @@
 import { verifyType, resetType } from './actions';
-import { type MovementItemState } from '../movement/scanner-state';
+import { type MovementItemState } from '../scanner-state.ts';
 
 const initialState: MovementItemState = {
   isItemFound: false,
