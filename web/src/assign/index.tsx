@@ -5,7 +5,7 @@ import Camera from "./Camera.tsx";
 export const Assign = () => {
   return (
     <Box className="parent" alignItems="center" justifyContent="center">
-      <div className="child"><Camera/></div>
+      <Camera/>
     </Box>
   )
 }

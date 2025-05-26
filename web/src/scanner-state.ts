@@ -3,7 +3,7 @@ export interface ScannedItem {
   used: boolean;
 }
 
-export interface MovementItemState {
+export interface AssognItemState {
   scannedItem?: ScannedItem;
   isItemScanned?: boolean;
   isItemFound?: boolean;

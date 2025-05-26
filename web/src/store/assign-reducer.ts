@@ -6,7 +6,7 @@ const initialState: AssognItemState = {
   isItemScanned: false
 };
 
-export const movementReducer = (
+export const assignReducer = (
   state: AssognItemState = initialState,
   action: any
 ): AssognItemState => {

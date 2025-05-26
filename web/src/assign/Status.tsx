@@ -56,7 +56,7 @@ export const Status = ({
           <Fab color="primary" size="small">
             <CheckIcon />
           </Fab>
-          <Description message="Вещь записана" />
+          <Description message="Вещь добавлена в инвентарь" />
           <ItemInfo label={name} />
         </div>
       );
@@ -68,7 +68,7 @@ export const Status = ({
           <Fab color="secondary" size="small">
             <CancelIcon />
           </Fab>
-          <Description message="Вещь уже была просканирована на этот выезд" />
+          <Description message="Вещь уже была просканирована в инвентарь" />
           <ItemInfo label={name} />
         </div>
       );
@@ -80,10 +80,10 @@ export const Status = ({
       <Fab color="secondary" size="small">
         <CancelIcon />
       </Fab>
-      <Description message="Вещь не найдена" />
+      <Description message="Вещь не найдена в инвентаре" />
       <ItemInfo label="" />
     </div>
   );
 };
 
-export default connect((state: any) => state.movement)(Status);
+export default connect((state: any) => state.assign)(Status);
