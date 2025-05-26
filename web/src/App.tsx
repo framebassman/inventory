@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Movement } from './movement';
-import { Assign } from './Assign';
+import { Assign } from './assign';
 import { Menu } from './Menu';
 import './App.css';
 

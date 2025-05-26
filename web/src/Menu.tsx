@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import AddIcon from '@mui/icons-material/Add';
 import './Menu.css';
-import { useNavigate } from 'react-router-dom';
 
 export const Menu = () => {
   const [btnValue, setButtonValue] = useState(0);

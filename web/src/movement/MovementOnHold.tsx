@@ -1,5 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
-import './MovementOnHold.css';
+import { Button, Typography } from '@mui/material';
 
 type Props = {
   onClick: () => any;
@@ -7,10 +6,8 @@ type Props = {
 
 export const MovementOnHold = ({ onClick }: Props) => {
   return (
-    <Box className="button_wrapper" alignItems="center" justifyContent="center">
-      <Button className="start_button" variant="contained" onClick={onClick}>
-        <Typography variant="h4">Начать собираться</Typography>
-      </Button>
-    </Box>
+    <Button variant="contained" onClick={onClick}>
+      <Typography variant="h4">Начать собираться</Typography>
+    </Button>
   );
 };
