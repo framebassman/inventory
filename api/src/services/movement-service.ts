@@ -1,3 +1,4 @@
+import { it } from 'node:test';
 import { InventoryManagementStore } from '../model/inventory-management-store';
 import { MovementItem } from '../model/movement-item';
 
@@ -59,18 +60,26 @@ export class MovementService {
     return true;
   }
 
-  public async processMovementItemAsync(item: MovementItem): Promise<boolean> {
-    await this.store.startSessionAsync();
-    // const rubicon = new Date(`2025-05-24T15:00:00.000Z`);
-    const rubicon = new Date(
-      `${new Date().toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' })}T15:00:00.000Z`
-    );
-    const now = new Date();
-    if (now < rubicon) {
-      await this.store.addItemToDeparturesAsync(item.code, '');
-    } else {
-      await this.store.addItemToArrivalsAsync(item.code, '');
-    }
-    return true;
+  // public async processMovementItemAsync(item: MovementItem): Promise<boolean> {
+  //   await this.store.startSessionAsync();
+  //   // const rubicon = new Date(`2025-05-24T15:00:00.000Z`);
+  //   const rubicon = new Date(
+  //     `${new Date().toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' })}T15:00:00.000Z`
+  //   );
+  //   const now = new Date();
+  //   if (now < rubicon) {
+  //     await this.store.addItemToDeparturesAsync(item.code, '');
+  //   } else {
+  //     await this.store.addItemToArrivalsAsync(item.code, '');
+  //   }
+  //   return true;
+  // }
+
+  public async addItemToDeparturesAsync(item: MovementItem): Promise<boolean> {
+    return await this.store.addItemToArrivalsAsync(item.code, '21:00');
+  }
+
+  public async addItemToArrivalsAsync(item: MovementItem): Promise<boolean> {
+    return await this.store.addItemToArrivalsAsync(item.code, '21:00');
   }
 }

@@ -25,7 +25,7 @@ describe('Movement item', () => {
     store.addItemToDeparturesAsync = vi.fn(async () => true);
     const service = new MovementService(store);
 
-    await service.processMovementItemAsync({
+    await service.addItemToArrivalsAsync({
       item: 'test',
       code: '123'
     } as MovementItem);
@@ -45,7 +45,7 @@ describe('Movement item', () => {
     store.addItemToArrivalsAsync = vi.fn(async () => true);
     const service = new MovementService(store);
 
-    await service.processMovementItemAsync({
+    await service.addItemToDeparturesAsync({
       item: 'test',
       code: '123'
     } as MovementItem);
