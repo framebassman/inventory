@@ -61,11 +61,17 @@ export class MovementService {
 
   public async addItemToDeparturesAsync(item: MovementItem): Promise<boolean> {
     await this.store.startSessionAsync();
-    return await this.store.addItemToDeparturesAsync(item.code, '21:00');
+    return await this.store.addItemToDeparturesAsync(
+      item.code,
+      new Date().toISOString().split('T')[1]
+    );
   }
 
   public async addItemToArrivalsAsync(item: MovementItem): Promise<boolean> {
     await this.store.startSessionAsync();
-    return await this.store.addItemToArrivalsAsync(item.code, '21:00');
+    return await this.store.addItemToArrivalsAsync(
+      item.code,
+      new Date().toISOString().split('T')[1]
+    );
   }
 }

@@ -30,7 +30,7 @@ describe('Movement item', () => {
 
     expect(store.addItemToDeparturesAsync).toHaveBeenCalledExactlyOnceWith(
       '123',
-      '21:00'
+      now.toISOString().split('T')[1]
     );
   });
 
@@ -49,7 +49,7 @@ describe('Movement item', () => {
 
     expect(store.addItemToArrivalsAsync).toHaveBeenCalledExactlyOnceWith(
       '123',
-      '21:00'
+      now.toISOString().split('T')[1]
     );
   });
 });
