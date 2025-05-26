@@ -1,4 +1,3 @@
-import { it } from 'node:test';
 import { InventoryManagementStore } from '../model/inventory-management-store';
 import { MovementItem } from '../model/movement-item';
 
@@ -76,10 +75,12 @@ export class MovementService {
   // }
 
   public async addItemToDeparturesAsync(item: MovementItem): Promise<boolean> {
+    await this.store.startSessionAsync();
     return await this.store.addItemToDeparturesAsync(item.code, '21:00');
   }
 
   public async addItemToArrivalsAsync(item: MovementItem): Promise<boolean> {
+    await this.store.startSessionAsync();
     return await this.store.addItemToArrivalsAsync(item.code, '21:00');
   }
 }
