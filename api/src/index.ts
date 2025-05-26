@@ -6,10 +6,8 @@ import { type Context, type Env, Hono } from 'hono';
 import { logger as loggerMiddleware } from 'hono/logger';
 import { applicationContextMiddleware } from './application-context-middleware';
 import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
-import pg from './routers/pg';
 import warehouse from './controllers/warehouse';
 import movement from './controllers/movement';
-import spreadsheets from './routers/spreadsheets';
 import { swaggerUI } from '@hono/swagger-ui';
 
 const app = new Hono<{ Bindings: Env }>();
@@ -20,17 +18,16 @@ app.use(
   elasticsearchLogsMiddleware()
 );
 
-app.get('/api/', async (c: Context) => {
+app.get('/healthcheck', async (c: Context) => {
   console.log('Hello world from Cloudflare and ElasticSearch');
   return c.json('ok');
 });
 
-app.route('/sheet', spreadsheets);
 app.route('/warehouse', warehouse);
 app.route('/movement', movement);
 
 // Middleware to handle error logging
-app.get('/log', async () => {
+app.get('/error', async () => {
   throw Error('Expected error');
 });
 
