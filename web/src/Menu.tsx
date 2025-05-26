@@ -11,26 +11,24 @@ export const Menu = () => {
   const { pathname } = useLocation();
   const [btnValue, setButtonValue] = useState(routes.findIndex(current => current === pathname));
   return (
-    <>
-      <BottomNavigation
-        className="bottom_navigation"
-        showLabels
-        value={btnValue}
-        onChange={(_, newValue) => {
-          setButtonValue(newValue);
-        }}
-      >
-        <BottomNavigationAction
-          label="Выезд"
-          icon={<RestoreIcon />}
-          onClick={() => navigate('/')}
-        />
-        <BottomNavigationAction
-          label="Учёт"
-          icon={<AddIcon />}
-          onClick={() => navigate('/assign')}
-        />
-      </BottomNavigation>
-    </>
+    <BottomNavigation
+      className="bottom_navigation"
+      showLabels
+      value={btnValue}
+      onChange={(_, newValue) => {
+        setButtonValue(newValue);
+      }}
+    >
+      <BottomNavigationAction
+        label="Выезд"
+        icon={<RestoreIcon />}
+        onClick={() => navigate('/')}
+      />
+      <BottomNavigationAction
+        label="Учёт"
+        icon={<AddIcon />}
+        onClick={() => navigate('/assign')}
+      />
+    </BottomNavigation>
   );
 };
