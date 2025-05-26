@@ -76,7 +76,7 @@ export class MovementService {
   // }
 
   public async addItemToDeparturesAsync(item: MovementItem): Promise<boolean> {
-    return await this.store.addItemToArrivalsAsync(item.code, '21:00');
+    return await this.store.addItemToDeparturesAsync(item.code, '21:00');
   }
 
   public async addItemToArrivalsAsync(item: MovementItem): Promise<boolean> {

@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
 import { MovementService } from '../../src/services/movement-service';
 import { MockStore } from './mock-store';
 import { MovementItem } from '../../src/model/movement-item';
@@ -25,8 +24,7 @@ describe('Movement item', () => {
     store.addItemToDeparturesAsync = vi.fn(async () => true);
     const service = new MovementService(store);
 
-    await service.addItemToArrivalsAsync({
-      item: 'test',
+    await service.addItemToDeparturesAsync({
       code: '123'
     } as MovementItem);
 
@@ -45,8 +43,7 @@ describe('Movement item', () => {
     store.addItemToArrivalsAsync = vi.fn(async () => true);
     const service = new MovementService(store);
 
-    await service.addItemToDeparturesAsync({
-      item: 'test',
+    await service.addItemToArrivalsAsync({
       code: '123'
     } as MovementItem);
 
