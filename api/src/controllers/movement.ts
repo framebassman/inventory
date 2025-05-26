@@ -25,7 +25,7 @@ app.delete('/item', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   const item = (await context.req.json()) as MovementItem;
-  const result = await service.addItemToDeparturesAsync(item);
+  const result = await service.addItemToArrivalsAsync(item);
   return Response.json(result);
 });
 
