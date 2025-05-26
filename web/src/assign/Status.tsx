@@ -42,7 +42,7 @@ export const Status = ({
         <Fab size="small">
           <QrCodeScannerIcon />
         </Fab>
-        <Description message="Готов сканировать вещь!" />
+        <Description message="Давайте добавим вещь в инвентарь" />
         <ItemInfo label="" />
       </div>
     );
