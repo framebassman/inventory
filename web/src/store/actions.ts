@@ -20,11 +20,11 @@ async function transfersFromBackAsync(barcode: string, method: string) {
   }
 }
 
-export type TurnstileActions = {
+export type MovementActions = {
   verify: (barcode: string, method: string) => any;
 };
 
-export const actionCreators: TurnstileActions = {
+export const actionCreators: MovementActions = {
   verify: (barcode: string, method: string) => async (dispatch: any) => {
     dispatch({ type: waitingType });
 

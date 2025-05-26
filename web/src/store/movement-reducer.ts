@@ -6,7 +6,7 @@ const initialState: MovementItemState = {
   isItemScanned: false
 };
 
-export const reducer = (
+export const movementReducer = (
   state: MovementItemState = initialState,
   action: any
 ): MovementItemState => {
@@ -15,9 +15,9 @@ export const reducer = (
   switch (type) {
     case verifyType: {
       const { message } = payload;
-      const isTicketFound = message === 'OK';
+      const isItemFound = message === 'OK';
 
-      if (isTicketFound) {
+      if (isItemFound) {
         const { concertLabel, used } = payload;
         return {
           ...state,
