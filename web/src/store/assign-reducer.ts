@@ -1,15 +1,15 @@
 import { verifyType, resetType } from './actions';
-import { type AssognItemState } from '../scanner-state.ts';
+import { type AssignItemState } from '../scanner-state.ts';
 
-const initialState: AssognItemState = {
+const initialState: AssignItemState = {
   isItemFound: false,
   isItemScanned: false
 };
 
 export const assignReducer = (
-  state: AssognItemState = initialState,
+  state: AssignItemState = initialState,
   action: any
-): AssognItemState => {
+): AssignItemState => {
   const { type, payload } = action;
 
   switch (type) {
