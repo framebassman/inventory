@@ -1,28 +1,29 @@
 import { useEffect, useState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { useSearchParams } from 'react-router';
 import { extractExistingParams } from '../search-params-parser';
+import CheckIcon from '@mui/icons-material/Check';
 
 import {
   Box,
   Button,
   CircularProgress,
+  Fab,
   TextField,
   Typography
 } from '@mui/material';
 
 import './index.css';
 
-const addItemToWarehouseAsync = async (
-  name: string,
-  code: string
-): Promise<boolean> => {
+async function addItemToWarehouseAsync(formData: FormData) {
+  const code = formData.get('code');
+  const name = formData.get('name');
   await fetch('https://api.inventory.romashov.tech/warehouse/assign', {
     method: 'POST',
     mode: 'no-cors', // no-cors, *cors, same-origin
     body: JSON.stringify({ name, code })
   });
-  return true;
-};
+}
 
 interface ItemInfo {
   code: string;
@@ -39,7 +40,7 @@ const fetchItemInfoAsync = async (code: string): Promise<ItemInfo> => {
     return {
       code: code,
       name: json.name,
-      exist: true
+      exist: resp.ok
     } as ItemInfo;
   } catch {
     return {
@@ -53,7 +54,6 @@ const fetchItemInfoAsync = async (code: string): Promise<ItemInfo> => {
 export const Warehouse = () => {
   const [search] = useSearchParams();
   const [info, setInfo] = useState<ItemInfo | null>(null);
-  const [disabled, setDisabled] = useState(false);
   const params = extractExistingParams(search);
   const code = params.item[0];
   useEffect(() => {
@@ -91,21 +91,27 @@ export const Warehouse = () => {
   if (info.exist === false) {
     return (
       <Box>
-        <Box className="element">
-          <TextField variant="outlined" placeholder="Введите название..." />
-        </Box>
-        <Box className="element">
-          <Button
-            variant="contained"
-            onClick={async () => {
-              setDisabled(true);
-              await addItemToWarehouseAsync(String(info?.name), code);
-            }}
-            disabled={disabled}
-          >
-            Добавить
-          </Button>
-        </Box>
+        <form action={addItemToWarehouseAsync}>
+          <Box className="element">
+            <TextField
+              name="name"
+              variant="outlined"
+              placeholder="Введите название..."
+              required
+              onInvalid={(e) =>
+                (e.target as HTMLInputElement).setCustomValidity(
+                  'Введите название'
+                )
+              }
+            />
+            <input hidden name="code" value={code} />
+          </Box>
+          <Box className="element">
+            <Button variant="contained" color="secondary" type="submit">
+              Добавить
+            </Button>
+          </Box>
+        </form>
       </Box>
     );
   }
@@ -113,12 +119,14 @@ export const Warehouse = () => {
   return (
     <Box>
       <Box className="element">
-        <Typography textAlign="center">{info.name}</Typography>
+        <Typography textAlign="center">
+          Добавили <b>{info.name}</b> успешно
+        </Typography>
       </Box>
       <Box className="element">
-        <Button variant="contained" color="secondary" disabled>
-          Добавить
-        </Button>
+        <Fab color="success">
+          <CheckIcon />
+        </Fab>
       </Box>
     </Box>
   );

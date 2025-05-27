@@ -49,6 +49,7 @@ export class InventoryManagementStore {
     const allItems = await inventorySheet.getRows();
     const item = allItems.find((row) => row.get('code') === code);
     if (item === undefined) {
+      console.error(`There is no Item with ${code} code`);
       throw Error(`There is no Item with ${code} code`);
     }
     return item.get('name');
