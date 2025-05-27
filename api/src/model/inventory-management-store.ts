@@ -47,13 +47,13 @@ export class InventoryManagementStore {
     const inventorySheet =
       await this.document.sheetsByIndex[this.document.sheetCount - 1];
     const allItems = await inventorySheet.getRows();
-    const item = allItems.find((row) => row.get('code') === code);
-    if (item === undefined) {
+    const itemIndex = allItems.findIndex((row) => row.get('code') === code);
+    if (itemIndex === -1) {
       console.error(`There is no Item with ${code} code`);
       throw Error(`There is no Item with ${code} code`);
     }
     console.log(`There is an Item with ${code} code`);
-    return item.get('name');
+    return allItems[itemIndex].get('name');
   }
 
   public async getDateOfFirstListAsync(): Promise<Date> {
