@@ -26,9 +26,9 @@ paths:
                 - name
                 - code
       responses:
-        "200":
+        '200':
           description: Success message
-        "201":
+        '201':
           description: Item has been added
   /warehouse/item/{code}:
     get:
@@ -45,28 +45,28 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Item"
-        "400":
+                $ref: '#/components/schemas/Item'
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Item not found
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /movement/start:
     post:
       tags:
         - movement
       responses:
-        "200":
+        '200':
           description: Success message
   /movement/item:
     post:
@@ -83,13 +83,13 @@ paths:
               required:
                 - code
       responses:
-        "200":
+        '200':
           description: Success message
     delete:
       tags:
         - movement
       responses:
-        "200":
+        '200':
           description: Success message
 components:
   schemas:
@@ -101,10 +101,10 @@ components:
       properties:
         code:
           type: string
-          example: Shure sm58
+          example: 12341234
         name:
           type: string
-          example: 12341234
+          example: Shure sm58
     ApiResponse:
       type: object
       properties:
@@ -116,7 +116,7 @@ components:
         message:
           type: string
       xml:
-        name: "##default"
+        name: '##default'
     Error:
       type: object
       properties:
@@ -133,10 +133,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Item"
+            $ref: '#/components/schemas/Item'
         application/xml:
           schema:
-            $ref: "#/components/schemas/Item"
+            $ref: '#/components/schemas/Item'
   securitySchemes:
     petstore_auth:
       type: oauth2
@@ -144,5 +144,5 @@ components:
         implicit:
           authorizationUrl: https://petstore3.swagger.io/oauth/authorize
           scopes:
-            "write:pets": modify pets in your account
-            "read:pets": read your pets
+            'write:pets': modify pets in your account
+            'read:pets': read your pets
