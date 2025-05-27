@@ -1,5 +1,5 @@
-import { InventoryManagementStore } from '../../src/model/inventory-management-store';
-import { GoogleServiceAccountCredentials } from '../../src/model/google-objects';
+import { InventoryManagementStore } from '../src/model/inventory-management-store';
+import { GoogleServiceAccountCredentials } from '../src/model/google-objects';
 
 export class MockStore extends InventoryManagementStore {
   constructor() {

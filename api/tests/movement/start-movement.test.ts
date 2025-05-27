@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
 import { MovementService } from '../../src/services/movement-service';
-import { MockStore } from './mock-store';
+import { MockStore } from '../mock-store';
 
 describe('Start movement', () => {
   beforeEach(() => {
