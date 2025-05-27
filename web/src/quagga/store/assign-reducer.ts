@@ -1,4 +1,4 @@
-import { verifyType, resetType } from './actions';
+import { verifyType, resetType } from './actions.ts';
 import { type AssignItemState } from '../scanner-state.ts';
 
 const initialState: AssignItemState = {

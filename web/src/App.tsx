@@ -1,9 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Movement } from './movement';
-import { Assign } from './assign';
-import { Menu } from './Menu';
 import './App.css';
+import { DefaultCameraMenu } from './default-camera-app/DefaultCameraMenu';
+import { DefaultCameraAppIndex } from './default-camera-app/DefaultCameraAppIndex.tsx';
 
 const theme = createTheme({
   palette: {
@@ -22,11 +21,13 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Menu/>
+        {/* <Menu/>
         <Routes>
           <Route path={routes[0].replace('/', '')} element={<Movement/>}></Route>
           <Route path={routes[1]} element={<Assign/>}></Route>
-        </Routes>
+        </Routes> */}
+        <DefaultCameraAppIndex />
+        <DefaultCameraMenu />
       </BrowserRouter>
     </ThemeProvider>
   )

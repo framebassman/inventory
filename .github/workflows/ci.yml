@@ -25,10 +25,6 @@ jobs:
           cache-dependency-path: ./web/package-lock.json
       - run: npm ci
       - run: npm run build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: kolenka-inc
-          SENTRY_PROJECT: inventory
       - uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -74,10 +70,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: "api"
       - run: npm run build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: kolenka-inc
-          SENTRY_PROJECT: inventory
       - run: npm run migrate:up
         env:
           WRANGLER_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE: ${{ secrets.WRANGLER_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE }}
