@@ -17,8 +17,8 @@ app.post('/assign', async (context: Context) => {
   return Response.json(addedItem);
 });
 
-app.post('/item/:id', async (context: Context) => {
-  const id = context.req.param('id');
+app.post('/item/:code', async (context: Context) => {
+  const id = context.req.param('code');
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(WarehouseService);
   console.log('Info about item');
