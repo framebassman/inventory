@@ -2,9 +2,6 @@ info:
   title: Inventory API
   version: v1
 openapi: 3.1.0
-components:
-  schemas: {}
-  parameters: {}
 tags:
   - name: warehouse
     description: Everything about the Warehouse
@@ -29,15 +26,47 @@ paths:
                 - name
                 - code
       responses:
-        '200':
+        "200":
           description: Success message
-
+        "201":
+          description: Item has been added
+  /warehouse/item/{code}:
+    get:
+      tags:
+        - warehouse
+      summary: Find item by code.
+      description: Returns a single item.
+      operationId: getItemByCode
+      parameters:
+        - name: code
+          in: path
+          description: code of item to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /movement/start:
     post:
       tags:
         - movement
       responses:
-        '200':
+        "200":
           description: Success message
   /movement/item:
     post:
@@ -54,21 +83,66 @@ paths:
               required:
                 - code
       responses:
-        '200':
+        "200":
           description: Success message
     delete:
       tags:
         - movement
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                code:
-                  type: string
-              required:
-                - code
       responses:
-        '200':
+        "200":
           description: Success message
+components:
+  schemas:
+    Item:
+      required:
+        - code
+        - name
+      type: object
+      properties:
+        code:
+          type: string
+          example: Shure sm58
+        name:
+          type: string
+          example: 12341234
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: "##default"
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+  requestBodies:
+    Item:
+      description: Item object that needs to be added to the warehouse
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Item"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Item"
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
