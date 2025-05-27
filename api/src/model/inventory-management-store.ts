@@ -52,6 +52,7 @@ export class InventoryManagementStore {
       console.error(`There is no Item with ${code} code`);
       throw Error(`There is no Item with ${code} code`);
     }
+    console.log(`There is an Item with ${code} code`);
     return item.get('name');
   }
 
