@@ -1,5 +1,5 @@
-import { verifyUrl } from './urls/prod';
-import { cooldown } from './timeouts';
+import { verifyUrl } from './urls/prod.ts';
+import { cooldown } from './timeouts.ts';
 
 export const waitingType = 'TURNSTILE_WAITING';
 export const verifyType = 'TURNSTILE_VERIFY';

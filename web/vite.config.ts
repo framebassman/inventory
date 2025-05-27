@@ -6,7 +6,12 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import YAML from 'yaml'
 
-const ngrokConfig = YAML.parse(fs.readFileSync(path.resolve('/home/d.romashov/snap/ngrok/265/.config/ngrok/ngrok.yml'), 'utf-8'));
+const ngrokConfig = YAML.parse(
+  fs.readFileSync(
+    path.resolve('/home/d.romashov/snap/ngrok/265/.config/ngrok/ngrok.yml'),
+    'utf-8'
+  )
+);
 
 export default defineConfig({
   plugins: [

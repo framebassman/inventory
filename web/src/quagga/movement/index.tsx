@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { MovementOnHold } from './MovementOnHold';
-import Camera from './Camera';
+import { MovementOnHold } from './MovementOnHold.tsx';
+import Camera from './Camera.tsx';
 import './index.css';
 import { Box } from '@mui/material';
 

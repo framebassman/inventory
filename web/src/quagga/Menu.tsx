@@ -4,7 +4,7 @@ import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import AddIcon from '@mui/icons-material/Add';
 import './Menu.css';
-import { routes } from './App';
+import { routes } from '../App.tsx';
 
 export const Menu = () => {
   const navigate = useNavigate();

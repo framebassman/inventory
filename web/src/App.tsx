@@ -1,9 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Movement } from './movement';
-import { Assign } from './assign';
-import { Menu } from './Menu';
+import { Movement } from './quagga/movement';
+import { Assign } from './quagga/assign';
+import { Menu } from './quagga/Menu.tsx';
 import './App.css';
+import { ItemInfo } from './info/ItemInfo';
 
 const theme = createTheme({
   palette: {
@@ -22,11 +23,12 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Menu/>
+        {/* <Menu/>
         <Routes>
           <Route path={routes[0].replace('/', '')} element={<Movement/>}></Route>
           <Route path={routes[1]} element={<Assign/>}></Route>
-        </Routes>
+        </Routes> */}
+        <ItemInfo />
       </BrowserRouter>
     </ThemeProvider>
   )
