@@ -195,3 +195,12 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Item'
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            'write:pets': modify pets in your account
+            'read:pets': read your pets
