@@ -17,7 +17,7 @@ app.post('/assign', async (context: Context) => {
   return Response.json(addedItem);
 });
 
-app.post('/item/:code', async (context: Context) => {
+app.get('/item/:code', async (context: Context) => {
   console.log('Info about item from controller');
   const id = context.req.param('code');
   const appContext = context.get(applicationCxt) as DependencyContainer;
