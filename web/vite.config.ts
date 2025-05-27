@@ -14,5 +14,8 @@ export default defineConfig({
 
   build: {
     sourcemap: true
-  }
+  },
+  // server: {
+  //   allowedHosts: [ process.env.NGROK_HOST.toString() ]
+  // }
 });
