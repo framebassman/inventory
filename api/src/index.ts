@@ -9,6 +9,7 @@ import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
 import warehouse from './controllers/warehouse';
 import movement from './controllers/movement';
 import { swaggerUI } from '@hono/swagger-ui';
+import { cors } from 'hono/cors';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(
@@ -16,6 +17,12 @@ app.use(
   loggerMiddleware(),
   applicationContextMiddleware(),
   elasticsearchLogsMiddleware()
+);
+app.use(
+  '/*',
+  cors({
+    origin: ['http://localhost:5173', 'https://inventory.romashov.tech']
+  })
 );
 
 app.get('/healthcheck', async (c: Context) => {

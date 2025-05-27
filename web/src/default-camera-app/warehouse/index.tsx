@@ -2,46 +2,53 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { extractExistingParams } from '../search-params-parser';
 
-import { Box, Button, CircularProgress, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography
+} from '@mui/material';
 
 import './index.css';
 
-const addItemToWarehouseAsync = async (name: string, code: string): Promise<boolean> => {
-  await fetch(
-    'https://api.inventory.romashov.tech/warehouse/assign',
-    {
-      method: 'POST',
-      mode: "no-cors", // no-cors, *cors, same-origin
-      body: JSON.stringify({name, code})
-    }
-  );
+const addItemToWarehouseAsync = async (
+  name: string,
+  code: string
+): Promise<boolean> => {
+  await fetch('https://api.inventory.romashov.tech/warehouse/assign', {
+    method: 'POST',
+    mode: 'no-cors', // no-cors, *cors, same-origin
+    body: JSON.stringify({ name, code })
+  });
   return true;
-}
+};
 
 interface ItemInfo {
-  code: string,
-  name: string,
-  exist: boolean,
+  code: string;
+  name: string;
+  exist: boolean;
 }
 
 const fetchItemInfoAsync = async (code: string): Promise<ItemInfo> => {
-  // `https://api.inventory.romashov.tech/warehouse/item/${code}`,
-  const resp = await fetch(`https://petstore.swagger.io/v2/pet/${code}`);
+  const resp = await fetch(
+    `https://api.inventory.romashov.tech/warehouse/item/${code}`
+  );
   try {
     const json = await resp.json();
     return {
       code: code,
       name: json.name,
-      exist: true,
+      exist: true
     } as ItemInfo;
   } catch {
     return {
       code: code,
       name: '',
-      exist: false,
+      exist: false
     } as ItemInfo;
   }
-}
+};
 
 export const Warehouse = () => {
   const [search] = useSearchParams();
@@ -49,50 +56,70 @@ export const Warehouse = () => {
   const [disabled, setDisabled] = useState(false);
   const params = extractExistingParams(search);
   const code = params.item[0];
-  useEffect(
-    () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      let ignore = false;
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    let ignore = false;
 
-      async function startFetchingAsync() {
+    async function startFetchingAsync() {
+      try {
         const info = await fetchItemInfoAsync(code);
         setInfo(info);
+      } catch {
+        console.log('erorr from server');
+        setInfo({ code: code, name: '', exist: false } as ItemInfo);
       }
+    }
 
-      if (code != '') {
-        startFetchingAsync();
-      }
+    if (code != '') {
+      startFetchingAsync();
+    }
 
-      return () => {
-        ignore = true;
-      };
-    },
-    []
-  );
-  
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  if (info === null) {
+    return (
+      <Box>
+        <CircularProgress color="secondary" />
+      </Box>
+    );
+  }
+
+  if (info.exist === false) {
+    return (
+      <Box>
+        <Box className="element">
+          <TextField variant="outlined" placeholder="Введите название..." />
+        </Box>
+        <Box className="element">
+          <Button
+            variant="contained"
+            onClick={async () => {
+              setDisabled(true);
+              await addItemToWarehouseAsync(String(info?.name), code);
+            }}
+            disabled={disabled}
+          >
+            Добавить
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <Box>
-      { info === null
-        ? <CircularProgress color='secondary' />
-        : <>
-            <Box className="element">
-              <Typography textAlign="center">{info?.name}</Typography>
-            </Box>
-            <Box className="element">
-              <Button
-                variant='contained'
-                onClick={async () => {
-                  setDisabled(true);
-                  await addItemToWarehouseAsync(String(info?.name), code);
-                }}
-                disabled={disabled}
-              >
-                Добавить
-              </Button>
-            </Box>
-          </>
-      }
+      <Box className="element">
+        <Typography textAlign="center">{info.name}</Typography>
+      </Box>
+      <Box className="element">
+        <Button variant="contained" color="secondary" disabled>
+          Добавить
+        </Button>
+      </Box>
     </Box>
-  )
-}
+  );
+};
