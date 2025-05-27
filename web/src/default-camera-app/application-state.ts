@@ -1,10 +1,11 @@
 export class ApplicationState {
-  static Assign = "Assign"
-  static Departure = "Departure"
-  static Arrivals = "Arrivals"
+  static Info = "Info"
+  static Movement = "Movement"
+  static Warehouse = "Warehouse"
 }
 
 export const allStates = [
-  ApplicationState.Departure,
-  ApplicationState.Assign,
+  ApplicationState.Info,
+  ApplicationState.Movement,
+  ApplicationState.Warehouse
 ]

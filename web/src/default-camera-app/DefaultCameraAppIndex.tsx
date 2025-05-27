@@ -4,15 +4,15 @@ import { ApplicationState } from './application-state';
 import { Assign } from './assign';
 import { Movement } from './movement';
 
-import './ItemInfo.css';
+import './DefaultCameraAppIndex.css';
 
-export const ItemInfo = () => {
-  const [applicationState] = useLocalStorage("ApplicationState", ApplicationState.Assign);
+export const DefaultCameraAppIndex = () => {
+  const [applicationState] = useLocalStorage("ApplicationState", ApplicationState.Info);
 
   return (
     <Box className="parent">
       <Box>
-        { applicationState == ApplicationState.Assign
+        { applicationState == ApplicationState.Warehouse
           ? <Assign />
           : <Movement />
         }
