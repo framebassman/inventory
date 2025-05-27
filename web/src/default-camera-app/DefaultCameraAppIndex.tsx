@@ -1,7 +1,7 @@
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { Box } from '@mui/material';
 import { ApplicationState } from './application-state';
-import { Assign } from './assign';
+import { Warehouse } from './warehouse';
 import { Movement } from './movement';
 
 import './DefaultCameraAppIndex.css';
@@ -12,7 +12,7 @@ const getComponent = (applicationState: string) => {
     case ApplicationState.Movement:
       return <Movement />;
     case ApplicationState.Warehouse:
-      return <Assign />;
+      return <Warehouse />;
     default:
       return <ItemInfo />;
   }

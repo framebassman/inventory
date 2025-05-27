@@ -2,13 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import './index.css';
 
-const DefaultHi = () => {
-  return (
-    <div>There is no Search in path</div>
-  )
-}
-
-export const Assign = () => {
+export const Warehouse = () => {
   const { search } = useLocation();
   const [info, setInfo] = useState<string>("");
   useEffect(() => {
@@ -36,11 +30,7 @@ export const Assign = () => {
     };
   }, [search]);
   
-  if (search === '') {
-    return <DefaultHi />
-  } else {
-    return (
-      <div>{search}</div>
-    )
-  }
+  return (
+    <div>{search}</div>
+  )
 }

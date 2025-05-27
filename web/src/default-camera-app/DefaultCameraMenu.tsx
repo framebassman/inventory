@@ -7,7 +7,7 @@ import { allStates, ApplicationState } from './application-state.ts';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 import RestoreIcon from '@mui/icons-material/Restore';
-import AddIcon from '@mui/icons-material/Add';
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 import './DefaultCameraMenu.css';
 
@@ -33,7 +33,7 @@ export const DefaultCameraMenu = () => {
       }}
     >
       <BottomNavigationAction
-        label="Инфо"
+        label="Настройки"
         icon={<BubbleChartIcon />}
         onClick={() => setApplicationState(ApplicationState.Info)}
       />
@@ -44,7 +44,7 @@ export const DefaultCameraMenu = () => {
       />
       <BottomNavigationAction
         label="Учёт"
-        icon={<AddIcon />}
+        icon={<AddHomeIcon />}
         onClick={() => setApplicationState(ApplicationState.Warehouse)}
       />
     </BottomNavigation>
