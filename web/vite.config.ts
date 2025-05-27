@@ -1,7 +1,7 @@
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { ngrok } from 'vite-plugin-ngrok';
+// import { ngrok } from 'vite-plugin-ngrok';
 // import { ngrokConfig } from './ngrok.config';
 
 export default defineConfig({
