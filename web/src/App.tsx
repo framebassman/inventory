@@ -1,8 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './App.css';
-import { ItemInfo } from './info/ItemInfo';
-import { ItemInfoMenu } from './info/ItemInfoMenu.tsx';
+import { ItemInfo } from './default-camera-app/ItemInfo.tsx';
+import { ItemInfoMenu } from './default-camera-app/ItemInfoMenu.tsx';
 
 const theme = createTheme({
   palette: {
