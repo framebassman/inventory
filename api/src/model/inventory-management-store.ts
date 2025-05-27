@@ -34,7 +34,6 @@ export class InventoryManagementStore {
     name: string,
     code: string
   ): Promise<boolean> {
-    await this.document.loadInfo();
     const page =
       await this.document.sheetsByIndex[this.document.sheetCount - 1];
     await page.addRow({
@@ -42,6 +41,17 @@ export class InventoryManagementStore {
       code
     });
     return true;
+  }
+
+  public async getNameOfItemAsync(code: string): Promise<string> {
+    const inventorySheet =
+      await this.document.sheetsByIndex[this.document.sheetCount - 1];
+    const allItems = await inventorySheet.getRows();
+    const item = allItems.find((row) => row.get('code') === code);
+    if (item === undefined) {
+      throw Error(`There is no Item with ${code} code`);
+    }
+    return item.get('name');
   }
 
   public async getDateOfFirstListAsync(): Promise<Date> {

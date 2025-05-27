@@ -26,10 +26,24 @@ paths:
                 - name
                 - code
       responses:
-        "200":
-          description: Success message
-        "201":
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '201':
           description: Item has been added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        default:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
   /warehouse/item/{code}:
     get:
       tags:
@@ -45,29 +59,53 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: successful operation
+        '200':
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Item"
-        "400":
+                $ref: '#/components/schemas/Item'
+        '400':
           description: Invalid ID supplied
-        "404":
-          description: Item not found
-        default:
-          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
   /movement/start:
     post:
       tags:
         - movement
       responses:
-        "200":
-          description: Success message
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
   /movement/item:
     post:
       tags:
@@ -83,14 +121,46 @@ paths:
               required:
                 - code
       responses:
-        "200":
-          description: Success message
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
     delete:
       tags:
         - movement
       responses:
-        "200":
-          description: Success message
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
 components:
   schemas:
     Item:
@@ -101,22 +171,10 @@ components:
       properties:
         code:
           type: string
-          example: Shure sm58
+          example: 12341234
         name:
           type: string
-          example: 12341234
-    ApiResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
-        message:
-          type: string
-      xml:
-        name: "##default"
+          example: Shure sm58
     Error:
       type: object
       properties:
@@ -133,10 +191,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Item"
+            $ref: '#/components/schemas/Item'
         application/xml:
           schema:
-            $ref: "#/components/schemas/Item"
+            $ref: '#/components/schemas/Item'
   securitySchemes:
     petstore_auth:
       type: oauth2
@@ -144,5 +202,5 @@ components:
         implicit:
           authorizationUrl: https://petstore3.swagger.io/oauth/authorize
           scopes:
-            "write:pets": modify pets in your account
-            "read:pets": read your pets
+            'write:pets': modify pets in your account
+            'read:pets': read your pets
