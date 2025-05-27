@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useFormStatus } from 'react-dom';
 import { useSearchParams } from 'react-router';
 import { extractExistingParams } from '../search-params-parser';
 import CheckIcon from '@mui/icons-material/Check';
