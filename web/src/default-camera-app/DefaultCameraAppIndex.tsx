@@ -3,9 +3,9 @@ import { Box } from '@mui/material';
 import { ApplicationState } from './application-state';
 import { Warehouse } from './warehouse';
 import { Movement } from './movement';
+import { SessionSettings } from './session-settings';
 
 import './DefaultCameraAppIndex.css';
-import { ItemInfo } from "./ItemInfo";
 
 const getComponent = (applicationState: string) => {
   switch (applicationState) {
@@ -14,7 +14,7 @@ const getComponent = (applicationState: string) => {
     case ApplicationState.Warehouse:
       return <Warehouse />;
     default:
-      return <ItemInfo />;
+      return <SessionSettings />;
   }
 }
 
