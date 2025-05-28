@@ -83,7 +83,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Item'
-  /movement/start:
+  /movement/current:
+    get:
+      tags:
+        - movement
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movement'
+        default:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movement'
     post:
       tags:
         - movement
@@ -100,8 +116,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Item'
-  /movement/current:
-    get:
+    delete:
       tags:
         - movement
       responses:

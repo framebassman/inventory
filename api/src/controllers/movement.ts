@@ -28,7 +28,7 @@ app.delete('/current', async (context: Context) => {
   }
 });
 
-app.post('/start', async (context: Context) => {
+app.post('/current', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   await service.createNewMovementAsync();
