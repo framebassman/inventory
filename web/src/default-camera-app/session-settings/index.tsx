@@ -83,7 +83,8 @@ export const SessionSettings = () => {
               } else {
                 setSessionState(SessionState.Departure);
               }
-            }} 
+            }}
+            defaultChecked={sessionState === SessionState.Arrival}
           />
           <Typography>На базу</Typography>
         </Stack>
