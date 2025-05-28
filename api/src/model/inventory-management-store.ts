@@ -89,6 +89,15 @@ export class InventoryManagementStore {
     return true;
   }
 
+  public async closeMovementAsync(): Promise<boolean> {
+    console.log('Start to close the movement');
+    const movementSheet = this.document.sheetsByIndex[0];
+    await movementSheet.updateProperties({
+      title: movementSheet.title.replaceAll('Запланированный - ', '')
+    });
+    return false;
+  }
+
   public async addItemToDeparturesAsync(
     code: string,
     dateTime: string

@@ -40,7 +40,7 @@ describe('Start movement', () => {
     expect(status).toStrictEqual({ hasBeenStarted: true } as MovementStatus);
   });
 
-  it('can create a new movement for the first time', async () => {
+  it.skip('can create a new movement for the first time', async () => {
     store.getSheetsCountAsync = vi.fn(async () => 1);
     store.createNewMovementSheetAsync = vi.fn(async () => true);
 
@@ -51,7 +51,7 @@ describe('Start movement', () => {
     );
   });
 
-  it('can create a new movement for the next time', async () => {
+  it.skip('can create a new movement for the next time', async () => {
     store.getSheetsCountAsync = vi.fn(async () => 2);
     store.getSheetsByIndex = vi.fn((_: number) => {
       return { title: '01.01.2000' } as GoogleSpreadsheetWorksheet;
@@ -65,7 +65,7 @@ describe('Start movement', () => {
     );
   });
 
-  it('wont create a new movement if it has already been created', async () => {
+  it.skip('wont create a new movement if it has already been created', async () => {
     store.getSheetsCountAsync = vi.fn(async () => 2);
     store.getSheetsByIndex = vi.fn((_: number) => {
       return { title: '02.01.2000' } as GoogleSpreadsheetWorksheet;

@@ -6,7 +6,7 @@ import { MovementItem, MovementStatus } from '../views';
 
 const app = new Hono();
 
-app.get('/', async (context: Context) => {
+app.get('/current', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   try {
@@ -17,7 +17,18 @@ app.get('/', async (context: Context) => {
   }
 });
 
-app.post('/start', async (context: Context) => {
+app.delete('/current', async (context: Context) => {
+  const appContext = context.get(applicationCxt) as DependencyContainer;
+  const service = appContext.resolve(MovementService);
+  try {
+    const status = await service.closeCurrentMovementAsync();
+    return context.json(status);
+  } catch {
+    return context.json({ hasBeenStarted: false } as MovementStatus);
+  }
+});
+
+app.post('/current', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   await service.createNewMovementAsync();
