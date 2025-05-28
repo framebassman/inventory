@@ -110,7 +110,7 @@ export class InventoryManagementStore {
   public async addItemToDeparturesAsync(
     code: string,
     dateTime: string
-  ): Promise<boolean> {
+  ): Promise<string> {
     console.log(`code: ${code}, time: ${dateTime}`);
     const inventorySheet =
       this.document.sheetsByIndex[this.document.sheetCount - 1];
@@ -128,17 +128,17 @@ export class InventoryManagementStore {
         departured: `="${dateTime}"`,
         arrived: ''
       });
-      return true;
+      return item.get('name');
     } else {
       console.log('Item was not found');
-      return false;
+      return '';
     }
   }
 
   public async addItemToArrivalsAsync(
     code: string,
     dateTime: string
-  ): Promise<boolean> {
+  ): Promise<string> {
     console.log(`code: ${code}, time: ${dateTime}`);
     const currentSheet = this.document.sheetsByIndex[0];
     console.log('I got inventorySheet. Gonna to retrieve all items');
@@ -150,10 +150,10 @@ export class InventoryManagementStore {
       console.log('Im going to add the row');
       item.set('arrived', `="${dateTime}"`);
       await item.save();
-      return true;
+      return item.get('name');
     } else {
       console.log('Item was not found');
-      return false;
+      return '';
     }
   }
 }

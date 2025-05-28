@@ -12,12 +12,7 @@ import {
 } from '@mui/material';
 
 import './index.css';
-
-interface ItemInfo {
-  code: string;
-  name: string;
-  exist: boolean;
-}
+import type { ItemInfo } from '../item-info';
 
 const fetchItemInfoAsync = async (code: string): Promise<ItemInfo> => {
   const resp = await fetch(

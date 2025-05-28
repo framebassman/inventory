@@ -21,7 +21,7 @@ describe('Movement item', () => {
     const store = new MockStore();
     store.startSessionAsync = vi.fn(async () => true);
     store.getSheetsCountAsync = vi.fn(async () => 1);
-    store.addItemToDeparturesAsync = vi.fn(async () => true);
+    store.addItemToDeparturesAsync = vi.fn(async () => '');
     const service = new MovementService(store);
 
     await service.addItemToDeparturesAsync({
@@ -40,7 +40,7 @@ describe('Movement item', () => {
     const store = new MockStore();
     store.startSessionAsync = vi.fn(async () => true);
     store.getSheetsCountAsync = vi.fn(async () => 1);
-    store.addItemToArrivalsAsync = vi.fn(async () => true);
+    store.addItemToArrivalsAsync = vi.fn(async () => '');
     const service = new MovementService(store);
 
     await service.addItemToArrivalsAsync({

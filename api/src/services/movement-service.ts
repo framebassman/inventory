@@ -99,19 +99,21 @@ export class MovementService {
     }
   }
 
-  public async addItemToDeparturesAsync(item: MovementItem): Promise<boolean> {
+  public async addItemToDeparturesAsync(item: MovementItem): Promise<MovementItem> {
     await this.store.startSessionAsync();
-    return await this.store.addItemToDeparturesAsync(
+    const name = await this.store.addItemToDeparturesAsync(
       item.code,
       new Date().toISOString().split('T')[1]
     );
+    return { code: item.code, name: name } as MovementItem;
   }
 
-  public async addItemToArrivalsAsync(item: MovementItem): Promise<boolean> {
+  public async addItemToArrivalsAsync(item: MovementItem): Promise<MovementItem> {
     await this.store.startSessionAsync();
-    return await this.store.addItemToArrivalsAsync(
+    const name = await this.store.addItemToArrivalsAsync(
       item.code,
       new Date().toISOString().split('T')[1]
     );
+    return { code: item.code, name: name } as MovementItem;
   }
 }
