@@ -14,15 +14,21 @@ app.post('/assign', async (context: Context) => {
   const item = body as WarehouseItem;
   console.log(item);
   const addedItem = await service.addItemToWarehouseAsync(item);
-  return Response.json(addedItem);
+  return context.json(addedItem);
 });
 
-app.post('/item/:id', async (context: Context) => {
-  const id = context.req.param('id');
+app.get('/item/:code', async (context: Context) => {
+  console.log('Info about item from controller');
+  const id = context.req.param('code');
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(WarehouseService);
-  const item = await service.getInfoAboutItemAsync(id);
-  return Response.json(item);
+  try {
+    console.log('Info about item');
+    const item = await service.getInfoAboutItemAsync(id);
+    return context.json(item);
+  } catch {
+    return context.json({ code: id }, 404);
+  }
 });
 
 export default app;

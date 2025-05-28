@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useLocalStorage } from '@uidotdev/usehooks';
-import { useLocation } from 'react-router-dom';
 
 import { allStates, ApplicationState } from './application-state.ts';
 
@@ -12,16 +11,12 @@ import AddHomeIcon from '@mui/icons-material/AddHome';
 import './DefaultCameraMenu.css';
 
 export const DefaultCameraMenu = () => {
-  const { search } = useLocation();
-  const [applicationState, setApplicationState] = useLocalStorage("ApplicationState", ApplicationState.Info);
-  const [btnValue, setButtonValue] = useState(
-    () => {
-      if (search === '') {
-        return 0;
-      } else {
-        return allStates.findIndex(current => current === applicationState);
-      }
-    }
+  const [applicationState, setApplicationState] = useLocalStorage(
+    'ApplicationState',
+    ApplicationState.Info
+  );
+  const [btnValue, setButtonValue] = useState(() =>
+    allStates.findIndex((current) => current === applicationState)
   );
   return (
     <BottomNavigation

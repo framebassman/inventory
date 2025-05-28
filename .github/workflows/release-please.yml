@@ -20,10 +20,6 @@ jobs:
           cache-dependency-path: ./web/package-lock.json
       - run: npm ci
       - run: npm run build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: kolenka-inc
-          SENTRY_PROJECT: inventory
 
   build-test-api:
     runs-on: ubuntu-24.04
@@ -36,13 +32,9 @@ jobs:
         with:
           node-version: 22
           cache: "npm"
-          cache-dependency-path: ./web/package-lock.json
+          cache-dependency-path: ./api/package-lock.json
       - run: npm ci
       - run: npm run build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: kolenka-inc
-          SENTRY_PROJECT: inventory
       - run: npm run test
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -114,10 +106,6 @@ jobs:
           cache-dependency-path: ./web/package-lock.json
       - run: npm ci
       - run: npm run build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: kolenka-inc
-          SENTRY_PROJECT: inventory
       - uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -145,10 +133,6 @@ jobs:
           cache-dependency-path: ./api/package-lock.json
       - run: npm ci
       - run: npm run build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: kolenka-inc
-          SENTRY_PROJECT: inventory
       - run: npm run migrate:up
         env:
           WRANGLER_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE: ${{ secrets.WRANGLER_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE }}
