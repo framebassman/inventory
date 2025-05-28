@@ -6,11 +6,15 @@ import { MovementItem } from '../views';
 
 const app = new Hono();
 
+app.get('/', async (context: Context) => {
+  return context.json('ok');
+});
+
 app.post('/start', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   await service.createNewMovementAsync();
-  return Response.json('ok');
+  return context.json('ok');
 });
 
 app.post('/item', async (context: Context) => {
@@ -18,7 +22,7 @@ app.post('/item', async (context: Context) => {
   const service = appContext.resolve(MovementService);
   const item = (await context.req.json()) as MovementItem;
   const result = await service.addItemToDeparturesAsync(item);
-  return Response.json(result);
+  return context.json(result);
 });
 
 app.delete('/item', async (context: Context) => {
@@ -26,7 +30,7 @@ app.delete('/item', async (context: Context) => {
   const service = appContext.resolve(MovementService);
   const item = (await context.req.json()) as MovementItem;
   const result = await service.addItemToArrivalsAsync(item);
-  return Response.json(result);
+  return context.json(result);
 });
 
 export default app;
