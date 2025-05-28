@@ -93,19 +93,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Item'
-        '404':
-          description: Item not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Movement'
         default:
           description: Successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Item'
+  /movement/current:
+    get:
+      tags:
+        - movement
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movement'
+        default:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movement'
   /movement/item:
     post:
       tags:
@@ -175,6 +186,14 @@ components:
         name:
           type: string
           example: Shure sm58
+    Movement:
+      required:
+        - hasBeenStarted
+      type: object
+      properties:
+        hasBeenStarted:
+          type: boolean
+          example: false
     Error:
       type: object
       properties:

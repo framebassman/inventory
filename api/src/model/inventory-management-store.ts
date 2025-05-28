@@ -23,6 +23,11 @@ export class InventoryManagementStore {
     this.document = new GoogleSpreadsheet(googleSheetId, serviceAccountAuth);
   }
 
+  public async getFirstSheetNameAsync(): Promise<string> {
+    const page = await this.document.sheetsByIndex[0];
+    return page.title;
+  }
+
   public async getLastSheetNameAsync(): Promise<string> {
     await this.document.loadInfo();
     const page =
