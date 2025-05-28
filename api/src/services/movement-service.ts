@@ -1,5 +1,5 @@
 import { InventoryManagementStore } from '../model/inventory-management-store';
-import { MovementItem } from '../views';
+import { MovementItem, MovementStatus } from '../views';
 
 export class MovementService {
   private store: InventoryManagementStore;
@@ -8,6 +8,11 @@ export class MovementService {
     this.store = store;
   }
 
+  public async getCurrentMovementStatusAsync(): Promise<MovementStatus> {
+    await this.store.startSessionAsync();
+    const title = await this.store.getFirstSheetNameAsync();
+    return { hasBeenStarted: title.includes('Запланированный') };
+  }
   // const rubicon = new Date(`2025-05-24T15:00:00.000Z`);
   // const rubicon = new Date(
   //   `${new Date().toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' })}T15:00:00.000Z`

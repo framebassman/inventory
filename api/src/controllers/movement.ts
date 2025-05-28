@@ -2,12 +2,19 @@ import { type Context, Hono } from 'hono';
 import { applicationCxt } from '../application-context-middleware';
 import { DependencyContainer } from 'tsyringe';
 import { MovementService } from '../services/movement-service';
-import { MovementItem } from '../views';
+import { MovementItem, MovementStatus } from '../views';
 
 const app = new Hono();
 
 app.get('/', async (context: Context) => {
-  return context.json('ok');
+  const appContext = context.get(applicationCxt) as DependencyContainer;
+  const service = appContext.resolve(MovementService);
+  try {
+    const status = await service.getCurrentMovementStatusAsync();
+    return context.json(status);
+  } catch {
+    return context.json({ hasBeenStarted: false } as MovementStatus);
+  }
 });
 
 app.post('/start', async (context: Context) => {
