@@ -88,8 +88,8 @@ export class MovementService {
     try {
       const candidate = await this.getCurrentMovementStatusAsync();
       if (candidate.hasBeenStarted) {
-        this.store.closeMovementAsync();
-        return { hasBeenStarted: false } as MovementStatus;
+        const status = await this.store.closeMovementAsync();
+        return { hasBeenStarted: status } as MovementStatus;
       } else {
         console.warn('Please start the new movement before the closing');
         throw Error('Please start the new movement before the closing');

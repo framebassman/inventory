@@ -92,9 +92,18 @@ export class InventoryManagementStore {
   public async closeMovementAsync(): Promise<boolean> {
     console.log('Start to close the movement');
     const movementSheet = this.document.sheetsByIndex[0];
-    await movementSheet.updateProperties({
-      title: movementSheet.title.replaceAll('Запланированный - ', '')
-    });
+    const newTitle = movementSheet.title.replaceAll('Запланированный - ', '');
+    console.log('Start to update the sheet properties');
+    try {
+      const status = await movementSheet.updateProperties({
+        title: newTitle
+      });
+      console.log(status);
+    } catch (error) {
+      console.error(error);
+    }
+
+    console.log('Sheet properties has been updated');
     return false;
   }
 
