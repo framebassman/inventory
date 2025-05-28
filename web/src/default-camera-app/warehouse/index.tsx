@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { useSearchParams } from 'react-router';
-import { extractExistingParams } from '../search-params-parser';
 import CheckIcon from '@mui/icons-material/Check';
 
 import {
@@ -13,16 +13,6 @@ import {
 } from '@mui/material';
 
 import './index.css';
-
-async function addItemToWarehouseAsync(formData: FormData) {
-  const code = formData.get('code');
-  const name = formData.get('name');
-  await fetch('https://api.inventory.romashov.tech/warehouse/assign', {
-    method: 'POST',
-    mode: 'no-cors', // no-cors, *cors, same-origin
-    body: JSON.stringify({ name, code })
-  });
-}
 
 interface ItemInfo {
   code: string;
@@ -50,11 +40,21 @@ const fetchItemInfoAsync = async (code: string): Promise<ItemInfo> => {
   }
 };
 
+async function addItemToWarehouseAsync(formData: FormData) {
+  const code = formData.get('code');
+  const name = formData.get('name');
+  await fetch('https://api.inventory.romashov.tech/warehouse/assign', {
+    method: 'POST',
+    mode: 'no-cors', // no-cors, *cors, same-origin
+    body: JSON.stringify({ name, code })
+  });
+}
+
 export const Warehouse = () => {
   const [search] = useSearchParams();
   const [info, setInfo] = useState<ItemInfo | null>(null);
-  const params = extractExistingParams(search);
-  const code = params.item[0];
+  const code = String(search.get('item'));
+  const { pending } = useFormStatus();
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -79,6 +79,14 @@ export const Warehouse = () => {
     };
   }, []);
 
+  if (!search.has('item')) {
+    return (
+      <Box>
+        <Typography>Просканируйте код</Typography>
+      </Box>
+    );
+  }
+
   if (info === null) {
     return (
       <Box>
@@ -90,7 +98,7 @@ export const Warehouse = () => {
   if (info.exist === false) {
     return (
       <Box>
-        <form action={addItemToWarehouseAsync}>
+        <form action={addItemToWarehouseAsync} method="POST">
           <Box className="element">
             <TextField
               name="name"
@@ -106,8 +114,13 @@ export const Warehouse = () => {
             <input hidden name="code" value={code} />
           </Box>
           <Box className="element">
-            <Button variant="contained" color="secondary" type="submit">
-              Добавить
+            <Button
+              variant="contained"
+              color="secondary"
+              type="submit"
+              disabled={pending}
+            >
+              {pending ? 'Добавляем...' : 'Добавить'}
             </Button>
           </Box>
         </form>
@@ -119,7 +132,7 @@ export const Warehouse = () => {
     <Box>
       <Box className="element">
         <Typography textAlign="center">
-          Добавили <b>{info.name}</b> успешно
+          Успешно добавили <b>{info.name}</b>
         </Typography>
       </Box>
       <Box className="element">

@@ -19,7 +19,11 @@ export class WarehouseService {
   public async getInfoAboutItemAsync(code: string): Promise<WarehouseItem> {
     await this.store.startSessionAsync();
     console.log('Get item name');
-    const name = await this.store.getNameOfItemAsync(code);
-    return { code, name } as WarehouseItem;
+    try {
+      const name = await this.store.getNameOfItemAsync(code);
+      return { code, name } as WarehouseItem;
+    } catch {
+      return { code: code, name: '' } as WarehouseItem;
+    }
   }
 }
