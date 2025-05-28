@@ -1,4 +1,5 @@
 import { useEffect, useState, useActionState } from 'react';
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 import {
   Box,
@@ -10,6 +11,7 @@ import {
 } from '@mui/material';
 
 import './index.css';
+import { SessionState } from '../model';
 
 const fetchSessionInfoAsync = async (): Promise<boolean> => {
   const resp = await fetch(
@@ -39,6 +41,7 @@ const movementStatusAsync = async () => {
 export const SessionSettings = () => {
   const [hasBeenStarted, setHasBeenStarted] = useState<boolean | null>(null);
   const [_, movementStatusFetchAction, isFetchingMovementStatus] = useActionState(movementStatusAsync, false);
+  const [sessionState, setSessionState] = useLocalStorage("SessionState", SessionState.Departure);
   
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -72,7 +75,16 @@ export const SessionSettings = () => {
       <Box className="element">
         <Stack direction="row" component="label" alignItems="center" justifyContent="center">
           <Typography>На саунд-чек</Typography>
-          <Switch color="secondary" />
+          <Switch
+            color="secondary"
+            onChange={() => {
+              if (sessionState === SessionState.Departure) {
+                setSessionState(SessionState.Arrival);
+              } else {
+                setSessionState(SessionState.Departure);
+              }
+            }} 
+          />
           <Typography>На базу</Typography>
         </Stack>
       </Box>
