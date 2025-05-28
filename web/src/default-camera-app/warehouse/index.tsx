@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useFormStatus } from 'react-dom';
 import { useSearchParams } from 'react-router';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -40,21 +39,26 @@ const fetchItemInfoAsync = async (code: string): Promise<ItemInfo> => {
   }
 };
 
-async function addItemToWarehouseAsync(formData: FormData) {
+async function addItemToWarehouseAsync(formData: FormData): Promise<ItemInfo> {
   const code = formData.get('code');
   const name = formData.get('name');
-  await fetch('https://api.inventory.romashov.tech/warehouse/assign', {
-    method: 'POST',
-    mode: 'no-cors', // no-cors, *cors, same-origin
-    body: JSON.stringify({ name, code })
-  });
+  const resp = await fetch(
+    'https://api.inventory.romashov.tech/warehouse/assign',
+    {
+      method: 'POST',
+      // mode: 'no-cors', // no-cors, *cors, same-origin
+      body: JSON.stringify({ name, code })
+    }
+  ).then();
+  const json = await resp.json();
+  return { code: json.code, name: json.name, exist: true } as ItemInfo;
 }
 
 export const Warehouse = () => {
   const [search] = useSearchParams();
   const [info, setInfo] = useState<ItemInfo | null>(null);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const code = String(search.get('item'));
-  const { pending } = useFormStatus();
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -77,7 +81,7 @@ export const Warehouse = () => {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [code]);
 
   if (!search.has('item')) {
     return (
@@ -98,10 +102,19 @@ export const Warehouse = () => {
   if (info.exist === false) {
     return (
       <Box>
-        <form action={addItemToWarehouseAsync} method="POST">
+        <form
+          action={async (formData: FormData) => {
+            setSubmitting(true);
+            const submittedItemInfo = await addItemToWarehouseAsync(formData);
+            setSubmitting(false);
+            setInfo(submittedItemInfo);
+          }}
+          method="POST"
+        >
           <Box className="element">
             <TextField
               name="name"
+              type="text"
               variant="outlined"
               placeholder="Введите название..."
               required
@@ -111,16 +124,16 @@ export const Warehouse = () => {
                 )
               }
             />
-            <input hidden name="code" value={code} />
+            <input hidden name="code" value={code} type="text" readOnly />
           </Box>
           <Box className="element">
             <Button
               variant="contained"
               color="secondary"
               type="submit"
-              disabled={pending}
+              disabled={submitting}
             >
-              {pending ? 'Добавляем...' : 'Добавить'}
+              Добавить
             </Button>
           </Box>
         </form>
@@ -136,7 +149,7 @@ export const Warehouse = () => {
         </Typography>
       </Box>
       <Box className="element">
-        <Fab color="success">
+        <Fab color="secondary">
           <CheckIcon />
         </Fab>
       </Box>
