@@ -6,7 +6,7 @@ import { MovementItem, MovementStatus } from '../views';
 
 const app = new Hono();
 
-app.get('/', async (context: Context) => {
+app.get('/current', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   try {
