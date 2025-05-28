@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocalStorage } from '@uidotdev/usehooks';
 
-import { allStates, ApplicationState } from './application-state.ts';
+import { allApplicationStates, ApplicationState } from './model.ts';
 
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
@@ -16,7 +16,7 @@ export const DefaultCameraMenu = () => {
     ApplicationState.Info
   );
   const [btnValue, setButtonValue] = useState(() =>
-    allStates.findIndex((current) => current === applicationState)
+    allApplicationStates.findIndex((current) => current === applicationState)
   );
   return (
     <BottomNavigation
