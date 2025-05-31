@@ -3,23 +3,17 @@ import { useSearchParams } from 'react-router';
 import { useLocalStorage } from '@uidotdev/usehooks';
 import type { ItemInfo } from '../item-info';
 import CheckIcon from '@mui/icons-material/Check';
-import {
-  Box,
-  CircularProgress,
-  Fab,
-  Typography
-} from '@mui/material';
+import { Box, CircularProgress, Fab, Typography } from '@mui/material';
 
 import './index.css';
 import { SessionState } from '../model';
-
 
 const addItemToDeparturesAsync = async (code: string): Promise<ItemInfo> => {
   try {
     const resp = await fetch(
       `https://api.inventory.romashov.tech/movement/item`,
       {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({ code: code })
       }
     );
@@ -43,7 +37,7 @@ const addItemToArrivalsAsync = async (code: string): Promise<ItemInfo> => {
     const resp = await fetch(
       `https://api.inventory.romashov.tech/movement/item`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         body: JSON.stringify({ code: code })
       }
     );
@@ -73,8 +67,6 @@ export const Movement = () => {
   );
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     let ignore = false;
 
     async function startFetchingAsync() {
@@ -90,7 +82,7 @@ export const Movement = () => {
       }
     }
 
-    if (code != '') {
+    if (!ignore || code != '') {
       startFetchingAsync();
     }
 
@@ -106,37 +98,41 @@ export const Movement = () => {
       </Box>
     );
   }
-  
+
   if (submitting) {
     return (
       <Box>
         <Box className="element">
-          { sessionState === SessionState.Departure
-            ? <Typography>Берём на саунд-чек...</Typography>
-            : <Typography>Берём на базу...</Typography>
-          }
+          {sessionState === SessionState.Departure ? (
+            <Typography>Берём на саунд-чек...</Typography>
+          ) : (
+            <Typography>Берём на базу...</Typography>
+          )}
         </Box>
         <Box className="element">
-          <CircularProgress/>
+          <CircularProgress />
         </Box>
       </Box>
-    )
+    );
   }
 
   return (
     <Box>
       <Box className="element">
         <Typography>
-          { sessionState === SessionState.Departure
-            ? <span>Взяли на саунд-чек </span>
-            : <span>Взяли на базу </span>
-          }
+          {sessionState === SessionState.Departure ? (
+            <span>Взяли на саунд-чек </span>
+          ) : (
+            <span>Взяли на базу </span>
+          )}
           <span>{info?.name}</span>
         </Typography>
       </Box>
       <Box className="element">
-        <Fab color="secondary"><CheckIcon/></Fab>
+        <Fab color="secondary">
+          <CheckIcon />
+        </Fab>
       </Box>
     </Box>
-  )
-}
+  );
+};

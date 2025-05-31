@@ -1,5 +1,5 @@
-import { useEffect, useState, useActionState } from 'react';
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useEffect, useState, useActionState, Suspense, use } from 'react';
+import { useLocalStorage } from '@uidotdev/usehooks';
 
 import {
   Box,
@@ -7,7 +7,7 @@ import {
   CircularProgress,
   Stack,
   Switch,
-  Typography,
+  Typography
 } from '@mui/material';
 
 import './index.css';
@@ -28,7 +28,7 @@ const fetchSessionInfoAsync = async (): Promise<boolean> => {
 const movementStatusAsync = async () => {
   const resp = await fetch(
     `https://api.inventory.romashov.tech/movement/current`,
-    { method: "POST" }
+    { method: 'POST' }
   );
   try {
     const json = await resp.json();
@@ -38,42 +38,25 @@ const movementStatusAsync = async () => {
   }
 };
 
-export const SessionSettings = () => {
-  const [hasBeenStarted, setHasBeenStarted] = useState<boolean | null>(null);
-  const [_, movementStatusFetchAction, isFetchingMovementStatus] = useActionState(movementStatusAsync, false);
-  const [sessionState, setSessionState] = useLocalStorage("SessionState", SessionState.Departure);
-  
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    let ignore = false;
-
-    async function startFetchingAsync() {
-      const info = await fetchSessionInfoAsync();
-      setHasBeenStarted(info);
-    }
-
-    if (!ignore) {
-      startFetchingAsync();
-    }
-
-    return () => {
-      ignore = true;
-    };
-  }, [hasBeenStarted]);
-  
-  if (hasBeenStarted === null) {
-    return (
-      <Box>
-        <CircularProgress color="secondary" />
-      </Box>
-    )
-  }
+function SessionSettings(props: any) {
+  const { fetchHasBeenStartedAsync } = props;
+  const hasBeenStarted = use<boolean>(fetchHasBeenStartedAsync);
+  const [_, movementStatusFetchAction, isFetchingMovementStatus] =
+    useActionState(movementStatusAsync, false);
+  const [sessionState, setSessionState] = useLocalStorage(
+    'SessionState',
+    SessionState.Departure
+  );
 
   return (
     <Box>
       <Box className="element">
-        <Stack direction="row" component="label" alignItems="center" justifyContent="center">
+        <Stack
+          direction="row"
+          component="label"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Typography>На саунд-чек</Typography>
           <Switch
             color="secondary"
@@ -90,20 +73,35 @@ export const SessionSettings = () => {
         </Stack>
       </Box>
       <Box className="element">
-        <form
-          action={movementStatusFetchAction}
-          method='POST'
-        >
+        <form action={movementStatusFetchAction} method="POST">
           <Button
             variant="contained"
             color="secondary"
             type="submit"
-            disabled={isFetchingMovementStatus || Boolean(hasBeenStarted)}
+            disabled={isFetchingMovementStatus || hasBeenStarted}
           >
-          {isFetchingMovementStatus || hasBeenStarted ? 'Уже собираемся...' : 'Начать собираться'}
+            {isFetchingMovementStatus || hasBeenStarted
+              ? 'Уже собираемся...'
+              : 'Начать собираться'}
           </Button>
         </form>
       </Box>
     </Box>
-  )
+  );
 }
+
+function Index() {
+  return (
+    <Suspense
+      fallback={
+        <Box>
+          <CircularProgress color="secondary" />
+        </Box>
+      }
+    >
+      <SessionSettings fetchHasBeenStartedAsync={fetchSessionInfoAsync()} />
+    </Suspense>
+  );
+}
+
+export default Index;
