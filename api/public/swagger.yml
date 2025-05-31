@@ -168,6 +168,16 @@ paths:
     delete:
       tags:
         - movement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+              required:
+                - code
       responses:
         '200':
           description: Successful operation

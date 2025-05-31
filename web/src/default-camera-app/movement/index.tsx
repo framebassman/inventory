@@ -8,17 +8,28 @@ import { Box, CircularProgress, Fab, Typography } from '@mui/material';
 import './index.css';
 import { SessionState } from '../model';
 
+let isProcessing = false;
+
 const processItemAsync = async (
   code: string,
   sessionState: string
 ): Promise<ItemInfo> => {
   try {
+    if (isProcessing) {
+      return {
+        code: code,
+        name: '',
+        exist: false
+      } as ItemInfo;
+    }
+
     let method = '';
     if (sessionState == SessionState.Arrival) {
       method = 'DELETE';
     } else {
       method = 'POST';
     }
+    isProcessing = true;
     const resp = await fetch(
       `https://api.inventory.romashov.tech/movement/item`,
       {
@@ -38,6 +49,8 @@ const processItemAsync = async (
       name: '',
       exist: false
     } as ItemInfo;
+  } finally {
+    isProcessing = true;
   }
 };
 
@@ -67,21 +80,12 @@ function ItemInfoEl(props: any) {
 }
 
 function Movement(props: any) {
-  const [search] = useSearchParams();
   const { processItemAsync } = props;
   const info = use<ItemInfo>(processItemAsync);
   const [sessionState] = useLocalStorage(
     'SessionState',
     SessionState.Departure
   );
-
-  if (!search.has('item')) {
-    return (
-      <Box>
-        <Typography>Просканируйте код</Typography>
-      </Box>
-    );
-  }
 
   return (
     <Box>
@@ -114,6 +118,15 @@ function Index() {
   );
   const [search] = useSearchParams();
   const code = String(search.get('item'));
+
+  if (!search.has('item')) {
+    return (
+      <Box>
+        <Typography>Просканируйте код</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Suspense
       fallback={
