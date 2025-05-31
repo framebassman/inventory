@@ -60,7 +60,9 @@ function ItemInfoEl(props: any) {
     return (
       <>
         <Typography>Взяли на саунд-чек: </Typography>
-        <span>{name}</span>
+        <b>
+          <span>{name}</span>
+        </b>
       </>
     );
   }
@@ -68,7 +70,9 @@ function ItemInfoEl(props: any) {
     return (
       <>
         <Typography>Взяли на базу: </Typography>
-        <span>{name}</span>
+        <b>
+          <span>{name}</span>
+        </b>
       </>
     );
   }
