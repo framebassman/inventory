@@ -68,7 +68,6 @@ function ItemInfoEl(props: any) {
 
 function Movement(props: any) {
   const [search] = useSearchParams();
-  const code = String(search.get('item'));
   const { processItemAsync } = props;
   const info = use<ItemInfo>(processItemAsync);
   const [sessionState] = useLocalStorage(
