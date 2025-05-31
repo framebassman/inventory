@@ -2,7 +2,7 @@ import { useLocalStorage } from '@uidotdev/usehooks';
 import { Box } from '@mui/material';
 import { ApplicationState } from './model';
 import { Warehouse } from './warehouse';
-import { Movement } from './movement';
+import Movement from './movement';
 import SessionSettings from './session-settings';
 
 import './DefaultCameraAppIndex.css';

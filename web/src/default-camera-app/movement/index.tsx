@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, use } from 'react';
 import { useSearchParams } from 'react-router';
 import { useLocalStorage } from '@uidotdev/usehooks';
 import type { ItemInfo } from '../item-info';
@@ -8,12 +8,21 @@ import { Box, CircularProgress, Fab, Typography } from '@mui/material';
 import './index.css';
 import { SessionState } from '../model';
 
-const addItemToDeparturesAsync = async (code: string): Promise<ItemInfo> => {
+const processItemAsync = async (
+  code: string,
+  sessionState: string
+): Promise<ItemInfo> => {
   try {
+    let method = '';
+    if (sessionState == SessionState.Arrival) {
+      method = 'DELETE';
+    } else {
+      method = 'POST';
+    }
     const resp = await fetch(
       `https://api.inventory.romashov.tech/movement/item`,
       {
-        method: 'POST',
+        method: method,
         body: JSON.stringify({ code: code })
       }
     );
@@ -32,64 +41,40 @@ const addItemToDeparturesAsync = async (code: string): Promise<ItemInfo> => {
   }
 };
 
-const addItemToArrivalsAsync = async (code: string): Promise<ItemInfo> => {
-  try {
-    const resp = await fetch(
-      `https://api.inventory.romashov.tech/movement/item`,
-      {
-        method: 'DELETE',
-        body: JSON.stringify({ code: code })
-      }
+function ItemInfoEl(props: any) {
+  const { hasBeenFetched, sessionState, name } = props;
+  if (hasBeenFetched && sessionState === SessionState.Departure) {
+    return (
+      <>
+        <Typography>Взяли на саунд-чек: </Typography>
+        <span>{name}</span>
+      </>
     );
-    const json = await resp.json();
-    return {
-      code: code,
-      name: json.name,
-      exist: resp.ok
-    } as ItemInfo;
-  } catch {
-    return {
-      code: code,
-      name: '',
-      exist: false
-    } as ItemInfo;
   }
-};
+  if (hasBeenFetched && sessionState === SessionState.Arrival) {
+    return (
+      <>
+        <Typography>Взяли на базу: </Typography>
+        <span>{name}</span>
+      </>
+    );
+  }
+  if (!hasBeenFetched && sessionState === SessionState.Departure) {
+    return <Typography>Берём на саунд-чек...</Typography>;
+  }
+  // !hasBeenFetched && sessionState === SessionState.Arrival
+  return <Typography>Берём на базу...</Typography>;
+}
 
-export const Movement = () => {
+function Movement(props: any) {
   const [search] = useSearchParams();
-  const [info, setInfo] = useState<ItemInfo | null>(null);
-  const [submitting, setSubmitting] = useState<boolean>(false);
   const code = String(search.get('item'));
+  const { processItemAsync } = props;
+  const info = use<ItemInfo>(processItemAsync);
   const [sessionState] = useLocalStorage(
     'SessionState',
     SessionState.Departure
   );
-
-  useEffect(() => {
-    let ignore = false;
-
-    async function startFetchingAsync() {
-      setSubmitting(true);
-      if (sessionState == SessionState.Arrival) {
-        const info = await addItemToArrivalsAsync(code);
-        setInfo(info);
-        setSubmitting(false);
-      } else {
-        const info = await addItemToDeparturesAsync(code);
-        setInfo(info);
-        setSubmitting(false);
-      }
-    }
-
-    if (!ignore || code != '') {
-      startFetchingAsync();
-    }
-
-    return () => {
-      ignore = true;
-    };
-  }, [code]);
 
   if (!search.has('item')) {
     return (
@@ -99,40 +84,50 @@ export const Movement = () => {
     );
   }
 
-  if (submitting) {
-    return (
-      <Box>
-        <Box className="element">
-          {sessionState === SessionState.Departure ? (
-            <Typography>Берём на саунд-чек...</Typography>
-          ) : (
-            <Typography>Берём на базу...</Typography>
-          )}
-        </Box>
-        <Box className="element">
-          <CircularProgress />
-        </Box>
-      </Box>
-    );
-  }
-
   return (
     <Box>
       <Box className="element">
-        <Typography>
-          {sessionState === SessionState.Departure ? (
-            <span>Взяли на саунд-чек </span>
-          ) : (
-            <span>Взяли на базу </span>
-          )}
-          <span>{info?.name}</span>
-        </Typography>
+        <ItemInfoEl
+          hasBeenFetched={info.exist}
+          sessionState={sessionState}
+          name={info.name}
+        />
       </Box>
       <Box className="element">
-        <Fab color="secondary">
-          <CheckIcon />
-        </Fab>
+        {!info.exist ? (
+          <CircularProgress color="secondary" />
+        ) : (
+          <Box className="element">
+            <Fab color="secondary">
+              <CheckIcon />
+            </Fab>
+          </Box>
+        )}
       </Box>
     </Box>
   );
-};
+}
+
+function Index() {
+  const [sessionState] = useLocalStorage(
+    'SessionState',
+    SessionState.Departure
+  );
+  const [search] = useSearchParams();
+  const code = String(search.get('item'));
+  return (
+    <Suspense
+      fallback={
+        <Box>
+          <Box className="element">
+            <CircularProgress color="secondary" />
+          </Box>
+        </Box>
+      }
+    >
+      <Movement processItemAsync={processItemAsync(code, sessionState)} />
+    </Suspense>
+  );
+}
+
+export default Index;
