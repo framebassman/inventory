@@ -67,7 +67,7 @@ function SessionSettings(props: any) {
                 setSessionState(SessionState.Departure);
               }
             }}
-            defaultChecked={sessionState === SessionState.Arrival}
+            checked={sessionState === SessionState.Arrival}
           />
           <Typography>На базу</Typography>
         </Stack>
