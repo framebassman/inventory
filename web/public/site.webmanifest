@@ -15,5 +15,10 @@
   ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "url_handlers": [
+    {
+      "origin": "https://m.inventory.romashov.tech"
+    }
+  ]
 }
