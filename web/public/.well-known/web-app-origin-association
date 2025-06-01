@@ -1,0 +1,15 @@
+{
+  "web_apps": [
+    {
+      "manifest": "https://m.inventory.romashov.tech/site.webmanifest",
+      "details": {
+        "paths": [
+          "/*"
+        ],
+        "exclude_paths": [
+          "/internal/*"
+        ]
+      }
+    }
+  ]
+}
