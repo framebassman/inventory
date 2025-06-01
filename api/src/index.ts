@@ -21,7 +21,11 @@ app.use(
 app.use(
   '/*',
   cors({
-    origin: ['http://localhost:5173', 'https://inventory.romashov.tech']
+    origin: [
+      'http://localhost:5173',
+      'https://inventory.romashov.tech',
+      'https://m.inventory.romashov.tech'
+    ]
   })
 );
 
