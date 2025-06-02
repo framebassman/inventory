@@ -1,4 +1,5 @@
 Inventory
 
-- web
+- mobile
 - api
+- web
