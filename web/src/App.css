@@ -40,3 +40,18 @@
 .read-the-docs {
   color: #888;
 }
+
+.slider {
+  display: flex;
+  justify-content: center;
+}
+
+.step {
+  margin: 16px;
+  width: 300px;
+}
+
+.step-icon {
+  height: 300px;
+  border-radius: 48px;
+}
