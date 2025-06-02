@@ -4,5 +4,7 @@ body {
 
 img {
   margin: 4px;
-  width: 200px;
+  width: 20mm;
+  height: 30mm;
+  background-color: #000000;
 }
