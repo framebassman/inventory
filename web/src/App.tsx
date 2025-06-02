@@ -15,7 +15,11 @@ function App() {
           <img src={inventoryLogo} className="logo" alt="Inventory logo" />
         </a>
       </div>
-      <h1>Инвéнтори — решения для складских помещений</h1>
+      <h1>
+        <span>Инвéнтори</span>
+        <span> — </span>
+        <span>решения для складских помещений</span>
+      </h1>
       <div className="card">
         С помощью гугл таблиц поможем отследить, куда какой ящик уехал.
       </div>

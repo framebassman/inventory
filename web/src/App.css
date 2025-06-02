@@ -52,18 +52,25 @@
 }
 
 .step-icon {
-  height: 300px;
+  width: 300px;
   border-radius: 48px;
 }
 
-@media (min-width: 500px) {
+@media (max-width: 500px) {
+  #root {
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    max-width: 300px;
+  }
+
   .slider {
     display: block;
     margin: 0 auto;
-    width: 400px;
   }
 
   .step {
+    margin: auto;
     width: auto;
   }
 }
