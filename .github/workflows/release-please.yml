@@ -88,6 +88,32 @@ jobs:
           ignore_missing: true
           release: ${{ steps.bump-semver.outputs.new_version }}
 
+  deploy-web:
+    needs: [release]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      deployments: write
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: ./web/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: "web"
+          command: |
+            pages deploy dist --project-name=inventory-web
+
   deploy-mobile:
     needs: [release]
     runs-on: ubuntu-24.04
