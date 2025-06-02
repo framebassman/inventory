@@ -6,18 +6,18 @@ on:
 name: release-please
 
 jobs:
-  build-web:
+  build-mobile:
     runs-on: ubuntu-24.04
     defaults:
       run:
-        working-directory: ./web
+        working-directory: ./mobile
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "npm"
-          cache-dependency-path: ./web/package-lock.json
+          cache-dependency-path: ./mobile/package-lock.json
       - run: npm ci
       - run: npm run build
 
@@ -46,7 +46,7 @@ jobs:
           directory: "api"
 
   release:
-    needs: [build-web, build-test-api]
+    needs: [build-mobile, build-test-api]
     runs-on: ubuntu-24.04
     permissions:
       id-token: write
@@ -88,7 +88,7 @@ jobs:
           ignore_missing: true
           release: ${{ steps.bump-semver.outputs.new_version }}
 
-  deploy-web:
+  deploy-mobile:
     needs: [release]
     runs-on: ubuntu-24.04
     permissions:
@@ -96,23 +96,23 @@ jobs:
       deployments: write
     defaults:
       run:
-        working-directory: ./web
+        working-directory: ./mobile
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "npm"
-          cache-dependency-path: ./web/package-lock.json
+          cache-dependency-path: ./mobile/package-lock.json
       - run: npm ci
       - run: npm run build
       - uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          workingDirectory: "web"
+          workingDirectory: "mobile"
           command: |
-            pages deploy dist --project-name=inventory-web
+            pages deploy dist --project-name=inventory-mobile
 
   deploy-api:
     needs: [release]

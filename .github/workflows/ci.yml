@@ -8,30 +8,30 @@ on:
   pull_request:
 
 jobs:
-  build-deploy-web:
+  build-deploy-mobile:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
       deployments: write
     defaults:
       run:
-        working-directory: ./web
+        working-directory: ./mobile
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "npm"
-          cache-dependency-path: ./web/package-lock.json
+          cache-dependency-path: ./mobile/package-lock.json
       - run: npm ci
       - run: npm run build
       - uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          workingDirectory: "web"
+          workingDirectory: "mobile"
           command: |
-            pages deploy dist --project-name=inventory-web
+            pages deploy dist --project-name=inventory-mobile
 
   build-deploy-api:
     runs-on: ubuntu-24.04

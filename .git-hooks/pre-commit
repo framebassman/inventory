@@ -1,3 +1,3 @@
 #!/bin/sh
 npm --prefix ./api run lint:staged
-npm --prefix ./web run lint:staged
+npm --prefix ./mobile run lint:staged
