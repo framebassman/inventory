@@ -55,3 +55,16 @@
   height: 300px;
   border-radius: 48px;
 }
+
+@media (min-width: 500px) {
+  .slider {
+    display: block;
+    margin: 0 auto;
+    width: 400px;
+  }
+
+  .step {
+    width: auto;
+  }
+}
+
