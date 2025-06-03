@@ -26,18 +26,18 @@ function App() {
       <h2>Инструкция для iOS</h2>
       <div className="slider">
         <div className="step">
-          <img src={iosStep1} className="step-icon" alt="Inventory logo" />
+          <img src={iosStep1} className="step-icon" alt="IOS step 1" />
           <div>
             <h3>Шаг 1</h3>
             <p>
-              Зайдите в Safari на avito.ru и нажмите на значок «Поделиться»
+              Зайдите в Safari на m.inventory.romashov.tech и нажмите на значок «Поделиться»
               внизу экрана.
             </p>
           </div>
         </div>
 
         <div className="step">
-          <img src={iosStep2} className="step-icon" alt="Inventory logo" />
+          <img src={iosStep2} className="step-icon" alt="IOS step 2" />
           <div>
             <h3>Шаг 2</h3>
             <p>
@@ -47,7 +47,7 @@ function App() {
         </div>
 
         <div className="step">
-          <img src={iosStep3} className="step-icon" alt="Inventory logo" />
+          <img src={iosStep3} className="step-icon" alt="IOS step 3" />
           <div>
             <h3>Шаг 3</h3>
             <p>
@@ -60,31 +60,27 @@ function App() {
       <h2>Инструкция для Android</h2>
       <div className="slider">
         <div className="step">
-          <img src={androidStep1} className="step-icon" alt="Inventory logo" />
+          <img src={androidStep1} className="step-icon" alt="Android step 1" />
           <div>
             <h3>Шаг 1</h3>
             <p>
-              Наведите камеру телефона на QR-код или скачайте файл по ссылке.
-            </p>
-            <p>
-              Если увидите уведомление безопасности, нажмите «Всё равно скачать»
-              — приложение надежное и безопасное.
+              Наведите камеру телефона на QR-код или откройте m.inventory.romashov.tech в Chrome.
             </p>
           </div>
         </div>
 
         <div className="step">
-          <img src={androidStep2} className="step-icon" alt="Inventory logo" />
+          <img src={androidStep2} className="step-icon" alt="Android step 2" />
           <div>
             <h3>Шаг 2</h3>
             <p>
-              После скачивания найдите файл в загрузках и начните установку.
+              Во всплывающем окне выберете «Установить».
             </p>
           </div>
         </div>
 
         <div className="step">
-          <img src={androidStep3} className="step-icon" alt="Inventory logo" />
+          <img src={androidStep3} className="step-icon" alt="Android step 3" />
           <div>
             <h3>Шаг 3</h3>
             <p>После установки приложение появится на экране смартфона.</p>
