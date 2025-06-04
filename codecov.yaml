@@ -1,9 +1,6 @@
 codecov:
   require_ci_to_pass: true
 
-github_checks:
-  annotations: true
-
 coverage:
   precision: 2
   round: down
