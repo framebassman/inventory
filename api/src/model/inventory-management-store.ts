@@ -4,6 +4,7 @@ import {
 } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
 import type { GoogleServiceAccountCredentials } from './google-objects';
+import { ItemNotFoundError } from './error-causes';
 
 export class InventoryManagementStore {
   private document: GoogleSpreadsheet;
@@ -55,7 +56,7 @@ export class InventoryManagementStore {
     const itemIndex = allItems.findIndex((row) => row.get('code') === code);
     if (itemIndex === -1) {
       console.error(`There is no Item with ${code} code`);
-      throw Error(`There is no Item with ${code} code`);
+      throw new ItemNotFoundError(`There is no Item with ${code} code`);
     }
     console.log(`There is an Item with ${code} code`);
     return allItems[itemIndex].get('name');
@@ -99,12 +100,13 @@ export class InventoryManagementStore {
         title: newTitle
       });
       console.log(status);
+      console.log('Sheet properties has been updated');
+      return true;
     } catch (error) {
       console.error(error);
+      console.log('Sheet properties were not updated');
+      return false;
     }
-
-    console.log('Sheet properties has been updated');
-    return false;
   }
 
   public async addItemToDeparturesAsync(
@@ -117,22 +119,26 @@ export class InventoryManagementStore {
     console.log('I got inventorySheet. Gonna to retrieve all items');
     const allItems = await inventorySheet.getRows();
     console.log('Lets try to find the item by the code');
-    const item = allItems.find((row) => row.get('code') === code);
-    if (item != null) {
-      console.log(`Item was found: ${item.get('item')}`);
-      const currentSheet = await this.document.sheetsByIndex[0];
-      console.log('Im going to add the row');
-      await currentSheet.addRow({
-        code: code,
-        item: item.get('name'),
-        departured: `="${dateTime}"`,
-        arrived: ''
-      });
-      return item.get('name');
-    } else {
-      console.log('Item was not found');
-      return '';
+    const existentItems = allItems.filter((row) => row.get('code') === code);
+    if (existentItems.length > 0) {
+      console.log('Item has been added');
+      return existentItems[0].get('name');
     }
+    if (existentItems.length === 0) {
+      console.log('Item not found');
+      throw new ItemNotFoundError('Item not found');
+    }
+    const item = existentItems[0];
+    console.log(`Item was found: ${item.get('item')}`);
+    const currentSheet = await this.document.sheetsByIndex[0];
+    console.log('Im going to add the row');
+    await currentSheet.addRow({
+      code: code,
+      item: item.get('name'),
+      departured: `="${dateTime}"`,
+      arrived: ''
+    });
+    return item.get('name');
   }
 
   public async addItemToArrivalsAsync(
@@ -144,16 +150,19 @@ export class InventoryManagementStore {
     console.log('I got inventorySheet. Gonna to retrieve all items');
     const allItems = await currentSheet.getRows();
     console.log('Lets try to find the item by the code');
-    const item = allItems.find((row) => row.get('code') === code);
-    if (item != null) {
-      console.log(`Item was found: ${item.get('item')}`);
-      console.log('Im going to add the row');
-      item.set('arrived', `="${dateTime}"`);
-      await item.save();
-      return item.get('name');
-    } else {
-      console.log('Item was not found');
-      return '';
+    const existentItems = allItems.filter((row) => row.get('code') === code);
+    if (existentItems.length > 1) {
+      return existentItems[0].get('name');
     }
+    if (existentItems.length === 0) {
+      console.log('Item was not found');
+      throw new ItemNotFoundError('Item was not found');
+    }
+    const item = existentItems[0];
+    console.log(`Item was found: ${item.get('item')}`);
+    console.log('Im going to add the row');
+    item.set('arrived', `="${dateTime}"`);
+    await item.save();
+    return item.get('name');
   }
 }
