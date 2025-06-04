@@ -3,6 +3,7 @@ import { applicationCxt } from '../application-context-middleware';
 import { DependencyContainer } from 'tsyringe';
 import { MovementService } from '../services/movement-service';
 import { MovementItem, MovementStatus } from '../views';
+import { ItemNotFoundError } from '../model/error-causes';
 
 const app = new Hono();
 
@@ -39,16 +40,30 @@ app.post('/item', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   const item = (await context.req.json()) as MovementItem;
-  const result = await service.addItemToDeparturesAsync(item);
-  return context.json(result);
+  try {
+    const result = await service.addItemToDeparturesAsync(item);
+    return context.json(result);
+  } catch (error) {
+    if (error instanceof ItemNotFoundError) {
+      return context.json(item, 404);
+    }
+    return context.json(item, 500);
+  }
 });
 
 app.delete('/item', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   const item = (await context.req.json()) as MovementItem;
-  const result = await service.addItemToArrivalsAsync(item);
-  return context.json(result);
+  try {
+    const result = await service.addItemToArrivalsAsync(item);
+    return context.json(result);
+  } catch (error) {
+    if (error instanceof ItemNotFoundError) {
+      return context.json(item, 404);
+    }
+    return context.json(item, 500);
+  }
 });
 
 export default app;
