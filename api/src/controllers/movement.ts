@@ -22,6 +22,10 @@ app.delete('/current', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   try {
+    const existentStatus = await service.getCurrentMovementStatusAsync();
+    if (!existentStatus.hasBeenStarted) {
+      return context.json(existentStatus);
+    }
     const status = await service.closeCurrentMovementAsync();
     return context.json(status);
   } catch {
@@ -32,8 +36,16 @@ app.delete('/current', async (context: Context) => {
 app.post('/current', async (context: Context) => {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
-  await service.createNewMovementAsync();
-  return context.json('ok');
+  try {
+    const existentStatus = await service.getCurrentMovementStatusAsync();
+    if (existentStatus.hasBeenStarted) {
+      return context.json(existentStatus);
+    }
+    const status = await service.createNewMovementAsync();
+    return context.json(status);
+  } catch {
+    return context.json('ok');
+  }
 });
 
 app.post('/item', async (context: Context) => {
