@@ -44,8 +44,7 @@ describe('Start movement', () => {
     store.getSheetsCountAsync = vi.fn(async () => 1);
     store.createNewMovementSheetAsync = vi.fn(async () => true);
     store.getFirstSheetNameAsync = vi.fn(async () => '30.01.2000');
-    const now = new Date(2000, 0, 31);
-    vi.setSystemTime(now);
+    vi.setSystemTime(new Date(2000, 0, 31));
 
     await service.createNewMovementAsync();
 
@@ -54,26 +53,30 @@ describe('Start movement', () => {
     );
   });
 
-  it.skip('can create a new movement for the next time', async () => {
+  it('can create a new movement for the next time', async () => {
     store.getSheetsCountAsync = vi.fn(async () => 2);
     store.getSheetsByIndex = vi.fn((_: number) => {
       return { title: '30.01.2000' } as GoogleSpreadsheetWorksheet;
     });
     store.createNewMovementSheetAsync = vi.fn(async () => true);
+    store.getFirstSheetNameAsync = vi.fn(async () => '30.01.2000');
+    vi.setSystemTime(new Date(2000, 0, 31));
 
     await service.createNewMovementAsync();
 
     expect(store.createNewMovementSheetAsync).toHaveBeenCalledExactlyOnceWith(
-      '31.01.2000'
+      'Запланированный - 31.01.2000'
     );
   });
 
-  it.skip('wont create a new movement if it has already been created', async () => {
+  it('wont create a new movement if it has already been created', async () => {
     store.getSheetsCountAsync = vi.fn(async () => 2);
     store.getSheetsByIndex = vi.fn((_: number) => {
       return { title: '30.01.2000' } as GoogleSpreadsheetWorksheet;
     });
     store.createNewMovementSheetAsync = vi.fn(async () => true);
+    store.getFirstSheetNameAsync = vi.fn(async () => 'Запланированный - 30.01.2000');
+    vi.setSystemTime(new Date(2000, 0, 31));
 
     await service.createNewMovementAsync();
 
