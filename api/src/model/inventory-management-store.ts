@@ -56,7 +56,7 @@ export class InventoryManagementStore {
     const itemIndex = allItems.findIndex((row) => row.get('code') === code);
     if (itemIndex === -1) {
       console.error(`There is no Item with ${code} code`);
-      throw Error(`There is no Item with ${code} code`);
+      throw new ItemNotFoundError(`There is no Item with ${code} code`);
     }
     console.log(`There is an Item with ${code} code`);
     return allItems[itemIndex].get('name');

@@ -10,3 +10,8 @@ export interface CreateItemRequest {
   code: string;
   name: string;
 }
+
+export interface WarehouseItem extends CreateItemRequest {
+  code: string;
+  name: string;
+}

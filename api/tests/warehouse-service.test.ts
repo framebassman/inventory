@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { MockStore } from './mock-store';
 import { WarehouseService } from '../src/services/warehouse-service';
-import { WarehouseItem } from '../src/model/warehouse-item';
+import { WarehouseItem } from '../src/views';
 
 describe('Warehouse service', () => {
   let store: MockStore;

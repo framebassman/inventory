@@ -1,5 +1,5 @@
 import { InventoryManagementStore } from '../model/inventory-management-store';
-import { WarehouseItem } from '../model/warehouse-item';
+import { WarehouseItem } from '../views';
 
 export class WarehouseService {
   private store: InventoryManagementStore;
