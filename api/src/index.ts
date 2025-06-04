@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { withSentry } from '@sentry/cloudflare';
 import { sentry } from '@hono/sentry';
 import { default as crossFetch } from 'cross-fetch';
-import { type Context, type Env, Hono } from 'hono';
+import { Context, type Env, Hono } from 'hono';
 import { logger as loggerMiddleware } from 'hono/logger';
 import { applicationContextMiddleware } from './application-context-middleware';
 import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
@@ -21,11 +21,14 @@ app.use(
 app.use(
   '/*',
   cors({
-    origin: [
-      'http://localhost:5173',
-      'https://inventory.romashov.tech',
-      'https://m.inventory.romashov.tech'
-    ]
+    origin: (origin, _: Context) => {
+      return origin.endsWith('inventory.romashov.tech') ||
+        origin.endsWith('m.inventory.romashov.tech') ||
+        origin.endsWith('inventory-mobile.pages.dev') ||
+        origin.endsWith('inventory-web-csm.pages.dev')
+        ? origin
+        : 'http://localhost:5173';
+    }
   })
 );
 
