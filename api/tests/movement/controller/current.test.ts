@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
-import { MovementService } from '../../src/services/movement-service';
-import { MockStore } from '../mock-store';
-import { InventoryManagementStore } from '../../src/model/inventory-management-store';
-import { MovementStatus } from '../../src/views';
+import { MovementService } from '../../../src/services/movement-service';
+import { MockStore } from '../../mock-store';
+import { InventoryManagementStore } from '../../../src/model/inventory-management-store';
+import { MovementStatus } from '../../../src/views';
 
 describe('Start movement', () => {
   let store: InventoryManagementStore;
@@ -75,7 +75,9 @@ describe('Start movement', () => {
       return { title: '30.01.2000' } as GoogleSpreadsheetWorksheet;
     });
     store.createNewMovementSheetAsync = vi.fn(async () => true);
-    store.getFirstSheetNameAsync = vi.fn(async () => 'Запланированный - 30.01.2000');
+    store.getFirstSheetNameAsync = vi.fn(
+      async () => 'Запланированный - 30.01.2000'
+    );
     vi.setSystemTime(new Date(2000, 0, 31));
 
     await service.createNewMovementAsync();

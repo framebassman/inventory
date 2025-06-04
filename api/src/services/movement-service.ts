@@ -49,7 +49,7 @@ export class MovementService {
     await this.store.startSessionAsync();
     const name = await this.store.addItemToDeparturesAsync(
       item.code,
-      new Date().toISOString().split('T')[1]
+      this.getFormattedTime(new Date())
     );
     return { code: item.code, name: name } as MovementItem;
   }
@@ -60,8 +60,13 @@ export class MovementService {
     await this.store.startSessionAsync();
     const name = await this.store.addItemToArrivalsAsync(
       item.code,
-      new Date().toISOString().split('T')[1]
+      this.getFormattedTime(new Date())
     );
     return { code: item.code, name: name } as MovementItem;
+  }
+
+  private getFormattedTime(now: Date): string {
+    const timeStringWithZ = now.toISOString().split('T')[1];
+    return timeStringWithZ.split('.')[0];
   }
 }
