@@ -4,10 +4,11 @@ import { CreateItemRequest } from '../views';
 import { WarehouseItem } from '../views';
 import { WarehouseService } from '../services/warehouse-service';
 import { DependencyContainer } from 'tsyringe';
+import { ItemNotFoundError } from '../model/error-causes';
 
 const app = new Hono();
 
-app.post('/assign', async (context: Context) => {
+export async function assignHandlerAsync(context: Context) {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(WarehouseService);
   const body = (await context.req.json()) as CreateItemRequest;
@@ -18,13 +19,14 @@ app.post('/assign', async (context: Context) => {
     console.log('Item has been added before, lets skip the assignition');
     return context.json(existentItem);
   } catch {
-    // do nothing
+    const addedItem = await service.addItemToWarehouseAsync(item);
+    return context.json(addedItem);
   }
-  const addedItem = await service.addItemToWarehouseAsync(item);
-  return context.json(addedItem);
-});
+}
 
-app.get('/item/:code', async (context: Context) => {
+app.post('/assign', assignHandlerAsync);
+
+export async function getItemHandlerAsync(context: Context) {
   console.log('Info about item from controller');
   const code = context.req.param('code');
   const appContext = context.get(applicationCxt) as DependencyContainer;
@@ -33,9 +35,15 @@ app.get('/item/:code', async (context: Context) => {
     console.log('Info about item');
     const item = await service.getInfoAboutItemAsync(code);
     return context.json(item);
-  } catch {
-    return context.json({ code: code }, 404);
+  } catch (error) {
+    if (error instanceof ItemNotFoundError) {
+      return context.json({ code: code }, 404);
+    }
+
+    return context.json({ code: code }, 500);
   }
-});
+}
+
+app.get('/item/:code', getItemHandlerAsync);
 
 export default app;
