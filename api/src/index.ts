@@ -75,13 +75,8 @@ export default withSentry(
   {
     fetch: app.fetch,
     // eslint-disable-next-line no-restricted-syntax
-    scheduled: async (_: ScheduledController, env: Env, executionContext: ExecutionContext,) => {
-      console.log(`it works: ${env}`);
-      console.log(JSON.stringify(_));
-      console.log(JSON.stringify(env));
-      console.log(JSON.stringify(env.Bindings));
-      console.log(`ExecutionContext: ${JSON.stringify(executionContext)}`);
-      console.log(JSON.stringify(`ExecutionContext.props ${executionContext.props}`));
+    scheduled: async (_: ScheduledController, env: any, __: ExecutionContext,) => {
+      console.log(`Hyperdrive: ${JSON.stringify(env.HYPERDRIVE)}`);
     },
   } satisfies ExportedHandler<Env>
 );
