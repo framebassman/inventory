@@ -24,7 +24,7 @@
     "crons": [
       "* * * * *"
     ]
-  }
+  },
   /**
    * Smart Placement
    * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
