@@ -1,13 +1,12 @@
 import 'reflect-metadata';
 import { withSentry } from '@sentry/cloudflare';
 import { sentry } from '@hono/sentry';
-import { default as crossFetch } from 'cross-fetch';
 import { Context, type Env, Hono } from 'hono';
 import { logger as loggerMiddleware } from 'hono/logger';
 import { applicationContextMiddleware, containerBuilderAsync } from './application-context-middleware';
 import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
-import warehouse from './controllers/warehouse';
-import movement from './controllers/movement';
+import warehouse from './controllers/warehouse-controller';
+import movement from './controllers/movement-controller';
 import { swaggerUI } from '@hono/swagger-ui';
 import { cors } from 'hono/cors';
 import { MovementService } from './services/movement-service';
@@ -47,18 +46,6 @@ app.get('/error', async () => {
 });
 
 app.get('/', swaggerUI({ url: '/swagger.yml' }));
-
-app.get('/fetch', async () => {
-  return fetch(
-    'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
-  );
-});
-
-app.get('/cross', async () => {
-  return crossFetch(
-    'https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json'
-  );
-});
 
 app.get('*', (c: Context) => {
   return c.env.ASSETS.fetch(c.req.raw);

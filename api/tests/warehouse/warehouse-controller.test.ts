@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { DependencyContainer } from 'tsyringe';
 import { WarehouseService } from '../../src/services/warehouse-service';
 import { applicationCxt } from '../../src/application-context-middleware';
-import { assignHandlerAsync, getItemHandlerAsync } from '../../src/controllers/warehouse';
+import { assignHandlerAsync, getItemHandlerAsync } from '../../src/controllers/warehouse-controller';
 import type { Context } from 'hono';
 import { ItemNotFoundError } from "../../src/model/error-causes";
 
