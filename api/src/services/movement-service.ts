@@ -14,7 +14,7 @@ export class MovementService {
     return { hasBeenStarted: title.includes('Запланированный') };
   }
 
-  public async createNewMovementAsync(): Promise<MovementStatus> {
+  public async startNewMovementAsync(): Promise<MovementStatus> {
     await this.store.startSessionAsync();
     const candidate = await this.getCurrentMovementStatusAsync();
     if (candidate.hasBeenStarted) {
@@ -27,7 +27,7 @@ export class MovementService {
       month: '2-digit',
       day: '2-digit'
     });
-    await this.store.createNewMovementSheetAsync(
+    await this.store.startNewMovementSheetAsync(
       `Запланированный - ${dateTime}`
     );
     return { hasBeenStarted: true } as MovementStatus;

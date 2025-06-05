@@ -20,6 +20,11 @@
   "alias": {
     "node-fetch": "./fetch-nolyfill"
   },
+  "triggers": {
+    "crons": [
+      "0 3 * * *"
+    ]
+  },
   /**
    * Smart Placement
    * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

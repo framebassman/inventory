@@ -81,7 +81,7 @@ export class InventoryManagementStore {
     return this.document.sheetsByIndex[index];
   }
 
-  public async createNewMovementSheetAsync(title: string): Promise<boolean> {
+  public async startNewMovementSheetAsync(title: string): Promise<boolean> {
     await this.document.addSheet({
       title,
       headerValues: ['code', 'item', 'departured', 'arrived'],
