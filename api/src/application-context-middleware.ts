@@ -1,5 +1,5 @@
 import { container } from 'tsyringe';
-import type { Context, MiddlewareHandler } from 'hono';
+import type { Context, Env, MiddlewareHandler } from 'hono';
 import { createMiddleware } from 'hono/factory';
 import { TenantManagementStore } from './model/tenant-management-store';
 import { InventoryManagementStore } from './model/inventory-management-store';
@@ -29,38 +29,42 @@ const combineGoogleCredentialsAsync = async (
   } as GoogleServiceAccountCredentials;
 };
 
+export async function containerBuilderAsync(tenantManagementConnectionString: string) {
+  container.register<TenantManagementStore>(TenantManagementStore, {
+    useValue: new TenantManagementStore(tenantManagementConnectionString)
+  });
+
+  const tenantManagementStore = container.resolve(TenantManagementStore);
+  const secrets =
+    await tenantManagementStore.getSecretsForTenantAsync('test@test.test');
+  console.log(`Successfully got the secrets for 'test@test.test' tenant`);
+  const creds = await combineGoogleCredentialsAsync(
+    String(secrets.get('private_key_id')),
+    String(secrets.get('private_key'))
+  );
+  container.register<InventoryManagementStore>(InventoryManagementStore, {
+    useValue: new InventoryManagementStore(
+      creds,
+      String(secrets.get('inventory_management_database'))
+    )
+  });
+  container.register<WarehouseService>(WarehouseService, {
+    useValue: new WarehouseService(
+      container.resolve(InventoryManagementStore)
+    )
+  });
+  container.register<MovementService>(MovementService, {
+    useValue: new MovementService(
+      container.resolve(InventoryManagementStore)
+    )
+  });
+}
+
 export const applicationContextMiddleware = (): MiddlewareHandler =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createMiddleware(async (ctx: Context, next: any) => {
     if (!ctx.get(applicationCxt)) {
-      container.register<TenantManagementStore>(TenantManagementStore, {
-        useValue: new TenantManagementStore(ctx.env.HYPERDRIVE.connectionString)
-      });
-
-      const tenantManagementStore = container.resolve(TenantManagementStore);
-      const secrets =
-        await tenantManagementStore.getSecretsForTenantAsync('test@test.test');
-      console.log(`Successfully got the secrets for 'test@test.test' tenant`);
-      const creds = await combineGoogleCredentialsAsync(
-        String(secrets.get('private_key_id')),
-        String(secrets.get('private_key'))
-      );
-      container.register<InventoryManagementStore>(InventoryManagementStore, {
-        useValue: new InventoryManagementStore(
-          creds,
-          String(secrets.get('inventory_management_database'))
-        )
-      });
-      container.register<WarehouseService>(WarehouseService, {
-        useValue: new WarehouseService(
-          container.resolve(InventoryManagementStore)
-        )
-      });
-      container.register<MovementService>(MovementService, {
-        useValue: new MovementService(
-          container.resolve(InventoryManagementStore)
-        )
-      });
+      const container = await containerBuilderAsync(ctx.env.HYPERDRIVE.connectionString);
       ctx.set(applicationCxt, container);
     }
     await next();

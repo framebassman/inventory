@@ -67,8 +67,16 @@ export default withSentry(
   //@ts-expect-error it should be here
   (env: Env) => {
     return {
-      dsn: 'https://9b631feb01da428b471ac1cbd160173f@o164625.ingest.us.sentry.io/4509063427653632'
+      dsn: 'https://9b631feb01da428b471ac1cbd160173f@o164625.ingest.us.sentry.io/4509063427653632',
+      // Set tracesSampleRate to 1.0 to capture 100% of spans for tracing.
+      tracesSampleRate: 1.0,
     };
   },
-  app
+  {
+    fetch: app.fetch,
+    // eslint-disable-next-line no-restricted-syntax
+    scheduled: async (_: ScheduledController, env: Env, __: ExecutionContext,) => {
+      console.log(`it works: ${env}`);
+    },
+  } satisfies ExportedHandler<Env>
 );
