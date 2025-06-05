@@ -21,7 +21,7 @@ app.get('*', (c: Context) => {
 export default {
   fetch: app.fetch,
   // eslint-disable-next-line no-restricted-syntax
-  scheduled: async (controller: ScheduledController, env: Env, ctx: ExecutionContext,) => {
+  scheduled: async (_: ScheduledController, env: Env, __: ExecutionContext,) => {
     console.log(`it works: ${env}`);
   },
 }
