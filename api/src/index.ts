@@ -77,6 +77,9 @@ export default withSentry(
     // eslint-disable-next-line no-restricted-syntax
     scheduled: async (_: ScheduledController, env: Env, __: ExecutionContext,) => {
       console.log(`it works: ${env}`);
+      console.log(JSON.stringify(_));
+      console.log(JSON.stringify(env));
+      console.log(JSON.stringify(__));
     },
   } satisfies ExportedHandler<Env>
 );
