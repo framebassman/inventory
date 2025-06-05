@@ -7,7 +7,7 @@ import { ItemNotFoundError } from '../model/error-causes';
 
 const app = new Hono();
 
-app.get('/current', async (context: Context) => {
+export async function getCurrentMovementAsync(context: Context) {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   try {
@@ -16,9 +16,11 @@ app.get('/current', async (context: Context) => {
   } catch {
     return context.json({ hasBeenStarted: false } as MovementStatus);
   }
-});
+}
 
-app.delete('/current', async (context: Context) => {
+app.get('/current', getCurrentMovementAsync);
+
+export async function deleteCurrentMovementAsync(context: Context) {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   try {
@@ -31,9 +33,11 @@ app.delete('/current', async (context: Context) => {
   } catch {
     return context.json({ hasBeenStarted: false } as MovementStatus);
   }
-});
+}
 
-app.post('/current', async (context: Context) => {
+app.delete('/current', deleteCurrentMovementAsync);
+
+export async function createMovementAsync(context: Context) {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   try {
@@ -46,9 +50,11 @@ app.post('/current', async (context: Context) => {
   } catch {
     return context.json('ok');
   }
-});
+}
 
-app.post('/item', async (context: Context) => {
+app.post('/current', createMovementAsync);
+
+export async function createItemAsync(context: Context) {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   const item = (await context.req.json()) as MovementItem;
@@ -61,9 +67,11 @@ app.post('/item', async (context: Context) => {
     }
     return context.json(item, 500);
   }
-});
+}
 
-app.delete('/item', async (context: Context) => {
+app.post('/item', createItemAsync);
+
+export async function deleteItemAsync(context: Context) {
   const appContext = context.get(applicationCxt) as DependencyContainer;
   const service = appContext.resolve(MovementService);
   const item = (await context.req.json()) as MovementItem;
@@ -76,6 +84,8 @@ app.delete('/item', async (context: Context) => {
     }
     return context.json(item, 500);
   }
-});
+}
+
+app.delete('/item', deleteItemAsync);
 
 export default app;
