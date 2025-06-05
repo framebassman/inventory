@@ -111,3 +111,36 @@ jobs:
         env:
           ELASTICSEARCH_LOGIN: ${{ secrets.ELASTICSEARCH_LOGIN }}
           ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
+
+  build-deploy-cron:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      checks: write
+      id-token: write
+      pull-requests: write
+    defaults:
+      run:
+        working-directory: ./cron
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: ./cron/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: "cron"
+          secrets: |
+            ELASTICSEARCH_LOGIN
+            ELASTICSEARCH_PASSWORD
+        env:
+          ELASTICSEARCH_LOGIN: ${{ secrets.ELASTICSEARCH_LOGIN }}
+          ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
