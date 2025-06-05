@@ -68,7 +68,7 @@ app.get('*', (c: Context) => {
 const scheduledAsync = async (_: ScheduledController, env: any, __: ExecutionContext,) => {
   const container = await containerBuilderAsync(env);
   const service = container.resolve(MovementService);
-  service.closeCurrentMovementAsync();
+  await service.closeCurrentMovementAsync();
 }
 
 export default withSentry(
