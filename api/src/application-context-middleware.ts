@@ -1,5 +1,5 @@
-import { container } from 'tsyringe';
-import type { Context, Env, MiddlewareHandler } from 'hono';
+import { container, DependencyContainer } from 'tsyringe';
+import type { Context, MiddlewareHandler } from 'hono';
 import { createMiddleware } from 'hono/factory';
 import { TenantManagementStore } from './model/tenant-management-store';
 import { InventoryManagementStore } from './model/inventory-management-store';
@@ -29,9 +29,10 @@ const combineGoogleCredentialsAsync = async (
   } as GoogleServiceAccountCredentials;
 };
 
-export async function containerBuilderAsync(tenantManagementConnectionString: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function containerBuilderAsync(env: any): Promise<DependencyContainer> {
   container.register<TenantManagementStore>(TenantManagementStore, {
-    useValue: new TenantManagementStore(tenantManagementConnectionString)
+    useValue: new TenantManagementStore(env.HYPERDRIVE.connectionString)
   });
 
   const tenantManagementStore = container.resolve(TenantManagementStore);
@@ -58,13 +59,14 @@ export async function containerBuilderAsync(tenantManagementConnectionString: st
       container.resolve(InventoryManagementStore)
     )
   });
+  return container;
 }
 
 export const applicationContextMiddleware = (): MiddlewareHandler =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createMiddleware(async (ctx: Context, next: any) => {
     if (!ctx.get(applicationCxt)) {
-      const container = await containerBuilderAsync(ctx.env.HYPERDRIVE.connectionString);
+      const container = await containerBuilderAsync(ctx.env);
       ctx.set(applicationCxt, container);
     }
     await next();

@@ -4,12 +4,13 @@ import { sentry } from '@hono/sentry';
 import { default as crossFetch } from 'cross-fetch';
 import { Context, type Env, Hono } from 'hono';
 import { logger as loggerMiddleware } from 'hono/logger';
-import { applicationContextMiddleware } from './application-context-middleware';
+import { applicationContextMiddleware, containerBuilderAsync } from './application-context-middleware';
 import { elasticsearchLogsMiddleware } from './elasticsearch-logs-middleware';
 import warehouse from './controllers/warehouse';
 import movement from './controllers/movement';
 import { swaggerUI } from '@hono/swagger-ui';
 import { cors } from 'hono/cors';
+import { MovementService } from './services/movement-service';
 
 const app = new Hono<{ Bindings: Env }>();
 app.use(
@@ -63,6 +64,13 @@ app.get('*', (c: Context) => {
   return c.env.ASSETS.fetch(c.req.raw);
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const scheduledAsync = async (_: ScheduledController, env: any, __: ExecutionContext,) => {
+  const container = await containerBuilderAsync(env);
+  const service = container.resolve(MovementService);
+  service.closeCurrentMovementAsync();
+}
+
 export default withSentry(
   //@ts-expect-error it should be here
   (env: Env) => {
@@ -74,9 +82,6 @@ export default withSentry(
   },
   {
     fetch: app.fetch,
-    // eslint-disable-next-line no-restricted-syntax
-    scheduled: async (_: ScheduledController, env: any, __: ExecutionContext,) => {
-      console.log(`Hyperdrive: ${JSON.stringify(env.HYPERDRIVE)}`);
-    },
+    scheduled: scheduledAsync,
   } satisfies ExportedHandler<Env>
 );

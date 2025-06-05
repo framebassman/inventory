@@ -42,13 +42,13 @@ describe('Start movement', () => {
 
   it('can create a new movement for the first time', async () => {
     store.getSheetsCountAsync = vi.fn(async () => 1);
-    store.createNewMovementSheetAsync = vi.fn(async () => true);
+    store.startNewMovementSheetAsync = vi.fn(async () => true);
     store.getFirstSheetNameAsync = vi.fn(async () => '30.01.2000');
     vi.setSystemTime(new Date(2000, 0, 31));
 
-    await service.createNewMovementAsync();
+    await service.startNewMovementAsync();
 
-    expect(store.createNewMovementSheetAsync).toHaveBeenCalledExactlyOnceWith(
+    expect(store.startNewMovementSheetAsync).toHaveBeenCalledExactlyOnceWith(
       'Запланированный - 31.01.2000'
     );
   });
@@ -58,13 +58,13 @@ describe('Start movement', () => {
     store.getSheetsByIndex = vi.fn((_: number) => {
       return { title: '30.01.2000' } as GoogleSpreadsheetWorksheet;
     });
-    store.createNewMovementSheetAsync = vi.fn(async () => true);
+    store.startNewMovementSheetAsync = vi.fn(async () => true);
     store.getFirstSheetNameAsync = vi.fn(async () => '30.01.2000');
     vi.setSystemTime(new Date(2000, 0, 31));
 
-    await service.createNewMovementAsync();
+    await service.startNewMovementAsync();
 
-    expect(store.createNewMovementSheetAsync).toHaveBeenCalledExactlyOnceWith(
+    expect(store.startNewMovementSheetAsync).toHaveBeenCalledExactlyOnceWith(
       'Запланированный - 31.01.2000'
     );
   });
@@ -74,14 +74,14 @@ describe('Start movement', () => {
     store.getSheetsByIndex = vi.fn((_: number) => {
       return { title: '30.01.2000' } as GoogleSpreadsheetWorksheet;
     });
-    store.createNewMovementSheetAsync = vi.fn(async () => true);
+    store.startNewMovementSheetAsync = vi.fn(async () => true);
     store.getFirstSheetNameAsync = vi.fn(
       async () => 'Запланированный - 30.01.2000'
     );
     vi.setSystemTime(new Date(2000, 0, 31));
 
-    await service.createNewMovementAsync();
+    await service.startNewMovementAsync();
 
-    expect(store.createNewMovementSheetAsync).toHaveBeenCalledTimes(0);
+    expect(store.startNewMovementSheetAsync).toHaveBeenCalledTimes(0);
   });
 });

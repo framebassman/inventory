@@ -41,7 +41,7 @@ app.post('/current', async (context: Context) => {
     if (existentStatus.hasBeenStarted) {
       return context.json(existentStatus);
     }
-    const status = await service.createNewMovementAsync();
+    const status = await service.startNewMovementAsync();
     return context.json(status);
   } catch {
     return context.json('ok');
