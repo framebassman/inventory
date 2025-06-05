@@ -79,7 +79,9 @@ export default withSentry(
       console.log(`it works: ${env}`);
       console.log(JSON.stringify(_));
       console.log(JSON.stringify(env));
+      console.log(JSON.stringify(env.Bindings));
       console.log(JSON.stringify(__));
+      console.log(JSON.stringify(__.props));
     },
   } satisfies ExportedHandler<Env>
 );
