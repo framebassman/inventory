@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { MovementService } from '../../src/services/movement-service.ts';
-import { InventoryManagementStore } from '../../src/model/inventory-management-store.ts';
+import { MovementService } from '../../src/services/movement-service';
+import { InventoryManagementStore } from '../../src/model/inventory-management-store';
 import { MovementItem } from '../../src/views.ts';
 
 describe('MovementService', () => {
