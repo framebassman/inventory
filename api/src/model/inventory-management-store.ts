@@ -114,31 +114,32 @@ export class InventoryManagementStore {
     dateTime: string
   ): Promise<string> {
     console.log(`code: ${code}, time: ${dateTime}`);
-    const inventorySheet =
-      this.document.sheetsByIndex[this.document.sheetCount - 1];
+    const warehouseSheet = this.document.sheetsByIndex[this.document.sheetCount - 1];
     console.log('I got inventorySheet. Gonna to retrieve all items');
-    const allItems = await inventorySheet.getRows();
+    const allItemsFromWarehouse = await warehouseSheet.getRows();
     console.log('Lets try to find the item by the code');
-    const existentItems = allItems.filter((row) => row.get('code') === code);
-    if (existentItems.length > 0) {
-      console.log('Item has been added');
-      return existentItems[0].get('name');
+    const sameWarehouseItems = allItemsFromWarehouse.filter((row) => row.get('code') === code);
+    if (sameWarehouseItems.length === 0) {
+      console.log('Item not found in Warehouse');
+      throw new ItemNotFoundError('Item not found in Warehouse');
     }
-    if (existentItems.length === 0) {
-      console.log('Item not found');
-      throw new ItemNotFoundError('Item not found');
+    const warehouseItem = sameWarehouseItems[0];
+    console.log(`Item was found in Warehouse: ${warehouseItem.get('item')}`);
+    const plannedMovement = await this.document.sheetsByIndex[0];
+    const plannedMovementRows = await plannedMovement.getRows();
+    const candidatesInMovement = plannedMovementRows.filter(row => row.get('code') === code);
+    if (candidatesInMovement.length > 0) {
+      console.log(`Item "${candidatesInMovement[0].get('name')}" was found in current movement`);
+      return candidatesInMovement[0].get('name');
     }
-    const item = existentItems[0];
-    console.log(`Item was found: ${item.get('item')}`);
-    const currentSheet = await this.document.sheetsByIndex[0];
-    console.log('Im going to add the row');
-    await currentSheet.addRow({
+    console.log(`Im going to add new item with code "${code}" in current movement`);
+    await plannedMovement.addRow({
       code: code,
-      item: item.get('name'),
+      item: warehouseItem.get('name'),
       departured: `="${dateTime}"`,
       arrived: ''
     });
-    return item.get('name');
+    return warehouseItem.get('name');
   }
 
   public async addItemToArrivalsAsync(
