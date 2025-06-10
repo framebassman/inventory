@@ -37,8 +37,8 @@ export async function containerBuilderAsync(env: any): Promise<DependencyContain
 
   const tenantManagementStore = container.resolve(TenantManagementStore);
   const secrets =
-    await tenantManagementStore.getSecretsForTenantAsync('test@test.test');
-  console.log(`Successfully got the secrets for 'test@test.test' tenant`);
+    await tenantManagementStore.getSecretsForTenantAsync('constatura@gmail.com');
+  console.log(`Successfully got the secrets for 'constatura@gmail.com' tenant`);
   const creds = await combineGoogleCredentialsAsync(
     String(secrets.get('private_key_id')),
     String(secrets.get('private_key'))
