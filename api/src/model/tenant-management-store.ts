@@ -57,4 +57,16 @@ export class TenantManagementStore {
     }
     return result;
   }
+
+  public async getAppSettingsAsync(): Promise<Map<string, string>> {
+    console.log('Find an app settings');
+    const result = new Map<string, string>();
+    const queryResultSecrets = await this
+      .client`SELECT key, value FROM app_settings;`;
+    for (const row of queryResultSecrets.entries()) {
+      const subMap = row[1] as [string, string];
+      result.set((subMap as any).key, (subMap as any).value);
+    }
+    return result;
+  }
 }
