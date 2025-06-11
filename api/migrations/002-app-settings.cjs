@@ -4,7 +4,7 @@ exports.up = async (sql) => {
       id INT GENERATED ALWAYS AS IDENTITY,
       key TEXT NOT NULL,
       value TEXT,
-      PRIMARY KEY(id),
+      PRIMARY KEY(id)
     );
   `;
 
