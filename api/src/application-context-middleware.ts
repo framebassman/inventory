@@ -29,19 +29,22 @@ const combineGoogleCredentialsAsync = async (
   } as GoogleServiceAccountCredentials;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function containerBuilderAsync(env: any): Promise<DependencyContainer> {
+export async function containerBuilderAsync(
+  env: any
+): Promise<DependencyContainer> {
   container.register<TenantManagementStore>(TenantManagementStore, {
     useValue: new TenantManagementStore(env.HYPERDRIVE.connectionString)
   });
 
   const tenantManagementStore = container.resolve(TenantManagementStore);
-  const secrets =
-    await tenantManagementStore.getSecretsForTenantAsync('constatura@gmail.com');
-  console.log(`Successfully got the secrets for 'constatura@gmail.com' tenant`);
+  const appSettings = await tenantManagementStore.getAppSettingsAsync();
+  console.log(`Successfully got the app secrets`);
   const creds = await combineGoogleCredentialsAsync(
-    String(secrets.get('private_key_id')),
-    String(secrets.get('private_key'))
+    String(appSettings.get('private_key_id')),
+    String(appSettings.get('private_key'))
+  );
+  const secrets = await tenantManagementStore.getSecretsForTenantAsync(
+    'constatura@gmail.com'
   );
   container.register<InventoryManagementStore>(InventoryManagementStore, {
     useValue: new InventoryManagementStore(
@@ -50,14 +53,10 @@ export async function containerBuilderAsync(env: any): Promise<DependencyContain
     )
   });
   container.register<WarehouseService>(WarehouseService, {
-    useValue: new WarehouseService(
-      container.resolve(InventoryManagementStore)
-    )
+    useValue: new WarehouseService(container.resolve(InventoryManagementStore))
   });
   container.register<MovementService>(MovementService, {
-    useValue: new MovementService(
-      container.resolve(InventoryManagementStore)
-    )
+    useValue: new MovementService(container.resolve(InventoryManagementStore))
   });
   return container;
 }
