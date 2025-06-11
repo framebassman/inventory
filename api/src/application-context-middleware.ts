@@ -38,7 +38,7 @@ export async function containerBuilderAsync(
 
   const tenantManagementStore = container.resolve(TenantManagementStore);
   const appSettings = await tenantManagementStore.getAppSettingsAsync();
-  console.log(`Successfully got the app secrets`);
+  console.log(`Successfully got the app settings`);
   const creds = await combineGoogleCredentialsAsync(
     String(appSettings.get('private_key_id')),
     String(appSettings.get('private_key'))
@@ -46,6 +46,7 @@ export async function containerBuilderAsync(
   const secrets = await tenantManagementStore.getSecretsForTenantAsync(
     'constatura@gmail.com'
   );
+  console.log(`Successfully got the secrets for constatura@gmail.com`);
   container.register<InventoryManagementStore>(InventoryManagementStore, {
     useValue: new InventoryManagementStore(
       creds,
